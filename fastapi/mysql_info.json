@@ -1,7 +1,7 @@
 {
-    "host" : "tysct.kr",
-    "user" : "webroot",
-    "password" : "SC*750(synol",
-    "db" : "webpage",
-    "port" : "3306"
+  "host": "tysct.kr",
+  "user": "webroot",
+  "password": "SC*750(synol",
+  "db": "webpage",
+  "port": "3306"
 }
