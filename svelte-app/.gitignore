@@ -1,0 +1,4 @@
+/node_modules/
+/public/build/
+/fastapi/mysql_info.json
+.DS_Store
