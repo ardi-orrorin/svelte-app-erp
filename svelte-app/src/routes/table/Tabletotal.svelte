@@ -2,8 +2,6 @@
   import { fade } from "svelte/transition";
   import { winPopup } from "../../Store";
 
-  import TableHeader from "./TableHeader.svelte";
-
   const pageination = Array.from({ length: 9 }, (v, k) => k + 1);
   let tableDB = [
     [1, "A", "B", "C", "D1", "E"],
@@ -45,7 +43,6 @@
   };
 </script>
 
-<TableHeader />
 <table class="table" transition:fade>
   <thead>
     <tr class="bg-secondary text-white">
@@ -72,7 +69,7 @@
           /></th
         >
         <td class="text-center">{DB[0]}</td>
-        <td on:click={() => winPopup("#/account/info")}>{DB[2]}</td>
+        <td on:click={() => winPopup("#/db/id/" + DB[0])}>{DB[2]}</td>
         <td>{DB[3]}</td>
         <td>{DB[4]}</td>
         <td>{DB[5]}</td>

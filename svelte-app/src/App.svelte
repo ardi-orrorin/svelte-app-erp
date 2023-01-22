@@ -16,9 +16,10 @@
     "/table": Table,
     "/table/:": Table,
     "/table/:/:": Table,
-    "/account/info": Dbdetail,
     "/db": Db,
+    "/db/create": Dbdetail,
     "/db/:": Db,
+    "/db/id/:": Dbdetail,
   };
 </script>
 

@@ -32,7 +32,7 @@
 
 <div class="row overflow-hidden">
   <div class="inputwidth">
-    <div>
+    <div class="inputwidth">
       {#if writeMode}
         <h1 class="text-center">Add Table</h1>
       {:else}
@@ -41,7 +41,7 @@
     </div>
     <div class="inputwidth">
       <div class="row">
-        <div class="col-9 pe-1">
+        <div class="col pe-1">
           <p>
             <input
               type="text"
@@ -51,7 +51,7 @@
             />
           </p>
         </div>
-        <div class="col p-0">
+        <div class="col-3 p-0">
           <button
             class="btn1"
             on:click={() => {

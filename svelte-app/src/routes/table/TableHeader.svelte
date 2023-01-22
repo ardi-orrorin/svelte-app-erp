@@ -1,6 +1,7 @@
 <script>
   import { DateInput, localeFromDateFnsLocale } from "date-picker-svelte";
   import { ko } from "date-fns/locale";
+  import { winPopup } from "../../Store";
   const maxPage = [10, 20, 50, 100, 200];
   let startDate = new Date();
   let endDate = new Date();
@@ -8,6 +9,11 @@
 </script>
 
 <div class="row pb-3">
+  <div class="col-1">
+    <button class="btn btn-outline-secondary w-100" type="button" on:click={() => winPopup("#/db/create")}
+      >Create</button
+    >
+  </div>
   <div class="sel">
     <select class="form-select" aria-label="Default select example">
       {#each maxPage as page}

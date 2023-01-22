@@ -3,7 +3,7 @@
   import TableMenu from "./TableMenu.svelte";
   import Router from "svelte-spa-router";
   import { fade } from "svelte/transition";
-
+  import TableHeader from "./TableHeader.svelte";
   const routes = {
     "/table": Tabletotal,
     "/table/total": Tabletotal,
@@ -14,6 +14,7 @@
 <div class="row pb-3 db" transition:fade>
   <div class="menu"><TableMenu /></div>
   <div class="col">
+    <TableHeader />
     <Router {routes} />
   </div>
 </div>
