@@ -5,10 +5,10 @@ class UserCreate(BaseModel):
     user_id: str
     password1: str
     password2: str
+    name: str
     email: EmailStr
     phonenumber: str
-    address1: str
-    address2: str
+    authority: int
 
     class Config:
         orm_mode = True
