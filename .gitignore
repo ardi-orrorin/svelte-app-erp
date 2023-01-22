@@ -1,2 +1,3 @@
 /.DS_Store
 fastapi/mysql_info.json
+fastapi/alembic.ini

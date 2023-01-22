@@ -48,12 +48,3 @@ class QuestionDelete(BaseModel):
 
 class QuestionDeleteList(BaseModel):
     question_idlist: list[QuestionDelete]
-
-
-class QuestionResModel(BaseModel):
-    id: int
-    subject: str
-    content: str
-
-    class Config:
-        orm_mode = True
