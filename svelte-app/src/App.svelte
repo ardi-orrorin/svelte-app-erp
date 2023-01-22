@@ -2,34 +2,39 @@
   import Footer from "./routes/Footer.svelte";
   import Header from "./routes/Header.svelte";
   import Menu from "./routes/Menu.svelte";
-  import Login from "./routes/Login.svelte";
+  import Account from "./routes/account/Account.svelte";
   import Main from "./routes/Main.svelte";
-  import Table from "./routes/Table.svelte";
-  import Db from "./routes/DB/Db.svelte";
+  import Table from "./routes/table/Table.svelte";
+  import Db from "./routes/db/Db.svelte";
   import Router from "svelte-spa-router";
   import "bootstrap/dist/css/bootstrap.min.css";
-  import { isLogin } from "./Store.js";
-  import { fade } from "svelte/transition";
+  import { isLogin, popUp } from "./Store.js";
+  import Accountinfo from "./routes/account/Accountinfo.svelte";
+  import Dbdetail from "./routes/db/Dbdetail.svelte";
 
   const routes = {
     "/": Main,
     "/table": Table,
+    "/table/:": Table,
+    "/account/info": Dbdetail,
     "/db": Db,
     "/db/:": Db,
   };
 </script>
 
-<div transition:fade>
-  <button on:click={() => ($isLogin = !$isLogin)}>islogin</button>
-
+<div>
   {#if !$isLogin}
-    <Login />
+    <Account />
   {:else}
     <div>
-      <header><Header /></header>
-      <nav><Menu /></nav>
-      <main transition:fade><Router {routes} /></main>
-      <footer><Footer /></footer>
+      {#if !$popUp}
+        <header><Header /></header>
+        <nav><Menu /></nav>
+      {/if}
+      <main><Router {routes} /></main>
+      {#if !$popUp}
+        <footer><Footer /></footer>
+      {/if}
     </div>
   {/if}
 </div>
@@ -47,5 +52,8 @@
   footer {
     width: 100%;
     height: 4em;
+  }
+  div {
+    overflow: hidden;
   }
 </style>

@@ -1,8 +1,11 @@
 <script>
-  import { isLogin } from "../Store.js";
+  import { isLogin } from "../../Store.js";
+  import { fade } from "svelte/transition";
+
+  export let isCreatemode;
 </script>
 
-<div class="loginbox">
+<div class="loginbox" transition:fade>
   <div class="box">
     <div class="text-center pt-5 pb-5"><h1>L O G I N</h1></div>
     <div>
@@ -19,7 +22,7 @@
           <button class="btn btn-lg btn-outline-secondary" on:click={() => (($isLogin = !$isLogin), location.reload)}
             >Sign in</button
           >
-          <button class="btn btn-lg btn-outline-secondary mt-2" on:click={() => (window.location.href = "#/createuser")}
+          <button class="btn btn-lg btn-outline-secondary mt-2" on:click={() => (isCreatemode = !isCreatemode)}
             >Sign up</button
           >
         </div>

@@ -23,7 +23,7 @@
   ];
 </script>
 
-<div transition:fade>
+<div>
   <ul class="nav nav-tabs justify-content-start">
     {#each menuItems as menuItem}
       <li class="nav-item">
