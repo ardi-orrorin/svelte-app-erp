@@ -4,7 +4,11 @@
   import Router from "svelte-spa-router";
   import { fade } from "svelte/transition";
 
-  const routes = { "/table": Tabletotal, "/table/total": Tabletotal };
+  const routes = {
+    "/table": Tabletotal,
+    "/table/total": Tabletotal,
+    "/table/total/:": Tabletotal,
+  };
 </script>
 
 <div class="row pb-3 db" transition:fade>

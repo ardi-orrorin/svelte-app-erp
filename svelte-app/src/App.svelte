@@ -9,13 +9,13 @@
   import Router from "svelte-spa-router";
   import "bootstrap/dist/css/bootstrap.min.css";
   import { isLogin, popUp } from "./Store.js";
-  import Accountinfo from "./routes/account/Accountinfo.svelte";
   import Dbdetail from "./routes/db/Dbdetail.svelte";
 
   const routes = {
     "/": Main,
     "/table": Table,
     "/table/:": Table,
+    "/table/:/:": Table,
     "/account/info": Dbdetail,
     "/db": Db,
     "/db/:": Db,
