@@ -1,6 +1,9 @@
 <script>
   import { fade } from "svelte/transition";
   import { winPopup } from "../../Store";
+
+  import TableHeader from "./TableHeader.svelte";
+
   const pageination = Array.from({ length: 9 }, (v, k) => k + 1);
   let tableDB = [
     [1, "A", "B", "C", "D1", "E"],
@@ -35,33 +38,14 @@
     }
     checkIndex = !checkIndex;
   };
+
   const allNoneCheck = () => {
     checkList = [];
     checkIndex = !checkIndex;
   };
 </script>
 
-<div class="row pb-3">
-  <div class="col-2">1</div>
-  <div class="col-5">2</div>
-  <div class="col-5">
-    <div class="input-group">
-      <div class="col-3">
-        <select class="form-select" id="inputGroupSelect01">
-          <option selected>선택</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-      <div class="col">
-        <input type="text" class="form-control" />
-      </div>
-      <div><button class="btn btn-outline-secondary" type="button">Search</button></div>
-    </div>
-  </div>
-</div>
-
+<TableHeader />
 <table class="table" transition:fade>
   <thead>
     <tr class="bg-secondary text-white">
