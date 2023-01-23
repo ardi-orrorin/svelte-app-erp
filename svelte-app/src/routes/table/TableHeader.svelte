@@ -8,42 +8,44 @@
   $: locale = localeFromDateFnsLocale(ko);
 </script>
 
-<div class="row pb-3">
-  <div class="col-1">
-    <button class="btn btn-outline-secondary w-100" type="button" on:click={() => winPopup("#/db/create")}
-      >Create</button
-    >
-  </div>
-  <div class="sel">
-    <select class="form-select" aria-label="Default select example">
-      {#each maxPage as page}
-        <option value={page}>{page}</option>
-      {/each}
-    </select>
-  </div>
-  <div class="cal">
-    <DateInput bind:value={startDate} {locale} format="yyyy-MM-dd" />
-  </div>
-  <div class="cal">
-    <DateInput bind:value={endDate} {locale} format="yyyy-MM-dd" />
-  </div>
-  <div class="col">
-    <button class="btn btn-outline-secondary" type="button">Search</button>
-  </div>
-  <div class="col-5">
-    <div class="input-group">
-      <div class="col-3 pe-2">
-        <select class="form-select" id="inputGroupSelect01">
-          <option selected>선택</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+<div>
+  <div class="row st">
+    <div class="col-1">
+      <button class="btn btn-outline-secondary w-100" type="button" on:click={() => winPopup("#/db/create")}
+        >Create</button
+      >
+    </div>
+    <div class="sel">
+      <select class="form-select" aria-label="Default select example">
+        {#each maxPage as page}
+          <option value={page}>{page}</option>
+        {/each}
+      </select>
+    </div>
+    <div class="cal">
+      <DateInput bind:value={startDate} {locale} format="yyyy-MM-dd" />
+    </div>
+    <div class="cal">
+      <DateInput bind:value={endDate} {locale} format="yyyy-MM-dd" />
+    </div>
+    <div class="col">
+      <button class="btn btn-outline-secondary" type="button">Search</button>
+    </div>
+    <div class="col-5">
+      <div class="input-group">
+        <div class="col-3 pe-2">
+          <select class="form-select" id="inputGroupSelect01">
+            <option selected>선택</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <div class="col pe-2">
+          <input type="text" class="form-control" />
+        </div>
+        <div><button class="btn btn-outline-secondary" type="button">Search</button></div>
       </div>
-      <div class="col pe-2">
-        <input type="text" class="form-control" />
-      </div>
-      <div><button class="btn btn-outline-secondary" type="button">Search</button></div>
     </div>
   </div>
 </div>
@@ -56,5 +58,10 @@
     width: 90px;
     padding-left: 11px;
     padding-right: 0px;
+  }
+
+  .st {
+    position: sticky;
+    top: 0;
   }
 </style>

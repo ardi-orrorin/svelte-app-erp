@@ -1,5 +1,4 @@
 <script>
-  import { fade } from "svelte/transition";
   import { pathName } from "../../Store";
   const menuItems = [
     { name: "DB-Contents", link: "#/db/1" },
@@ -12,7 +11,7 @@
   let toggle = false;
 </script>
 
-<div class="list-group list-group-flush" transition:fade>
+<div class="list-group list-group-flush">
   <div>
     <a class="d-flex justify-content-between list-group-item list-group-item-action" on:click={() => (toggle = !toggle)}
       >M E N U<span>{!toggle ? "▼" : "▲"}</span></a
@@ -25,7 +24,6 @@
             ? 'active'
             : ''}"
           href={menuItem.link}
-          transition:fade
           on:click={() => ($pathName = menuItem.link)}
           >{menuItem.name}
 

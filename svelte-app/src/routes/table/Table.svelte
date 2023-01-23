@@ -2,7 +2,7 @@
   import Tabletotal from "./Tabletotal.svelte";
   import TableMenu from "./TableMenu.svelte";
   import Router from "svelte-spa-router";
-  import { fade } from "svelte/transition";
+
   import TableHeader from "./TableHeader.svelte";
   const routes = {
     "/table": Tabletotal,
@@ -11,11 +11,15 @@
   };
 </script>
 
-<div class="row pb-3 db" transition:fade>
+<div class="row pb-3 db">
   <div class="menu"><TableMenu /></div>
   <div class="col">
-    <TableHeader />
-    <Router {routes} />
+    <div class="tablesticky mb-2">
+      <TableHeader />
+    </div>
+    <div>
+      <Router {routes} />
+    </div>
   </div>
 </div>
 
@@ -26,5 +30,13 @@
   }
   .db {
     min-width: 800px;
+  }
+
+  .tablesticky {
+    position: sticky;
+    top: 0px;
+    background-color: white;
+    height: 50px;
+    padding-top: 5px;
   }
 </style>

@@ -1,3 +1,5 @@
 /.DS_Store
 fastapi/mysql_info.json
 fastapi/alembic.ini
+fastapi/migrations/
+fastapi/__pycache__/

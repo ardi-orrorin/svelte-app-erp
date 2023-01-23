@@ -23,38 +23,36 @@
   };
 </script>
 
-<div>
-  {#if !$isLogin}
-    <Account />
-  {:else}
-    <div>
-      {#if !$popUp}
+{#if !$isLogin}
+  <Account />
+{:else}
+  <div>
+    {#if !$popUp}
+      <div>
         <header><Header /></header>
+      </div>
+      <div>
         <nav><Menu /></nav>
-      {/if}
-      <main><Router {routes} /></main>
-      {#if !$popUp}
-        <footer><Footer /></footer>
-      {/if}
-    </div>
-  {/if}
-</div>
+      </div>
+    {/if}
+    <main><Router {routes} /></main>
+    {#if !$popUp}
+      <footer><Footer /></footer>
+    {/if}
+  </div>
+{/if}
 
 <style>
   header {
-    width: 100%;
+    width: 99%;
   }
   main {
-    width: 100%;
+    width: 99%;
     margin-top: 1em;
-    margin-bottom: 1em;
   }
 
   footer {
-    width: 100%;
+    width: 99%;
     height: 4em;
-  }
-  div {
-    overflow: hidden;
   }
 </style>

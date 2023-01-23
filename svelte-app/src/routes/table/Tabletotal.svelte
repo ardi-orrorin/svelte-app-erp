@@ -43,7 +43,7 @@
   };
 </script>
 
-<table class="table" transition:fade>
+<table class="table">
   <thead>
     <tr class="bg-secondary text-white">
       <th scope="col" class="col" on:click={() => (!checkList.length ? allCheck() : allNoneCheck())}
@@ -59,7 +59,10 @@
   </thead>
   <tbody class="table-group-divider">
     {#each tableDB as DB}
-      <tr class={checkList.includes(DB[0]) ? "bg-secondary text-white" : ""}>
+      <tr
+        class={checkList.includes(DB[0]) ? "bg-secondary text-white" : ""}
+        on:click={() => winPopup("#/db/id/" + DB[0])}
+      >
         <th class="text-center" scope="row"
           ><input
             type="checkbox"
@@ -69,7 +72,7 @@
           /></th
         >
         <td class="text-center">{DB[0]}</td>
-        <td on:click={() => winPopup("#/db/id/" + DB[0])}>{DB[2]}</td>
+        <td>{DB[2]}</td>
         <td>{DB[3]}</td>
         <td>{DB[4]}</td>
         <td>{DB[5]}</td>

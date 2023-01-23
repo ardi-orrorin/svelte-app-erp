@@ -26,7 +26,7 @@
 
 <div class="window">
   <table class="table talbe-sm">
-    <thead>
+    <thead class="tablesticky">
       <tr>
         <th scope="col" class="col-1">No</th>
         <th scope="col" class="col-2">Name</th>
@@ -67,5 +67,12 @@
   .window {
     height: 485px;
     overflow-x: auto;
+  }
+
+  .tablesticky {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    height: 50px;
   }
 </style>

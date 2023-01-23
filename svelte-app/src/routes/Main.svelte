@@ -4,7 +4,7 @@
   fade;
 </script>
 
-<div class="row" transition:fade>
+<div class="row">
   <div class="col-4"><p>1</p></div>
   <div class="col-4">2</div>
   <div class="col-4">3</div>
