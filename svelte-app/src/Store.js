@@ -4,6 +4,7 @@ export const isLogin = writable(true);
 export const Account = writable("account");
 export const pathName = writable("/");
 export const popUp = writable(false);
+export const params = writable({ page: 0, size: 10 });
 
 let winpopup;
 const screenWidth = window.screen.availWidth * (2 / 5);

@@ -1,7 +1,7 @@
 <script>
   import { DateInput, localeFromDateFnsLocale } from "date-picker-svelte";
   import { ko } from "date-fns/locale";
-  import { winPopup } from "../../Store";
+  import { winPopup, params } from "../../Store";
   const maxPage = [10, 20, 50, 100, 200];
   let startDate = new Date();
   let endDate = new Date();
@@ -16,7 +16,7 @@
       >
     </div>
     <div class="sel">
-      <select class="form-select" aria-label="Default select example">
+      <select class="form-select" aria-label="Default select example" bind:value={$params.size}>
         {#each maxPage as page}
           <option value={page}>{page}</option>
         {/each}

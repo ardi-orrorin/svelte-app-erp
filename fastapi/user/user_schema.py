@@ -1,4 +1,5 @@
 from pydantic import BaseModel, validator, EmailStr
+import datetime
 
 
 class UserCreate(BaseModel):
@@ -9,11 +10,9 @@ class UserCreate(BaseModel):
     email: EmailStr
     phonenumber: str
     authority: int
+    create_date: datetime.datetime
 
-    class Config:
-        orm_mode = True
-
-    @validator('user_id', 'password1', 'password2', 'email', 'phonenumber', 'address1', 'address2')
+    @validator('user_id', 'password1', 'password2', 'email', 'phonenumber')
     def not_empty(cls, v):
         if not v or not v.strip():
             raise ValueError('빈 값은 허용되지 않습니다.')
@@ -35,7 +34,9 @@ class Token(BaseModel):
 class User(BaseModel):
     id: int
     user_id: str
+    name: str
     email: str
+    authority: int
 
     class Config:
         orm_mode = True

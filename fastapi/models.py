@@ -27,12 +27,13 @@ class CustomerDetail(Base):
     create_date = Column(DateTime, nullable=False)
 
     customer_id = Column(Integer, ForeignKey(
-        "customer.id"))
+        "customer.id", ondelete='CASCADE'))
     customer = relationship(
-        "Customer", backref="customerdetail_customers")
+        "Customer", backref=backref("customerdetail_customers", cascade='all,delete'))
     user_id = Column(Integer, ForeignKey(
-        "user.id"), nullable=True)
-    user = relationship("User", backref="customerdetail_users")
+        "user.id", ondelete="CASCADE"), nullable=True)
+    user = relationship("User", backref=backref(
+        "customerdetail_users", cascade='all,delete'))
 
 
 class User(Base):

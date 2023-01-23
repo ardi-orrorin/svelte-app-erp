@@ -1,27 +1,16 @@
 <script>
-  import { fade } from "svelte/transition";
-  import { winPopup } from "../../Store";
+  import { winPopup, params } from "../../Store";
+  import axios from "axios";
+  import moment from "moment/min/moment-with-locales";
+  moment.locale("ko");
+
+  const url = `http://localhost:8000/api/customer/list?page=${$params.page}&size=${$params.size}`;
+  const headers = { accept: "application/json" };
+
+  $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
 
   const pageination = Array.from({ length: 9 }, (v, k) => k + 1);
-  let tableDB = [
-    [1, "A", "B", "C", "D1", "E"],
-    [2, "1", "1", "C", "D2", "E"],
-    [3, "2", "2", "C", "D3", "E"],
-    [4, "3", "3", "C", "D4", "E"],
-    [5, "4", "4", "C", "D5", "E"],
-    [6, "A", "5", "C", "D6", "E"],
-    [7, "A", "B", "C", "D7", "E"],
-    [8, "A", "B", "C", "D8", "E"],
-    [9, "A", "B", "C", "D9", "E"],
-    [10, "A", "B", "C", "D0", "E"],
-    [11, "A", "B", "C", "D1", "E"],
-    [12, "A", "B", "C", "D2", "E"],
-    [13, "A", "c", "C", "D3", "E"],
-    [14, "A", "d", "C", "D4", "E"],
-    [15, "A", "b", "C", "D5", "E"],
-    [16, "A", "a", "C", "D6", "E"],
-    [17, "A", "B", "C", "D7", "E"],
-  ];
+
   let checkList = [];
 
   const filterList = (e, index) => {
@@ -30,9 +19,10 @@
       : (checkList = checkList.filter((element) => element !== index));
   };
 
-  const allCheck = () => {
-    for (let arr = 0; arr < tableDB.length; arr++) {
-      checkList = [...checkList, tableDB[arr][0]];
+  let checkIndex = false;
+  const allCheck = (e) => {
+    for (let arr = 0; arr < e.length; arr++) {
+      checkList = [...checkList, e[arr].id];
     }
     checkIndex = !checkIndex;
   };
@@ -43,69 +33,73 @@
   };
 </script>
 
-<table class="table">
-  <thead>
-    <tr class="bg-secondary text-white">
-      <th scope="col" class="col" on:click={() => (!checkList.length ? allCheck() : allNoneCheck())}
-        >CHK({checkList.length})</th
-      >
-      <th scope="col" class="col-1" on:click={() => (tableDB = tableDB.reverse())}>INDEX</th>
-      <th scope="col" class="col-6">Contacts</th>
-      <th scope="col" class="col-1">Wirter</th>
-      <th scope="col" class="col-2">Date</th>
-      <th scope="col" class="col">Modify</th>
-      <th scope="col" class="col">Button</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    {#each tableDB as DB}
-      <tr
-        class={checkList.includes(DB[0]) ? "bg-secondary text-white" : ""}
-        on:click={() => winPopup("#/db/id/" + DB[0])}
-      >
-        <th class="text-center" scope="row"
-          ><input
-            type="checkbox"
-            class="chk"
-            checked={checkList.includes(DB[0]) ? true : false}
-            on:change={(e) => filterList(e, DB[0])}
-          /></th
+{#await data}
+  <p>loding...</p>
+{:then data}
+  <table class="table">
+    <thead>
+      <tr class="bg-secondary text-white text-center">
+        <th
+          scope="col"
+          class="chktable"
+          on:click={() => (!checkList.length ? allCheck(data.customer_list) : allNoneCheck())}
+          >CHK({checkList.length})</th
         >
-        <td class="text-center">{DB[0]}</td>
-        <td>{DB[2]}</td>
-        <td>{DB[3]}</td>
-        <td>{DB[4]}</td>
-        <td>{DB[5]}</td>
-        <td>{DB[6]}</td>
+        <th scope="col" class="col-1">INDEX</th>
+        <th scope="col" class="col-5">Contacts</th>
+        <th scope="col" class="col-1">PhoneNumber</th>
+        <th scope="col" class="col-1">Wirter</th>
+        <th scope="col" class="col-2">Date</th>
+        <th scope="col" class="col">Modify</th>
       </tr>
-    {/each}
-  </tbody>
-</table>
-<div class="">
-  <nav class="d-flex justify-content-center" aria-label="Page navigation ">
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link text-black text-decoration-none" href="#/table/total/pre" on:click={() => scrollTo(0, 0)}
-          >Previous</a
-        >
-      </li>
-      {#each pageination as number}
+    </thead>
+    <tbody class="table-group-divider">
+      {#each data.customer_list as customer_list}
+        <tr class={checkList.includes(customer_list.id) ? "bg-secondary text-white" : ""}>
+          <th class="text-center" scope="row"
+            ><input
+              type="checkbox"
+              class="chk"
+              checked={checkList.includes(customer_list.id) ? true : false}
+              on:change={(e) => filterList(e, customer_list.id)}
+            /></th
+          >
+          <td class="text-center">{customer_list.id}</td>
+          <td on:click={() => winPopup("#/db/id/" + customer_list.id)}>{customer_list.body}</td>
+          <td on:click={() => winPopup("#/db/id/" + customer_list.id)}>{customer_list.phonenumber}</td>
+          <td class="text-center">{customer_list.name}</td>
+          <td class="text-center">{moment(customer_list.create_date).format("YYYY-MM-DD")}</td>
+          <td class="text-center"><button>buttone</button></td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+  <div class="">
+    <nav class="d-flex justify-content-center" aria-label="Page navigation ">
+      <ul class="pagination">
         <li class="page-item">
-          <a
-            class="page-link text-black text-decoration-none"
-            href={"#/table/total/" + number}
-            on:click={() => scrollTo(0, 0)}>{number}</a
+          <a class="page-link text-black text-decoration-none" href="#/table/total/pre" on:click={() => scrollTo(0, 0)}
+            >Previous</a
           >
         </li>
-      {/each}
-      <li class="page-item">
-        <a class="page-link text-black text-decoration-none" href="#/table/total/next" on:click={() => scrollTo(0, 0)}
-          >Next</a
-        >
-      </li>
-    </ul>
-  </nav>
-</div>
+        {#each pageination as number}
+          <li class="page-item">
+            <a
+              class="page-link text-black text-decoration-none"
+              href={"#/table/total/" + number}
+              on:click={() => scrollTo(0, 0)}>{number}</a
+            >
+          </li>
+        {/each}
+        <li class="page-item">
+          <a class="page-link text-black text-decoration-none" href="#/table/total/next" on:click={() => scrollTo(0, 0)}
+            >Next</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+{/await}
 
 <style>
   tr {
@@ -119,5 +113,8 @@
   .chk {
     width: 18px;
     height: 18px;
+  }
+  .chktable {
+    width: 25px;
   }
 </style>

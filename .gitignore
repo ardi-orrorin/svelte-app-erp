@@ -3,3 +3,6 @@ fastapi/mysql_info.json
 fastapi/alembic.ini
 fastapi/migrations/
 fastapi/__pycache__/
+fastapi/customer/__pycache__/
+fastapi/customerdetail/__pycache__/
+fastapi/user/__pycache__/
