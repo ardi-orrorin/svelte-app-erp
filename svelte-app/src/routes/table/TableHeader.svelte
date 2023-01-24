@@ -10,10 +10,8 @@
 
 <div>
   <div class="row st">
-    <div class="col-1">
-      <button class="btn btn-outline-secondary w-100" type="button" on:click={() => winPopup("#/db/create")}
-        >Create</button
-      >
+    <div class="btn1">
+      <button class="btn btn-outline-secondary" type="button" on:click={() => winPopup("#/db/create")}>Create</button>
     </div>
     <div class="sel">
       <select class="form-select" aria-label="Default select example" bind:value={$params.size}>
@@ -63,5 +61,8 @@
   .st {
     position: sticky;
     top: 0;
+  }
+  .btn1 {
+    width: 90px;
   }
 </style>

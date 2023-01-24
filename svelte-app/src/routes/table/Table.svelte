@@ -11,9 +11,9 @@
   };
 </script>
 
-<div class="row pb-3 db">
+<div class="row pb-3">
   <div class="menu"><TableMenu /></div>
-  <div class="col">
+  <div class="col minwidthheaer">
     <div class="tablesticky mb-2">
       <TableHeader />
     </div>
@@ -28,9 +28,6 @@
     width: 15em;
     margin: 0.5em;
   }
-  .db {
-    min-width: 800px;
-  }
 
   .tablesticky {
     position: sticky;
@@ -38,5 +35,9 @@
     background-color: white;
     height: 50px;
     padding-top: 5px;
+  }
+  .minwidthheaer {
+    min-width: 1000px;
+    width: 1000px;
   }
 </style>
