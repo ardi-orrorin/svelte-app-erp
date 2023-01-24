@@ -6,8 +6,10 @@
   moment.locale("ko");
 
   const headers = { accept: "application/json" };
-  $: url = `http://localhost:8000/api/customer/list?page=${$params.page}&size=${$params.size}`;
-  $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
+  const url = `http://localhost:8000/api/customer/list?`;
+  $: param = { page: $params.page, size: $params.size };
+
+  $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
 
   const pageination = Array.from({ length: 9 }, (v, k) => k + 1);
 
@@ -65,8 +67,16 @@
             /></th
           >
           <td class="text-center">{customer_list.id}</td>
-          <td on:click={() => winPopup("#/db/id/" + customer_list.id)}>{customer_list.body}</td>
-          <td on:click={() => winPopup("#/db/id/" + customer_list.id)}>{customer_list.phonenumber}</td>
+          <td
+            on:click={() => {
+              winPopup("#/db/id/" + customer_list.customerid);
+            }}>{customer_list.body}</td
+          >
+          <td
+            on:click={() => {
+              winPopup("#/db/id/" + customer_list.customerid);
+            }}>{customer_list.phonenumber}</td
+          >
           <td class="text-center">{customer_list.name}</td>
           <td class="text-center">{moment(customer_list.create_date).format("YYYY-MM-DD")}</td>
           <td class="text-center"><button>button</button></td>

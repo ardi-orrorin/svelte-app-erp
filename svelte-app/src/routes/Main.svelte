@@ -1,7 +1,6 @@
 <script>
   import { fade } from "svelte/transition";
   import { isLogin } from "../Store";
-  fade;
 </script>
 
 <div class="row">

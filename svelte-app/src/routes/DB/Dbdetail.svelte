@@ -2,11 +2,16 @@
   import { onMount } from "svelte";
   import { popUp } from "../../Store";
   import DbDetailexpend from "./DbDetailexpend.svelte";
+  import axios from "axios";
+  onMount(() => ($popUp = !$popUp));
+
+  $: [num, id, path] = window.location.href.split("/").reverse().slice(0, 3);
+  const headers = { accept: "application/json" };
+  $: url = "http://localhost:8000/api/customerdetail/detail/" + num;
+  $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
 
   let toggle = true;
   let writeMode = true;
-
-  onMount(() => ($popUp = !$popUp));
 
   const writeModeChange = () => {
     writeMode = !writeMode;
@@ -30,117 +35,125 @@
   };
 </script>
 
-<div class="row overflow-hidden">
-  <div class="inputwidth">
+{#await data then data}
+  <div class="row overflow-hidden">
     <div class="inputwidth">
-      {#if writeMode}
-        <h1 class="text-center">Add Table</h1>
-      {:else}
-        <h1 class="text-center">Modify Table</h1>
-      {/if}
-    </div>
-    <div class="inputwidth">
-      <div class="row">
-        <div class="col pe-1">
-          <p>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              placeholder="name"
-              disabled={writeMode ? false : true}
-            />
-          </p>
-        </div>
-        <div class="col-3 p-0">
-          <button
-            class="btn1"
-            on:click={() => {
-              writeModeChange();
-              windowExpend();
-            }}>내역 {toggle ? ">" : "<"}</button
-          >
-        </div>
-      </div>
-    </div>
-    <div class="inputwidth">
-      <p>
-        <input
-          type="text"
-          class="form-control form-control-sm"
-          placeholder="phone-number"
-          disabled={writeMode ? false : true}
-        />
-      </p>
-    </div>
-    <div class="inputwidth">
-      <p>
-        <input
-          type="text"
-          class="form-control form-control-sm"
-          placeholder="phone-number"
-          disabled={writeMode ? false : true}
-        />
-      </p>
-    </div>
-    <div class="inputwidth">
-      <p>
-        <select
-          class="form-select form-select-sm"
-          aria-label=".form-select-sm example"
-          disabled={writeMode ? false : true}
-        >
-          {#each selectItems as selectItem}
-            <option value={selectItem.value}>{selectItem.text}</option>
-          {/each}
-        </select>
-      </p>
-    </div>
-    <div class="inputwidth">
-      <p>
-        <input
-          type="text"
-          class="form-control form-control-sm"
-          placeholder="address"
-          disabled={writeMode ? false : true}
-        />
-      </p>
-    </div>
-    <div class="inputwidth">
-      <p>
-        <input
-          type="text"
-          class="form-control form-control-sm"
-          placeholder="address-detail"
-          disabled={writeMode ? false : true}
-        />
-      </p>
-    </div>
-    <div class="inputwidth">
-      <p>
-        <textarea
-          rows="6"
-          type="text"
-          class="form-control form-control-sm"
-          placeholder="contents"
-          disabled={writeMode ? false : true}
-        />
-      </p>
-    </div>
-    <div class="inputwidth">
-      <div class="row">
+      <div class="inputwidth">
         {#if writeMode}
-          <div class="col text-center"><button class="btn">등록</button></div>
+          <h1 class="text-center">Add Table{data.id}</h1>
         {:else}
-          <div class="col text-end"><button class="btn">수정</button></div>
-          <div class="col"><button class="btn">삭제</button></div>
+          <h1 class="text-center">Modify Table {data.id}</h1>
         {/if}
       </div>
+      <div class="inputwidth">
+        <div class="row">
+          <div class="col pe-1">
+            <p>
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="name"
+                disabled={writeMode ? false : true}
+                value={data.name}
+              />
+            </p>
+          </div>
+          <div class="col-3 p-0">
+            <button
+              class="btn1"
+              on:click={() => {
+                writeModeChange();
+                windowExpend();
+              }}>내역 {toggle ? ">" : "<"}</button
+            >
+          </div>
+        </div>
+      </div>
+      <div class="inputwidth">
+        <p>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="phone-number"
+            disabled={writeMode ? false : true}
+            value={data.phonenumber}
+          />
+        </p>
+      </div>
+      <div class="inputwidth">
+        <p>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="phone-number"
+            disabled={writeMode ? false : true}
+          />
+        </p>
+      </div>
+      <div class="inputwidth">
+        <p>
+          <select
+            class="form-select form-select-sm"
+            aria-label=".form-select-sm example"
+            disabled={writeMode ? false : true}
+          >
+            {#each selectItems as selectItem}
+              <option value={selectItem.value}>{selectItem.text}</option>
+            {/each}
+          </select>
+        </p>
+      </div>
+      <div class="inputwidth">
+        <p>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="address"
+            disabled={writeMode ? false : true}
+            value={data.address}
+          />
+        </p>
+      </div>
+      <div class="inputwidth">
+        <p>
+          <input
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="address-detail"
+            disabled={writeMode ? false : true}
+            value={data.addressdetail}
+          />
+        </p>
+      </div>
+      <div class="inputwidth">
+        <p>
+          <textarea
+            rows="6"
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="contents"
+            disabled={writeMode ? false : true}
+            value={data.body}
+          />
+        </p>
+      </div>
+
+      <div class="inputwidth">
+        <div class="row">
+          {#if writeMode}
+            <div class="col text-center"><button class="btn">등록</button></div>
+          {:else}
+            <div class="col text-end"><button class="btn">수정</button></div>
+            <div class="col"><button class="btn">삭제</button></div>
+          {/if}
+        </div>
+      </div>
     </div>
+    {#if !toggle}
+      <div class="col"><DbDetailexpend customer_id={data.customer_id} bind:id={num} {num} /></div>
+    {/if}
   </div>
-  {#if !toggle}
-    <div class="col"><DbDetailexpend /></div>
-  {/if}
-</div>
+{/await}
 
 <style>
   h1 {

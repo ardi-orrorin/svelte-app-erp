@@ -31,7 +31,7 @@ def customerdetail(customerdetail_id: int, db: Session = Depends(get_db)):
     return customerdetail
 
 
-@router.get("/customer/customerdetail/{customer_id}", response_model=customer_schema.CustomerList)
+@router.get("/customer/customerdetail/{customer_id}", response_model=customerdetail_schema.CustomerDetailList)
 def customerdetail(customer_id: int, db: Session = Depends(get_db)):
     total, customerdetails = customerdetail_crud.customer_customerdetail(
         db, customer_id=customer_id)

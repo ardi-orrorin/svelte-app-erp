@@ -35,6 +35,11 @@ class CustomerDetail(BaseModel):
         orm_mode = True
 
 
+class CustomerDetailList(BaseModel):
+    total: int
+    customer_list: list[CustomerDetail] = []
+
+
 class CustomerDetailUpdate(CustomerDetailCreate):
     customerdetail_id: int
 

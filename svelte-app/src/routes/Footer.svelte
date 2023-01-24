@@ -1,7 +1,8 @@
 <script>
+  import { popUp } from "../Store";
 </script>
 
-footer
+footer {$popUp}
 
 <style>
 </style>

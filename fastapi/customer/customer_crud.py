@@ -2,20 +2,28 @@ from datetime import datetime
 from models import Customer, CustomerDetail, User
 from customer.customer_schema import CustomerCreate, CustomerUpdate
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from user import user_schema
 
 
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = ''):
 
     lastquery = db.query(CustomerDetail.id).filter(CustomerDetail.customer_id ==
-                                                   Customer.id).order_by(CustomerDetail.id.desc()).first()
-    subquery = db.query(CustomerDetail.id, CustomerDetail.body, CustomerDetail.phonenumber, CustomerDetail.create_date, User.name).outerjoin(
-        User, User.id == CustomerDetail.user_id).subquery()
+                                                   Customer.id).order_by(CustomerDetail.id.desc()).all()
 
-    customer_list = db.query(Customer.id, subquery.c.body,
+    customer_list = db.query(Customer.id, func.max(CustomerDetail.id).label('customerid'), CustomerDetail.phonenumber, CustomerDetail.body, CustomerDetail.create_date, User.name, ).outerjoin(
+        CustomerDetail, Customer.id == CustomerDetail.customer_id).group_by(CustomerDetail.customer_id).outerjoin(User, CustomerDetail.user_id == User.id).order_by(Customer.id.desc())
+
+    """ subquery = db.query(CustomerDetail.id, CustomerDetail.customer_id, CustomerDetail.body, CustomerDetail.phonenumber, CustomerDetail.create_date, User.name).outerjoin(
+        User, User.id == CustomerDetail.user_id).subquery() """
+
+    """ customer_list = db.query(Customer.id, subquery.c.body,
                              subquery.c.create_date, subquery.c.name, subquery.c.phonenumber
                              ).outerjoin(subquery, subquery.c.id == lastquery.id
-                                         ).order_by(Customer.id.desc())
+                                         ).outerjoin(Customer.id == subquery.c.id).order_by(Customer.id.desc()) """
+
+    """ customer_list = db.query(subquery.c.id, subquery.c.customer_id, subquery.c.body, subquery.c.phonenumber, subquery.c.create_date).outerjoin(
+        subquery, Customer.id == subquery.c.customer_id).order_by(subquery.c.customer_id.desc()) """
 
     total = customer_list.distinct().count()
     customer_list = customer_list.order_by(
