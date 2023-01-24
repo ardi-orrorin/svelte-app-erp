@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from starlette import status
-
+from datetime import datetime, timedelta
 from database import get_db
 from models import User
 from . import customer_crud, customer_schema
@@ -12,9 +12,10 @@ router = APIRouter(prefix='/api/customer')
 
 
 @router.get('/list', response_model=customer_schema.CustomerList)
-def customer_list(db: Session = Depends(get_db), page: int = 0, size: int = 10, keyword: str = ''):
+def customer_list(db: Session = Depends(get_db), page: int = 0, size: int = 10,
+                  keyword: str = '', startdate: datetime = datetime.now()-timedelta(weeks=10), enddate: datetime = datetime.now()):
     total, _customer_list = customer_crud.get_customer_list(
-        db, skip=page*size, limit=size, keyword=keyword)
+        db, skip=page*size, limit=size, keyword=keyword, startdate=startdate, enddate=enddate)
 
     return {'total': total, 'customer_list': _customer_list}
 

@@ -1,28 +1,35 @@
 from datetime import datetime
-from models import Customer, CustomerDetail, User
+from models import Customer, CustomerDetail as CD, User
 from customer.customer_schema import CustomerCreate, CustomerUpdate
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from user import user_schema
+from datetime import datetime
 
 
-def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = ''):
-    customer_list = db.query(Customer.id, func.max(CustomerDetail.id).label('customerid'),
-                             func.max(CustomerDetail.phonenumber).label('phonenumber'), func.max(
-                                 CustomerDetail.body).label('body'),
-                             func.max(CustomerDetail.create_date).label(
-                                 'create_date'),
-                             func.max(User.name).label('name')
-                             ).outerjoin(CustomerDetail, Customer.id == CustomerDetail.customer_id
-                                         ).group_by(CustomerDetail.customer_id
-                                                    ).outerjoin(User, CustomerDetail.user_id == User.id
-                                                                ).order_by(Customer.id.desc())
+def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '',
+                      startdate: datetime = datetime.now(), enddate: datetime = datetime.now()):
+
+    customer_list = db.query(func.max(CD.id).label('id')
+                             ).filter(CD.customer_id == Customer.id
+                                      ).group_by(CD.customer_id
+                                                 ).order_by(CD.id.desc()
+                                                            ).subquery()
+
+    sub = db.query(Customer.id, CD.id.label('customerid'),
+                   CD.phonenumber,
+                   CD.create_date, CD.body, CD.user_id
+                   ).outerjoin(CD).join(customer_list, CD.id == customer_list.c.id).subquery()
+    customer_list = db.query(sub.c.id, sub.c.customerid,
+                             sub.c.body, sub.c.phonenumber,
+                             sub.c.create_date, User.name
+                             ).outerjoin(User, sub.c.user_id == User.id
+                                         ).filter(sub.c.create_date >= startdate,
+                                                  sub.c.create_date <= enddate)
 
     total = customer_list.distinct().count()
     customer_list = customer_list.order_by(
-        Customer.create_date.desc()).offset(skip).limit(limit).distinct().all()
-    for i in customer_list:
-        print(i.create_date)
+        sub.c.id.desc()).offset(skip).limit(limit).distinct().all()
     return total, customer_list
 
 
@@ -46,7 +53,7 @@ def create_customer(db: Session, customercreate: CustomerCreate, user: user_sche
     db.commit()
     customer = db.query(Customer).filter(
         Customer.user_id == user.id).order_by(Customer.id.desc()).first()
-    db_customerdetail = CustomerDetail(
+    db_customerdetail = CD(
         name=customercreate.name, body=customercreate.body,
         phonenumber=customercreate.phonenumber, address=customercreate.address,
         addressdetail=customercreate.addressdetail, create_date=create_date, customer_id=customer.id, user=user)
