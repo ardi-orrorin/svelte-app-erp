@@ -30,7 +30,7 @@ def get_customerdetail(db: Session, customerdetail_id: int):
 
 def customer_customerdetail(db: Session, customer_id: int):
     customerdetails = db.query(CustomerDetail).filter(
-        CustomerDetail.customer_id == customer_id).all()
+        CustomerDetail.customer_id == customer_id).order_by(CustomerDetail.id.desc()).all()
     total = len(customerdetails)
     return total, customerdetails
 

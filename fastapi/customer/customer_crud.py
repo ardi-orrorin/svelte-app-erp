@@ -7,28 +7,22 @@ from user import user_schema
 
 
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = ''):
-
-    lastquery = db.query(CustomerDetail.id).filter(CustomerDetail.customer_id ==
-                                                   Customer.id).order_by(CustomerDetail.id.desc()).all()
-
-    customer_list = db.query(Customer.id, func.max(CustomerDetail.id).label('customerid'), CustomerDetail.phonenumber, CustomerDetail.body, CustomerDetail.create_date, User.name, ).outerjoin(
-        CustomerDetail, Customer.id == CustomerDetail.customer_id).group_by(CustomerDetail.customer_id).outerjoin(User, CustomerDetail.user_id == User.id).order_by(Customer.id.desc())
-
-    """ subquery = db.query(CustomerDetail.id, CustomerDetail.customer_id, CustomerDetail.body, CustomerDetail.phonenumber, CustomerDetail.create_date, User.name).outerjoin(
-        User, User.id == CustomerDetail.user_id).subquery() """
-
-    """ customer_list = db.query(Customer.id, subquery.c.body,
-                             subquery.c.create_date, subquery.c.name, subquery.c.phonenumber
-                             ).outerjoin(subquery, subquery.c.id == lastquery.id
-                                         ).outerjoin(Customer.id == subquery.c.id).order_by(Customer.id.desc()) """
-
-    """ customer_list = db.query(subquery.c.id, subquery.c.customer_id, subquery.c.body, subquery.c.phonenumber, subquery.c.create_date).outerjoin(
-        subquery, Customer.id == subquery.c.customer_id).order_by(subquery.c.customer_id.desc()) """
+    customer_list = db.query(Customer.id, func.max(CustomerDetail.id).label('customerid'),
+                             func.max(CustomerDetail.phonenumber).label('phonenumber'), func.max(
+                                 CustomerDetail.body).label('body'),
+                             func.max(CustomerDetail.create_date).label(
+                                 'create_date'),
+                             func.max(User.name).label('name')
+                             ).outerjoin(CustomerDetail, Customer.id == CustomerDetail.customer_id
+                                         ).group_by(CustomerDetail.customer_id
+                                                    ).outerjoin(User, CustomerDetail.user_id == User.id
+                                                                ).order_by(Customer.id.desc())
 
     total = customer_list.distinct().count()
     customer_list = customer_list.order_by(
         Customer.create_date.desc()).offset(skip).limit(limit).distinct().all()
-
+    for i in customer_list:
+        print(i.create_date)
     return total, customer_list
 
 

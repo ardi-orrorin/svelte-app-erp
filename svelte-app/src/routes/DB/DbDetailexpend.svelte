@@ -4,6 +4,7 @@
   export let customer_id;
   export let id;
   export let num;
+  export let writeMode;
   const headers = { accept: "application/json" };
   $: url = "http://localhost:8000/api/customerdetail/customer/customerdetail/" + customer_id;
   $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
@@ -16,13 +17,19 @@
         <tr>
           <th scope="col" class="col-1">No</th>
           <th scope="col" class="col-2">Name</th>
-          <th scope="col" class="col-4">contact</th>
+          <th scope="col" class="col-4">Phone</th>
           <th scope="col">contact</th>
         </tr>
       </thead>
       <tbody>
-        {#each data.customer_list.reverse() as item}
-          <tr on:click={() => (id = item.id)} class={item.id === Number(num) ? "bg-secondary text-white" : ""}>
+        {#each data.customer_list as item}
+          <tr
+            on:click={() => {
+              id = item.id;
+              writeMode = false;
+            }}
+            class={item.id === Number(num) ? "bg-secondary text-white" : ""}
+          >
             <td>{item.id}</td>
             <td>{item.name}</td>
             <td>{item.phonenumber}</td>
