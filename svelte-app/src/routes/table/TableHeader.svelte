@@ -31,17 +31,16 @@
     <div class="col-5">
       <div class="input-group">
         <div class="col-3 pe-2">
-          <select class="form-select" id="inputGroupSelect01">
-            <option selected>선택</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select" bind:value={$params.select_keyworld}>
+            <option value="body">내용</option>
+            <option value="phonenumber">연락처</option>
+            <option value="name">이름</option>
           </select>
         </div>
         <div class="col pe-2">
-          <input type="text" class="form-control" />
+          <input type="text" class="form-control" bind:value={$params.keyword} />
         </div>
-        <div><button class="btn btn-outline-secondary" type="button">Search</button></div>
+        <!-- <div><button class="btn btn-outline-secondary" type="button">Search</button></div> -->
       </div>
     </div>
   </div>

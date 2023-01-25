@@ -1,5 +1,5 @@
 <script>
-  import { winPopup, params, selecttable } from "../../Store";
+  import { winPopup, params, selecttable, dateFomat } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
 
@@ -13,7 +13,9 @@
     size: $params.size,
     order: $params.order,
     startdate: new Date($params.startdate.setHours(0, 0, 0, 0)),
-    enddate: new Date($params.enddate.setHours(24, 0, 0, 0)),
+    enddate: new Date($params.enddate.setHours(23, 59, 59, 99)),
+    keyword: $params.keyword,
+    select_keyword: $params.select_keyworld,
   };
 
   $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
@@ -54,7 +56,7 @@
 {#await data}
   <p>loding...</p>
 {:then data}
-  <table class="table">
+  <table class="table text-center align-middle">
     <thead>
       <tr class="bg-secondary text-white text-center">
         <th
@@ -70,7 +72,7 @@
           >INDEX {param.order === "id-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="col-5">Contacts</th>
-        <th scope="col" class="col-1">PhoneNumber</th>
+        <th scope="col" class="phonenumber">PhoneNumber</th>
         <th scope="col" class="col-1">Wirter</th>
         <th
           scope="col"
@@ -79,15 +81,16 @@
             param.order === "create_date-asc" ? (param.order = "create_date-desc") : (param.order = "create_date-asc")}
           >Date {param.order === "create_date-desc" ? "▼" : "▲"}</th
         >
-        <th scope="col" class="col">Modify</th>
+        <th scope="col" class="date">Modify</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
       {#each data.customer_list as customer_list, i}
         <tr
-          class={checkList.includes(customer_list.id) || $selecttable === customer_list.id
-            ? "bg-secondary text-white"
-            : ""}
+          class="{checkList.includes(customer_list.id) ? 'bg-secondary text-white' : ''}{$selecttable ===
+          customer_list.id
+            ? 'seltr'
+            : ''}"
         >
           <th class="text-center" scope="row"
             ><input
@@ -112,7 +115,7 @@
             }}>{customer_list.phonenumber}</td
           >
           <td class="text-center">{customer_list.name}</td>
-          <td class="text-center">{moment(customer_list.create_date).format("YYYY-MM-DD")}</td>
+          <td class="text-center">{moment(customer_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td>
           <td class="text-center"><button>button</button></td>
         </tr>
       {/each}
@@ -173,6 +176,7 @@
     width: 25px;
   }
   .contacts {
+    text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -180,5 +184,18 @@
     width: 350px;
     margin: 0;
     padding: 0;
+  }
+  .seltr {
+    background-color: rgba(98, 105, 113, 0.5);
+    color: brown !important;
+  }
+  .phonenumber {
+    width: 200px;
+    min-width: 200px;
+  }
+  .date {
+    min-width: 100px !important;
+    max-width: 100px !important;
+    width: 100px !important;
   }
 </style>

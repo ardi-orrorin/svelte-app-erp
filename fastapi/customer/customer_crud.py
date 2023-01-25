@@ -8,7 +8,7 @@ from datetime import datetime
 from pytz import timezone
 
 
-def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', order: str = 'id-desc',
+def get_customer_list(db: Session, skip: int = 0, limit: int = 10, select_keyword: str = '', keyword: str = '', order: str = 'id-desc',
                       startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
     customer_list = db.query(func.max(CD.id).label('id')
@@ -19,7 +19,7 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
 
     sub = db.query(Customer.id, CD.id.label('customerid'),
                    CD.phonenumber,
-                   CD.create_date, CD.body, CD.user_id
+                   CD.create_date, CD.body, CD.user_id,
                    ).outerjoin(CD).join(customer_list, CD.id == customer_list.c.id).subquery()
     customer_list = db.query(sub.c.id, sub.c.customerid,
                              sub.c.body, sub.c.phonenumber,
@@ -30,6 +30,14 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
 
     order_dict = {'id-asc': sub.c.id, 'id-desc': sub.c.id.desc(),
                   'create_date-asc': sub.c.create_date, 'create_date-desc': sub.c.create_date.desc()}
+
+    if (keyword and select_keyword):
+        search = '%%{}%%'.format(keyword)
+        select = {'name': User.name,
+                  'phonenumber': sub.c.phonenumber, 'body': sub.c.body}
+        customer_list = customer_list.filter(
+            select[select_keyword].ilike(search))
+
     customer_list = customer_list.order_by(order_dict[order])
 
     total = customer_list.distinct().count()

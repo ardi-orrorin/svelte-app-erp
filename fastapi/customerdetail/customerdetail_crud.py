@@ -28,10 +28,16 @@ def get_customerdetail(db: Session, customerdetail_id: int):
     return customerdetail
 
 
-def customer_customerdetail(db: Session, customer_id: int):
+def customer_customerdetail(db: Session, customer_id: int, order: str = 'create_date-desc'):
     customerdetails = db.query(CustomerDetail).filter(
-        CustomerDetail.customer_id == customer_id).order_by(CustomerDetail.id.desc()).all()
-    total = len(customerdetails)
+        CustomerDetail.customer_id == customer_id)
+
+    total = customerdetails.count()
+
+    order_list = {'id-asc': CustomerDetail.id, 'id-desc': CustomerDetail.id.desc(), 'create_date-asc':
+                  CustomerDetail.create_date, 'create_date-desc': CustomerDetail.create_date.desc()}
+    customerdetails = customerdetails.order_by(order_list[order]).all()
+
     return total, customerdetails
 
 

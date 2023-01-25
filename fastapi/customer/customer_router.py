@@ -13,13 +13,13 @@ router = APIRouter(prefix='/api/customer')
 
 
 @router.get('/list', response_model=customer_schema.CustomerList)
-def customer_list(db: Session = Depends(get_db), page: int = 0, size: int = 10,
+def customer_list(db: Session = Depends(get_db), page: int = 0, size: int = 10, select_keyword: str = '',
                   keyword: str = '', order: str = 'id-desc',
                   startdate: datetime = datetime.now(
                       timezone('Asia/Seoul'))-timedelta(weeks=10),
                   enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
     total, _customer_list = customer_crud.get_customer_list(
-        db, skip=page*size, limit=size, keyword=keyword, order=order, startdate=startdate, enddate=enddate)
+        db, skip=page*size, limit=size, select_keyword=select_keyword, keyword=keyword, order=order, startdate=startdate, enddate=enddate)
 
     return {'total': total, 'customer_list': _customer_list}
 
