@@ -3,8 +3,7 @@
   import { ko } from "date-fns/locale";
   import { winPopup, params } from "../../Store";
   const maxPage = [10, 20, 50, 100, 200];
-  let startDate = new Date();
-  let endDate = new Date();
+
   $: locale = localeFromDateFnsLocale(ko);
 </script>
 
@@ -21,13 +20,13 @@
       </select>
     </div>
     <div class="cal">
-      <DateInput bind:value={startDate} {locale} format="yyyy-MM-dd" />
+      <DateInput bind:value={$params.startdate} {locale} format="yyyy-MM-dd" />
     </div>
     <div class="cal">
-      <DateInput bind:value={endDate} {locale} format="yyyy-MM-dd" />
+      <DateInput bind:value={$params.enddate} {locale} format="yyyy-MM-dd" />
     </div>
     <div class="col">
-      <button class="btn btn-outline-secondary" type="button">Search</button>
+      <!-- <button class="btn btn-outline-secondary" type="button">Search</button> -->
     </div>
     <div class="col-5">
       <div class="input-group">

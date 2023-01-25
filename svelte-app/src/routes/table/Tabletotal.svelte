@@ -1,5 +1,5 @@
 <script>
-  import { winPopup, params } from "../../Store";
+  import { winPopup, params, selecttable } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
 
@@ -7,12 +7,16 @@
 
   const headers = { accept: "application/json" };
   const url = `http://localhost:8000/api/customer/list?`;
-  $: param = { page: $params.page, size: $params.size };
+
+  $: param = {
+    page: $params.page,
+    size: $params.size,
+    order: $params.order,
+    startdate: new Date($params.startdate.setHours(0, 0, 0, 0)),
+    enddate: new Date($params.enddate.setHours(24, 0, 0, 0)),
+  };
 
   $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
-
-  const pageination = Array.from({ length: 9 }, (v, k) => k + 1);
-
   let checkList = [];
 
   const filterList = (e, index) => {
@@ -22,6 +26,10 @@
   };
 
   let checkIndex = false;
+
+  const seltable = (e) => {
+    $selecttable = e;
+  };
   const allCheck = (e) => {
     for (let arr = 0; arr < e.length; arr++) {
       checkList = [...checkList, e[arr].id];
@@ -32,6 +40,14 @@
   const allNoneCheck = () => {
     checkList = [];
     checkIndex = !checkIndex;
+  };
+  const prepage = () => {
+    param.page > 0 ? (param.page = param.page - 1) : param.page;
+  };
+  const nextpage = (total) => {
+    let totalPage = Math.ceil(total / param.size);
+    if (param.page < totalPage) return (param.page = totalPage - 1);
+    return param.page + 1;
   };
 </script>
 
@@ -47,17 +63,32 @@
           on:click={() => (!checkList.length ? allCheck(data.customer_list) : allNoneCheck())}
           >CHK({checkList.length})</th
         >
-        <th scope="col" class="col-1">INDEX</th>
+        <th
+          scope="col"
+          class="col-1"
+          on:click={() => (param.order === "id-asc" ? (param.order = "id-desc") : (param.order = "id-asc"))}
+          >INDEX {param.order === "id-desc" ? "▼" : "▲"}</th
+        >
         <th scope="col" class="col-5">Contacts</th>
         <th scope="col" class="col-1">PhoneNumber</th>
         <th scope="col" class="col-1">Wirter</th>
-        <th scope="col" class="col-2">Date</th>
+        <th
+          scope="col"
+          class="col-2"
+          on:click={() =>
+            param.order === "create_date-asc" ? (param.order = "create_date-desc") : (param.order = "create_date-asc")}
+          >Date {param.order === "create_date-desc" ? "▼" : "▲"}</th
+        >
         <th scope="col" class="col">Modify</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      {#each data.customer_list as customer_list}
-        <tr class={checkList.includes(customer_list.id) ? "bg-secondary text-white" : ""}>
+      {#each data.customer_list as customer_list, i}
+        <tr
+          class={checkList.includes(customer_list.id) || $selecttable === customer_list.id
+            ? "bg-secondary text-white"
+            : ""}
+        >
           <th class="text-center" scope="row"
             ><input
               type="checkbox"
@@ -66,15 +97,18 @@
               on:change={(e) => filterList(e, customer_list.id)}
             /></th
           >
-          <td class="text-center">{customer_list.id}</td>
+          <!-- {data.total - param.page * param.size - i} -->
+          <td class="text-center ">{customer_list.id}</td>
           <td
             on:click={() => {
               winPopup("#/db/id/" + customer_list.customerid);
-            }}>{customer_list.body}</td
+              seltable(customer_list.id);
+            }}><p class="contacts">{customer_list.body}</p></td
           >
           <td
             on:click={() => {
               winPopup("#/db/id/" + customer_list.customerid);
+              seltable(customer_list.id);
             }}>{customer_list.phonenumber}</td
           >
           <td class="text-center">{customer_list.name}</td>
@@ -88,22 +122,33 @@
     <nav class="d-flex justify-content-center" aria-label="Page navigation ">
       <ul class="pagination">
         <li class="page-item">
-          <a class="page-link text-black text-decoration-none" href="#/table/total/pre" on:click={() => scrollTo(0, 0)}
-            >Previous</a
+          <a
+            class="page-link text-black text-decoration-none"
+            on:click|preventDefault={() => {
+              prepage();
+              scrollTo(0, 0);
+            }}>Previous</a
           >
         </li>
-        {#each pageination as number}
+        {#each Array(Math.ceil(data.total / param.size)) as _, number}
           <li class="page-item">
             <a
               class="page-link text-black text-decoration-none"
               href={"#/table/total/" + number}
-              on:click={() => scrollTo(0, 0)}>{number}</a
+              on:click|preventDefault={() => {
+                param.page = number;
+                scrollTo(0, 0);
+              }}>{number + 1}</a
             >
           </li>
         {/each}
         <li class="page-item">
-          <a class="page-link text-black text-decoration-none" href="#/table/total/next" on:click={() => scrollTo(0, 0)}
-            >Next</a
+          <a
+            class="page-link text-black text-decoration-none"
+            on:click={() => {
+              nextpage(data.total);
+              scrollTo(0, 0);
+            }}>Next</a
           >
         </li>
       </ul>
@@ -126,5 +171,14 @@
   }
   .chktable {
     width: 25px;
+  }
+  .contacts {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+    width: 350px;
+    margin: 0;
+    padding: 0;
   }
 </style>

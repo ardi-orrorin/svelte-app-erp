@@ -1,6 +1,6 @@
 <script>
-  import { onMount } from "svelte";
-  import { popUp } from "../../Store";
+  import { onMount, onDestroy } from "svelte";
+  import { popUp, selecttable } from "../../Store";
   import DbDetailexpend from "./DbDetailexpend.svelte";
   import axios from "axios";
 

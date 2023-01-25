@@ -5,10 +5,11 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from user import user_schema
 from datetime import datetime
+from pytz import timezone
 
 
-def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '',
-                      startdate: datetime = datetime.now(), enddate: datetime = datetime.now()):
+def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', order: str = 'id-desc',
+                      startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
     customer_list = db.query(func.max(CD.id).label('id')
                              ).filter(CD.customer_id == Customer.id
@@ -24,12 +25,17 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
                              sub.c.body, sub.c.phonenumber,
                              sub.c.create_date, User.name
                              ).outerjoin(User, sub.c.user_id == User.id
-                                         ).filter(sub.c.create_date >= startdate,
-                                                  sub.c.create_date <= enddate)
+                                         ).filter(sub.c.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
+                                                  sub.c.create_date <= enddate.astimezone(timezone('Asia/Seoul')))
+
+    order_dict = {'id-asc': sub.c.id, 'id-desc': sub.c.id.desc(),
+                  'create_date-asc': sub.c.create_date, 'create_date-desc': sub.c.create_date.desc()}
+    customer_list = customer_list.order_by(order_dict[order])
 
     total = customer_list.distinct().count()
-    customer_list = customer_list.order_by(
-        sub.c.id.desc()).offset(skip).limit(limit).distinct().all()
+
+    customer_list = customer_list.offset(skip).limit(limit).distinct().all()
+
     return total, customer_list
 
 
