@@ -15,7 +15,7 @@ export const params = writable({
   select_keyworld: "body",
 });
 
-export const dbdetailExpendParams = writable({ order: "create_date-desc" });
+export const dbdetailExpendParams = writable({ order: "create_date-desc", keyword: "" });
 let winpopup;
 const screenWidth = window.screen.availWidth * (2 / 5);
 

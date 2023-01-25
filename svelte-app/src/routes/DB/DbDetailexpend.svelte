@@ -1,5 +1,5 @@
 <script>
-  import { dbdetailExpendParams, dateFomat } from "../../Store";
+  import { dbdetailExpendParams } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
 
@@ -13,9 +13,11 @@
   $: data = axios({ method: "get", url: url, params: $dbdetailExpendParams, headers: headers }).then((res) => res.data);
 </script>
 
-{#await data then data}
+{#await data}
+  <div class="window" />
+{:then data}
   <div class="window">
-    <table class="table talbe-sm align-middle">
+    <table class="table talbe-sm align-middle text-center">
       <thead class="tablesticky">
         <tr>
           <!-- <th
@@ -56,6 +58,9 @@
     </table>
   </div>
 {/await}
+<div class="m-3 d-flex justify-content-center">
+  <input class="form-control form-control-sm search" bind:value={$dbdetailExpendParams.keyword} placeholder="Search" />
+</div>
 
 <style>
   td {
@@ -100,5 +105,8 @@
     width: 100px;
     padding: 0;
     margin: 0;
+  }
+  .search {
+    width: 300px;
   }
 </style>

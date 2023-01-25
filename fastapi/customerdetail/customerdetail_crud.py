@@ -28,12 +28,18 @@ def get_customerdetail(db: Session, customerdetail_id: int):
     return customerdetail
 
 
-def customer_customerdetail(db: Session, customer_id: int, order: str = 'create_date-desc'):
+def customer_customerdetail(db: Session, customer_id: int, order: str = 'create_date-desc', keyword: str = ''):
     customerdetails = db.query(CustomerDetail).filter(
         CustomerDetail.customer_id == customer_id)
+    if (keyword):
+        keyword = keyword.split(" ")
+        for keyword in keyword:
+            search = f'%%{keyword}%%'
+            customerdetails = customerdetails.filter(CustomerDetail.phonenumber.ilike(
+                search) | CustomerDetail.body.ilike(search) | CustomerDetail.create_date.ilike(search))
 
     total = customerdetails.count()
-
+    print(total)
     order_list = {'id-asc': CustomerDetail.id, 'id-desc': CustomerDetail.id.desc(), 'create_date-asc':
                   CustomerDetail.create_date, 'create_date-desc': CustomerDetail.create_date.desc()}
     customerdetails = customerdetails.order_by(order_list[order]).all()

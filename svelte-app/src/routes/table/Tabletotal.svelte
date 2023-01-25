@@ -1,5 +1,5 @@
 <script>
-  import { winPopup, params, selecttable, dateFomat } from "../../Store";
+  import { winPopup, params, selecttable } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
 
@@ -53,16 +53,14 @@
   };
 </script>
 
-{#await data}
-  <p>loding...</p>
-{:then data}
+{#await data then data}
   <table class="table text-center align-middle">
     <thead>
       <tr class="bg-secondary text-white text-center">
         <th
           scope="col"
           class="chktable"
-          on:click={() => (!checkList.length ? allCheck(data.customer_list) : allNoneCheck())}
+          on:click={() => (!checkList.length ? allCheck(data?.customer_list) : allNoneCheck())}
           >CHK({checkList.length})</th
         >
         <th
@@ -87,9 +85,8 @@
     <tbody class="table-group-divider">
       {#each data.customer_list as customer_list, i}
         <tr
-          class="{checkList.includes(customer_list.id) ? 'bg-secondary text-white' : ''}{$selecttable ===
-          customer_list.id
-            ? 'seltr'
+          class="{checkList.includes(customer_list.id) ? 'bg-danger text-white' : ''}{$selecttable === customer_list.id
+            ? 'bg-secondary text-white'
             : ''}"
         >
           <th class="text-center" scope="row"
@@ -101,7 +98,11 @@
             /></th
           >
           <!-- {data.total - param.page * param.size - i} -->
-          <td class="text-center ">{customer_list.id}</td>
+          <td class="text-center "
+            >{param.order === "id-desc" || param.order === "create_date-desc"
+              ? data.total - param.page * param.size - i
+              : param.page * param.size + i + 1}</td
+          >
           <td
             on:click={() => {
               winPopup("#/db/id/" + customer_list.customerid);
@@ -121,7 +122,8 @@
       {/each}
     </tbody>
   </table>
-  <div class="">
+  <!-- pagination start -->
+  <div>
     <nav class="d-flex justify-content-center" aria-label="Page navigation ">
       <ul class="pagination">
         <li class="page-item">
@@ -130,13 +132,13 @@
             on:click|preventDefault={() => {
               prepage();
               scrollTo(0, 0);
-            }}>Previous</a
+            }}>Prev</a
           >
         </li>
         {#each Array(Math.ceil(data.total / param.size)) as _, number}
           <li class="page-item">
             <a
-              class="page-link text-black text-decoration-none"
+              class="page-link text-black text-decoration-none {param.page === number ? 'text-white bg-secondary' : ''}"
               href={"#/table/total/" + number}
               on:click|preventDefault={() => {
                 param.page = number;
@@ -157,6 +159,7 @@
       </ul>
     </nav>
   </div>
+  <!-- pagination end -->
 {/await}
 
 <style>
