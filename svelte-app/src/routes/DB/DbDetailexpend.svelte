@@ -1,15 +1,14 @@
 <script>
-  import { dbdetailExpendParams } from "../../Store";
+  import { dbdetailExpendParams, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
-
   export let customer_id;
   export let id;
   export let num;
   export let writeMode;
   const headers = { accept: "application/json" };
 
-  $: url = "http://localhost:8000/api/customerdetail/customer/customerdetail/" + customer_id;
+  $: url = serverhost + "/api/customerdetail/customer/customerdetail/" + customer_id;
   $: data = axios({ method: "get", url: url, params: $dbdetailExpendParams, headers: headers }).then((res) => res.data);
 </script>
 
@@ -31,7 +30,7 @@
           <th
             class="col-3 align-middle"
             on:click|preventDefault={() =>
-              $dbdetailExpendParams.order === "create_date-asc"
+              ascRegExp.test($dbdetailExpendParams.order)
                 ? ($dbdetailExpendParams.order = "create_date-desc")
                 : ($dbdetailExpendParams.order = "create_date-asc")}
             >생성일자{$dbdetailExpendParams.order === "create_date-desc" ? "▼" : "▲"}</th
@@ -107,6 +106,6 @@
     margin: 0;
   }
   .search {
-    width: 300px;
+    width: 200px;
   }
 </style>

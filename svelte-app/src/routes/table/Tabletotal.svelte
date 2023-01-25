@@ -1,12 +1,13 @@
 <script>
-  import { winPopup, params, selecttable } from "../../Store";
+  import { winPopup, params, selecttable, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
+  import { onDestroy } from "svelte";
 
   moment.locale("ko");
 
   const headers = { accept: "application/json" };
-  const url = `http://localhost:8000/api/customer/list?`;
+  const url = serverhost + `/api/customer/list?`;
 
   $: param = {
     page: $params.page,
@@ -51,6 +52,10 @@
     if (param.page < totalPage) return (param.page = totalPage - 1);
     return param.page + 1;
   };
+
+  onDestroy(() => {
+    $selecttable = "";
+  });
 </script>
 
 {#await data then data}
@@ -66,7 +71,7 @@
         <th
           scope="col"
           class="col-1"
-          on:click={() => (param.order === "id-asc" ? (param.order = "id-desc") : (param.order = "id-asc"))}
+          on:click={() => (ascRegExp.test(param.order) ? (param.order = "id-desc") : (param.order = "id-asc"))}
           >INDEX {param.order === "id-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="col-5">Contacts</th>
@@ -76,7 +81,7 @@
           scope="col"
           class="col-2"
           on:click={() =>
-            param.order === "create_date-asc" ? (param.order = "create_date-desc") : (param.order = "create_date-asc")}
+            ascRegExp.test(param.order) ? (param.order = "create_date-desc") : (param.order = "create_date-asc")}
           >Date {param.order === "create_date-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="date">Modify</th>
