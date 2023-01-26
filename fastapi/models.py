@@ -7,8 +7,8 @@ from database import Base
 class Customer(Base):
     __tablename__ = 'customer'
 
-    id = Column(Integer, primary_key=True)
-    create_date = Column(DateTime, nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    create_date = Column(DateTime, nullable=False, index=True)
     user_id = Column(Integer, ForeignKey(
         "user.id", ondelete='CASCADE'), nullable=True)
     user = relationship("User", backref=backref(
@@ -24,7 +24,7 @@ class CustomerDetail(Base):
     phonenumber = Column(String(255), nullable=False)
     address = Column(String(255), nullable=False)
     addressdetail = Column(String(255), nullable=True)
-    create_date = Column(DateTime, nullable=False)
+    create_date = Column(DateTime, nullable=False, index=True)
 
     customer_id = Column(Integer, ForeignKey(
         "customer.id", ondelete='CASCADE'))
@@ -44,5 +44,5 @@ class User(Base):
     name = Column(String(255), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     phonenumber = Column(String(50), unique=True, nullable=False)
-    authority = Column(Integer, nullable=False)
+    authority = Column(Integer, nullable=False, index=True)
     create_date = Column(DateTime, nullable=False)

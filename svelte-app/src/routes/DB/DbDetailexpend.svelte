@@ -107,5 +107,6 @@
   }
   .search {
     width: 200px;
+    text-align: center;
   }
 </style>

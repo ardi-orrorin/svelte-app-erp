@@ -11,7 +11,7 @@ export const params = writable({
   page: 0,
   size: 10,
   order: "id-desc",
-  startdate: new Date(new Date().setDate(new Date().getDate() - 10)),
+  startdate: new Date(),
   enddate: new Date(),
   keyword: "",
   select_keyworld: "body",

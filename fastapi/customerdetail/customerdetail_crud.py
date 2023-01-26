@@ -39,7 +39,7 @@ def customer_customerdetail(db: Session, customer_id: int, order: str = 'create_
                 search) | CustomerDetail.body.ilike(search) | CustomerDetail.create_date.ilike(search))
 
     total = customerdetails.count()
-    print(total)
+
     order_list = {'id-asc': CustomerDetail.id, 'id-desc': CustomerDetail.id.desc(), 'create_date-asc':
                   CustomerDetail.create_date, 'create_date-desc': CustomerDetail.create_date.desc()}
     customerdetails = customerdetails.order_by(order_list[order]).all()

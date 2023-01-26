@@ -8,14 +8,13 @@ from datetime import datetime
 from pytz import timezone
 
 
-def get_customer_list(db: Session, skip: int = 0, limit: int = 10, select_keyword: str = '', keyword: str = '', order: str = 'id-desc',
+def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', order: str = 'id-desc',
                       startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
     customer_list = db.query(func.max(CD.id).label('id')
-                             ).filter(CD.customer_id == Customer.id
-                                      ).group_by(CD.customer_id
-                                                 ).order_by(CD.id.desc()
-                                                            ).subquery()
+                             ).filter(CD.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
+                                      CD.create_date <= enddate.astimezone(timezone('Asia/Seoul'))).group_by(CD.customer_id
+                                                                                                             ).subquery()
 
     sub = db.query(Customer.id, CD.id.label('customerid'),
                    CD.phonenumber,
@@ -24,19 +23,18 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, select_keywor
     customer_list = db.query(sub.c.id, sub.c.customerid,
                              sub.c.body, sub.c.phonenumber,
                              sub.c.create_date, User.name
-                             ).outerjoin(User, sub.c.user_id == User.id
-                                         ).filter(sub.c.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
-                                                  sub.c.create_date <= enddate.astimezone(timezone('Asia/Seoul')))
+                             ).outerjoin(User, sub.c.user_id == User.id)
 
     order_dict = {'id-asc': sub.c.id, 'id-desc': sub.c.id.desc(),
                   'create_date-asc': sub.c.create_date, 'create_date-desc': sub.c.create_date.desc()}
 
-    if (keyword and select_keyword):
-        search = '%%{}%%'.format(keyword)
-        select = {'name': User.name,
-                  'phonenumber': sub.c.phonenumber, 'body': sub.c.body}
-        customer_list = customer_list.filter(
-            select[select_keyword].ilike(search))
+    if (keyword):
+        keyword = keyword.split(' ')
+
+        for keyword in keyword:
+            search = f'%%{keyword}%%'
+            customer_list = customer_list.filter(
+                sub.c.body.ilike(search) | sub.c.phonenumber.ilike(search) | User.name.ilike(search))
 
     customer_list = customer_list.order_by(order_dict[order])
 

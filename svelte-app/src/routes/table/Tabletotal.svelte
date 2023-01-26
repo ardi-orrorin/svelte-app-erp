@@ -49,16 +49,26 @@
   };
   const nextpage = (total) => {
     let totalPage = Math.ceil(total / param.size);
-    if (param.page < totalPage) return (param.page = totalPage - 1);
-    return param.page + 1;
+    console.log(totalPage);
+    console.log(param.page);
+    if (param.page < totalPage - 1) param.page = param.page + 1;
+
+    return param.page;
   };
 
   onDestroy(() => {
     $selecttable = "";
+    $params = { size: 10, page: 0, startdate: new Date(), enddate: new Date(), keyword: "" };
   });
 </script>
 
-{#await data then data}
+{#await data}
+  <div class="spiner">
+    <div class="spinner-border text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+{:then data}
   <table class="table text-center align-middle">
     <thead>
       <tr class="bg-secondary text-white text-center">
@@ -120,8 +130,16 @@
               seltable(customer_list.id);
             }}>{customer_list.phonenumber}</td
           >
-          <td class="text-center">{customer_list.name}</td>
-          <td class="text-center">{moment(customer_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td>
+          <td class="text-center" on:click|preventDefault={() => ($params.keyword = customer_list.name)}
+            >{customer_list.name}</td
+          >
+          <td
+            class="text-center"
+            on:click|preventDefault={() => {
+              $params.startdate = new Date(customer_list.create_date);
+              $params.enddate = new Date(customer_list.create_date);
+            }}>{moment(customer_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td
+          >
           <td class="text-center"><button>button</button></td>
         </tr>
       {/each}
@@ -144,8 +162,7 @@
           <li class="page-item">
             <a
               class="page-link text-black text-decoration-none {param.page === number ? 'text-white bg-secondary' : ''}"
-              href={"#/table/total/" + number}
-              on:click|preventDefault={() => {
+              on:click={() => {
                 param.page = number;
                 scrollTo(0, 0);
               }}>{number + 1}</a
@@ -205,5 +222,10 @@
     min-width: 100px !important;
     max-width: 100px !important;
     width: 100px !important;
+  }
+  .spiner {
+    display: grid;
+    place-items: center;
+    min-height: 300px;
   }
 </style>
