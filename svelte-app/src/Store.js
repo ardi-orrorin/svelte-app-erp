@@ -9,12 +9,11 @@ export const ascRegExp = new RegExp(/asc/);
 export const descRegExp = new RegExp(/desc/);
 export const params = writable({
   page: 0,
-  size: 10,
+  size: 20,
   order: "id-desc",
   startdate: new Date(),
   enddate: new Date(),
   keyword: "",
-  select_keyworld: "body",
 });
 
 export const dbdetailExpendParams = writable({ order: "create_date-desc", keyword: "" });

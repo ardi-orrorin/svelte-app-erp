@@ -3,8 +3,7 @@
   import TableMenu from "./TableMenu.svelte";
   import Router from "svelte-spa-router";
   import TableHeader from "./TableHeader.svelte";
-  import { params } from "svelte-spa-router";
-  import { onDestroy } from "svelte";
+
   const routes = {
     "/table": Tabletotal,
     "/table/total": Tabletotal,

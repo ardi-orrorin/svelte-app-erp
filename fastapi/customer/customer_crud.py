@@ -11,22 +11,26 @@ from pytz import timezone
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', order: str = 'id-desc',
                       startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
-    customer_list = db.query(func.max(CD.id).label('id')
+    customer_list = db.query(func.max(CD.id).label('id'), CD.create_date
                              ).filter(CD.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
-                                      CD.create_date <= enddate.astimezone(timezone('Asia/Seoul'))).group_by(CD.customer_id
-                                                                                                             ).subquery()
+                                      CD.create_date <= enddate.astimezone(
+                                          timezone('Asia/Seoul'))
+                                      ).group_by(CD.customer_id
+                                                 ).subquery()
 
     sub = db.query(Customer.id, CD.id.label('customerid'),
                    CD.phonenumber,
                    CD.create_date, CD.body, CD.user_id,
                    ).outerjoin(CD).join(customer_list, CD.id == customer_list.c.id).subquery()
-    customer_list = db.query(sub.c.id, sub.c.customerid,
-                             sub.c.body, sub.c.phonenumber,
-                             sub.c.create_date, User.name
-                             ).outerjoin(User, sub.c.user_id == User.id)
 
     order_dict = {'id-asc': sub.c.id, 'id-desc': sub.c.id.desc(),
                   'create_date-asc': sub.c.create_date, 'create_date-desc': sub.c.create_date.desc()}
+
+    customer_list = db.query(sub.c.id, sub.c.customerid,
+                             sub.c.body, sub.c.phonenumber,
+                             sub.c.create_date, User.name
+                             ).outerjoin(
+        User, sub.c.user_id == User.id).order_by(order_dict[order])
 
     if (keyword):
         keyword = keyword.split(' ')
@@ -35,8 +39,6 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
             search = f'%%{keyword}%%'
             customer_list = customer_list.filter(
                 sub.c.body.ilike(search) | sub.c.phonenumber.ilike(search) | User.name.ilike(search))
-
-    customer_list = customer_list.order_by(order_dict[order])
 
     total = customer_list.distinct().count()
 

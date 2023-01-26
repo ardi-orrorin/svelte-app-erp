@@ -49,8 +49,6 @@
   };
   const nextpage = (total) => {
     let totalPage = Math.ceil(total / param.size);
-    console.log(totalPage);
-    console.log(param.page);
     if (param.page < totalPage - 1) param.page = param.page + 1;
 
     return param.page;
@@ -58,7 +56,7 @@
 
   onDestroy(() => {
     $selecttable = "";
-    $params = { size: 10, page: 0, startdate: new Date(), enddate: new Date(), keyword: "" };
+    $params = { size: 10, page: 0, startdate: new Date(), enddate: new Date(), keyword: "", order: "id-desc" };
   });
 </script>
 
@@ -75,14 +73,14 @@
         <th
           scope="col"
           class="chktable"
-          on:click={() => (!checkList.length ? allCheck(data?.customer_list) : allNoneCheck())}
+          on:click={() => (!checkList.length ? allCheck(data.customer_list) : allNoneCheck())}
           >CHK({checkList.length})</th
         >
         <th
           scope="col"
           class="col-1"
-          on:click={() => (ascRegExp.test(param.order) ? (param.order = "id-desc") : (param.order = "id-asc"))}
-          >INDEX {param.order === "id-desc" ? "▼" : "▲"}</th
+          on:click={() => (ascRegExp.test($params.order) ? ($params.order = "id-desc") : ($params.order = "id-asc"))}
+          >INDEX {$params.order === "id-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="col-5">Contacts</th>
         <th scope="col" class="phonenumber">PhoneNumber</th>
@@ -91,8 +89,8 @@
           scope="col"
           class="col-2"
           on:click={() =>
-            ascRegExp.test(param.order) ? (param.order = "create_date-desc") : (param.order = "create_date-asc")}
-          >Date {param.order === "create_date-desc" ? "▼" : "▲"}</th
+            ascRegExp.test($params.order) ? ($params.order = "create_date-desc") : ($params.order = "create_date-asc")}
+          >Date {$params.order === "create_date-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="date">Modify</th>
       </tr>
@@ -130,7 +128,9 @@
               seltable(customer_list.id);
             }}>{customer_list.phonenumber}</td
           >
-          <td class="text-center" on:click|preventDefault={() => ($params.keyword = customer_list.name)}
+          <td
+            class="text-center"
+            on:click|preventDefault={() => ($params.keyword = $params.keyword + " " + customer_list.name)}
             >{customer_list.name}</td
           >
           <td

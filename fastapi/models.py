@@ -18,7 +18,7 @@ class Customer(Base):
 class CustomerDetail(Base):
     __tablename__ = 'customerdetail'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), nullable=False)
     body = Column(Text, nullable=False)
     phonenumber = Column(String(255), nullable=False)
@@ -38,8 +38,8 @@ class CustomerDetail(Base):
 
 class User(Base):
     __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(String(100), unique=True, nullable=False)
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String(100), unique=True, nullable=False, index=True)
     password = Column(String(255), nullable=False)
     name = Column(String(255), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
