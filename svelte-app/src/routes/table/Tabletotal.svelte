@@ -128,7 +128,7 @@
               seltable(customer_list.id);
             }}>{customer_list.phonenumber}</td
           >
-          <td class="text-center" on:click|preventDefault={() => (param.keyword = customer_list.name)}
+          <td class="text-center" on:click|preventDefault={() => ($params.keyword = customer_list.name)}
             >{customer_list.name}</td
           >
           <td
