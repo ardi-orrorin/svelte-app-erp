@@ -36,6 +36,7 @@ class User(BaseModel):
     user_id: str
     name: str
     email: str
+    confirm_notice: int | None
     authority: int
 
     class Config:

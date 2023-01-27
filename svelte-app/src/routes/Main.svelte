@@ -1,19 +1,23 @@
 <script>
-  import { fade } from "svelte/transition";
-  import { isLogin } from "../Store";
+  import Noticemini from "./notice/Noticemini.svelte";
 </script>
 
-<div class="row">
-  <div class="col-4"><p>1</p></div>
-  <div class="col-4">2</div>
-  <div class="col-4">3</div>
+<div class="row m-3 d-flex justify-content-center">
+  <div class="col shadow m-2 component"><Noticemini /></div>
+  <div class="col shadow m-2 component"><Noticemini /></div>
 </div>
 
 <style>
   .row {
     height: 30em;
   }
-  div {
+  /* div {
     border: 1px solid red;
+  } */
+  .component {
+    border: 2px rgba(0, 0, 0, 1);
+    width: 500px;
+    min-width: 500px;
+    max-width: 500px;
   }
 </style>

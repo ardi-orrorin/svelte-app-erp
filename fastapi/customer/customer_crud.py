@@ -11,12 +11,8 @@ from pytz import timezone
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', order: str = 'id-desc',
                       startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
-    customer_list = db.query(func.max(CD.id).label('id'), CD.create_date
-                             ).filter(CD.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
-                                      CD.create_date <= enddate.astimezone(
-                                          timezone('Asia/Seoul'))
-                                      ).group_by(CD.customer_id
-                                                 ).subquery()
+    customer_list = db.query(func.max(CD.id).label(
+        'id')).group_by(CD.customer_id).subquery()
 
     sub = db.query(Customer.id, CD.id.label('customerid'),
                    CD.phonenumber,
@@ -29,8 +25,8 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
     customer_list = db.query(sub.c.id, sub.c.customerid,
                              sub.c.body, sub.c.phonenumber,
                              sub.c.create_date, User.name
-                             ).outerjoin(
-        User, sub.c.user_id == User.id).order_by(order_dict[order])
+                             ).join(User, sub.c.user_id == User.id).filter(sub.c.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
+                                                                           sub.c.create_date <= enddate.astimezone(timezone('Asia/Seoul'))).order_by(order_dict[order])
 
     if (keyword):
         keyword = keyword.split(' ')
@@ -38,13 +34,12 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
         for keyword in keyword:
             search = f'%%{keyword}%%'
             customer_list = customer_list.filter(
-                sub.c.body.ilike(search) | sub.c.phonenumber.ilike(search) | User.name.ilike(search))
+                sub.c.phonenumber.like(search) | User.name.like(search))
 
-    total = customer_list.distinct().count()
+    result = customer_list.offset(skip).limit(limit).all()
+    total = customer_list.count()
 
-    customer_list = customer_list.offset(skip).limit(limit).distinct().all()
-
-    return total, customer_list
+    return total, result
 
 
 def get_customer(db: Session, customer_id: int):

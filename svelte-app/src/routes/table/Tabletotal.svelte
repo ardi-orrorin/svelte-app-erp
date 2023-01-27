@@ -128,9 +128,7 @@
               seltable(customer_list.id);
             }}>{customer_list.phonenumber}</td
           >
-          <td
-            class="text-center"
-            on:click|preventDefault={() => ($params.keyword = $params.keyword + " " + customer_list.name)}
+          <td class="text-center" on:click|preventDefault={() => (param.keyword = customer_list.name)}
             >{customer_list.name}</td
           >
           <td
@@ -159,15 +157,19 @@
           >
         </li>
         {#each Array(Math.ceil(data.total / param.size)) as _, number}
-          <li class="page-item">
-            <a
-              class="page-link text-black text-decoration-none {param.page === number ? 'text-white bg-secondary' : ''}"
-              on:click={() => {
-                param.page = number;
-                scrollTo(0, 0);
-              }}>{number + 1}</a
-            >
-          </li>
+          {#if number >= param.page - 2 && number <= param.page + 2}
+            <li class="page-item">
+              <a
+                class="page-link text-black text-decoration-none {param.page === number
+                  ? 'text-white bg-secondary'
+                  : ''}"
+                on:click={() => {
+                  param.page = number;
+                  scrollTo(0, 0);
+                }}>{number + 1}</a
+              >
+            </li>
+          {/if}
         {/each}
         <li class="page-item">
           <a

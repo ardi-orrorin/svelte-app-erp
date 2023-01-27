@@ -10,6 +10,8 @@
   import "bootstrap/dist/css/bootstrap.min.css";
   import { isLogin, popUp } from "./Store.js";
   import Dbdetail from "./routes/db/Dbdetail.svelte";
+  import Notice from "./routes/notice/Notice.svelte";
+  import Noticelist from "./routes/notice/Noticelist.svelte";
 
   const routes = {
     "/": Main,
@@ -20,6 +22,9 @@
     "/db/create": Dbdetail,
     "/db/:": Db,
     "/db/id/:": Dbdetail,
+    "/noticelist": Noticelist,
+    "/notice/create": Notice,
+    "/notice/id/:": Notice,
   };
 </script>
 

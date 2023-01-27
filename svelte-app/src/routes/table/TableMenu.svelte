@@ -1,5 +1,4 @@
 <script>
-  import { fade } from "svelte/transition";
   import { pathName } from "../../Store";
   const menuItems = [
     { name: "Total", link: "#/table/total" },

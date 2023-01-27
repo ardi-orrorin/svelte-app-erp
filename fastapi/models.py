@@ -44,5 +44,20 @@ class User(Base):
     name = Column(String(255), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     phonenumber = Column(String(50), unique=True, nullable=False)
+    confirm_notice = Column(Text, nullable=True)
     authority = Column(Integer, nullable=False, index=True)
     create_date = Column(DateTime, nullable=False)
+
+
+class Notice(Base):
+    __tablename__ = 'notice'
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(100), nullable=False)
+    body = Column(Text, nullable=True)
+    create_date = Column(DateTime, nullable=False, index=True)
+    pin = Column(Integer, nullable=False)
+    important = Column(Integer, nullable=False)
+    user_id = Column(Integer, ForeignKey(
+        "user.id", ondelete="CASCADE"), nullable=True)
+    user = relationship("User", backref=backref(
+        "notice_users", cascade='all,delete'))

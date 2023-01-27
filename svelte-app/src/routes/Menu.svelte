@@ -1,6 +1,5 @@
 <script>
   import { pathName } from "../Store";
-  import { fade } from "svelte/transition";
 
   const menuItems = [
     { name: "HOME", link: "#/" },
@@ -13,8 +12,8 @@
       link: "#/2",
     },
     {
-      name: "PAGE3",
-      link: "#/3",
+      name: "NOTICE",
+      link: "#/noticelist",
     },
     {
       name: "DB",
@@ -31,7 +30,9 @@
           class="nav-link {menuItem.link === $pathName ? 'active' : ''}"
           aria-current="page"
           href={menuItem.link}
-          on:click={() => ($pathName = menuItem.link)}><h4>{menuItem.name}</h4></a
+          on:click={() => {
+            $pathName = menuItem.link;
+          }}><h4>{menuItem.name}</h4></a
         >
       </li>
     {/each}
