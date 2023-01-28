@@ -9,33 +9,41 @@ from pytz import timezone
 
 
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
-                      startdate: datetime = datetime.now(), enddate: datetime = datetime.now()):
+                      startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
-    customer_list = db.query(func.max(CD.id).label('id')).group_by(CD.customer_id).filter(
-        CD.create_date >= startdate, CD.create_date <= enddate).subquery()
-
-    if userid > 0:
-        userquery = db.query(User.id, User.name).filter(
-            User.id == userid).subquery()
+    if (userid > 0):
+        subquery = db.query(Customer.id).filter(
+            Customer.user_id == userid).subquery()
     else:
-        userquery = db.query(User.id, User.name).subquery()
+        subquery = db.query(Customer.id).subquery()
 
-    customer_list = db.query(CD.id, CD.customer_id, CD.body, CD.phonenumber, CD.create_date, userquery.c.name).filter(
-        customer_list.c.id == CD.id).join(userquery, userquery.c.id == CD.user_id)
+    customer_list = db.query(func.max(CD.id).label(
+        'id')).filter(CD.customer_id == subquery.c.id).group_by(CD.customer_id).subquery()
 
-    if keyword:
-        keyword = keyword.split(" ")
+    sub = db.query(subquery.c.id, CD.id.label('customerid'),
+                   CD.phonenumber,
+                   CD.create_date, CD.body, CD.user_id,
+                   ).outerjoin(CD).join(customer_list, CD.id == customer_list.c.id).subquery()
+
+    order_dict = {'id-asc': sub.c.id, 'id-desc': sub.c.id.desc(),
+                  'create_date-asc': sub.c.create_date, 'create_date-desc': sub.c.create_date.desc()}
+
+    customer_list = db.query(sub.c.id, sub.c.customerid,
+                             sub.c.body, sub.c.phonenumber,
+                             sub.c.create_date, User.name
+                             ).join(User, sub.c.user_id == User.id).filter(sub.c.create_date >= startdate.astimezone(timezone('Asia/Seoul')),
+                                                                           sub.c.create_date <= enddate.astimezone(timezone('Asia/Seoul'))).order_by(order_dict[order])
+
+    if (keyword):
+        keyword = keyword.split(' ')
         for keyword in keyword:
             search = f'%%{keyword}%%'
             customer_list = customer_list.filter(
-                userquery.c.name.ilike(search) | CD.phonenumber.ilike(search))
+                sub.c.phonenumber.ilike(search) | User.name.ilike(search))
 
-    order_dict = {'id-asc': CD.id, 'id-desc': CD.id.desc(),
-                  'create_date-asc': CD.create_date, 'create_date-desc': CD.create_date.desc()}
-
-    result = customer_list.order_by(
-        order_dict[order]).offset(skip).limit(limit).all()
+    result = customer_list.offset(skip).limit(limit).all()
     total = customer_list.count()
+
     return total, result
 
 

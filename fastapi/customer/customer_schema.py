@@ -29,11 +29,18 @@ class CustomerUpdate(CustomerCreate):
 
 class CustomterTemp(BaseModel):
     id: int
-    customerid: int
+    name: str
+    customer_id: int
     body: str
     phonenumber: str
-    name: str
     create_date: datetime.datetime
+
+    class Config:
+        orm_mode = True
+
+
+class Customername(BaseModel):
+    name: str
 
 
 class CustomerList(BaseModel):

@@ -14,10 +14,10 @@
     page: $params.page,
     size: $params.size,
     order: $params.order,
-    startdate: new Date($params.startdate.setHours(0, 0, 0, 0)),
-    enddate: new Date($params.enddate.setHours(23, 59, 59, 99)),
+    startdate: new Date($params.startdate.setHours(0, 0, 0, 0) + 32400000),
+    enddate: new Date($params.enddate.setHours(23, 59, 59, 99) + 32400000),
     keyword: $params.keyword,
-    userid: 13,
+    userid: 15,
   };
 
   $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
@@ -100,13 +100,13 @@
           >
           <td
             on:click={() => {
-              winPopup("#/db/id/" + customer_list.customerid);
+              winPopup("#/db/id/" + customer_list.id);
               seltable(customer_list.id);
             }}><p class="contacts">{customer_list.body}</p></td
           >
           <td
             on:click={() => {
-              winPopup("#/db/id/" + customer_list.customerid);
+              winPopup("#/db/id/" + customer_list.id);
               seltable(customer_list.id);
             }}>{customer_list.phonenumber}</td
           >

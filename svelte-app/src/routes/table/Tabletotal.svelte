@@ -1,5 +1,5 @@
 <script>
-  import { winPopup, params, selecttable, serverhost, ascRegExp } from "../../Store";
+  import { winPopup, params, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
   import { onDestroy } from "svelte";
@@ -9,13 +9,13 @@
   const headers = { accept: "application/json" };
   const url = serverhost + `/api/customer/list?`;
 
-  $: selectitem = $selecttable;
+  $: selectitem = "";
   $: param = {
     page: $params.page,
     size: $params.size,
     order: $params.order,
-    startdate: new Date($params.startdate.setHours(0, 0, 0, 0)),
-    enddate: new Date($params.enddate.setHours(23, 59, 59, 99)),
+    startdate: new Date($params.startdate.setHours(0, 0, 0, 0) + 32400000),
+    enddate: new Date($params.enddate.setHours(23, 59, 59, 99) + 32400000),
     keyword: $params.keyword,
     select_keyword: $params.select_keyworld,
   };
@@ -124,14 +124,14 @@
           >
           <td
             on:click={() => {
-              winPopup("#/db/id/" + customer_list.customerid);
+              winPopup("#/db/id/" + customer_list.id);
               seltable(customer_list.id);
             }}><p class="contacts">{customer_list.body}</p></td
           >
           <td
             on:click={() => {
-              winPopup("#/db/id/" + customer_list.customerid);
-              seltable(customer_list.id);
+              winPopup("#/db/id/" + customer_list.id);
+              seltable(customer_list.customer_id);
             }}>{customer_list.phonenumber}</td
           >
           <td

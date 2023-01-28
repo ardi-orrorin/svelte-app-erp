@@ -18,8 +18,8 @@
     page: 0,
     size: size,
     order: "create_date-desc",
-    startdate: new Date(startdate.setHours(0, 0, 0, 0)),
-    enddate: new Date(enddate.setHours(23, 59, 59, 99)),
+    startdate: new Date(startdate.setHours(0, 0, 0, 0) + 32400000),
+    enddate: new Date(enddate.setHours(23, 59, 59, 99) + 32400000),
     keyword: keyword,
   };
 
