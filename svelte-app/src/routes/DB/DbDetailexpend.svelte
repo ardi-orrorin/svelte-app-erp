@@ -6,6 +6,7 @@
   export let id;
   export let num;
   export let writeMode;
+
   const headers = { accept: "application/json" };
 
   $: url = serverhost + "/api/customerdetail/customer/customerdetail/" + customer_id;
@@ -83,7 +84,7 @@
     color: white;
   }
   .window {
-    height: 485px;
+    height: 500px;
     overflow-x: auto;
   }
 

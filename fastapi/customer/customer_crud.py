@@ -8,13 +8,19 @@ from datetime import datetime
 from pytz import timezone
 
 
-def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', order: str = 'id-desc',
+def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
                       startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
-    customer_list = db.query(func.max(CD.id).label(
-        'id')).group_by(CD.customer_id).subquery()
+    if (userid > 0):
+        subquery = db.query(Customer.id).filter(
+            Customer.user_id == userid).subquery()
+    else:
+        subquery = db.query(Customer.id).subquery()
 
-    sub = db.query(Customer.id, CD.id.label('customerid'),
+    customer_list = db.query(func.max(CD.id).label(
+        'id')).filter(CD.customer_id == subquery.c.id).group_by(CD.customer_id).subquery()
+
+    sub = db.query(subquery.c.id, CD.id.label('customerid'),
                    CD.phonenumber,
                    CD.create_date, CD.body, CD.user_id,
                    ).outerjoin(CD).join(customer_list, CD.id == customer_list.c.id).subquery()
@@ -30,11 +36,10 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
 
     if (keyword):
         keyword = keyword.split(' ')
-
         for keyword in keyword:
             search = f'%%{keyword}%%'
             customer_list = customer_list.filter(
-                sub.c.phonenumber.like(search) | User.name.like(search))
+                sub.c.phonenumber.ilike(search) | User.name.ilike(search))
 
     result = customer_list.offset(skip).limit(limit).all()
     total = customer_list.count()

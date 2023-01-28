@@ -1,19 +1,22 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
-  import { popUp, selecttable } from "../../Store";
+  import { onMount } from "svelte";
+  import { popUp } from "../../Store";
   import DbDetailexpend from "./DbDetailexpend.svelte";
   import axios from "axios";
+  import Paymentnew from "../payment/Paymentnew.svelte";
 
   onMount(() => ($popUp = !$popUp));
 
+  $: deatilPage = "";
   $: [num, id, path] = window.location.href.split("/").reverse().slice(0, 3);
-
-  const headers = { accept: "application/json" };
   $: url = "http://localhost:8000/api/customerdetail/detail/" + num;
   $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
 
   let toggle = false;
   let writeMode = false;
+
+  const headers = { accept: "application/json" };
+
   const selectItems = [
     { value: 1, text: "one" },
     { value: 2, text: "two" },
@@ -23,12 +26,24 @@
   ];
 
   const windowExpend = () => {
-    if (!toggle) {
-      window.resizeBy(450, 0);
+    window.resizeBy(500, 0);
+    toggle = true;
+  };
+  const windowReduce = () => {
+    window.resizeBy(-500, 0);
+    toggle = false;
+  };
+
+  const viewChange = (currentPage, newPage) => {
+    if (!deatilPage & !toggle) {
+      windowExpend();
+      deatilPage = newPage;
+    } else if ((deatilPage === currentPage) & toggle) {
+      deatilPage = newPage;
     } else {
-      window.resizeBy(-450, 0);
+      windowReduce();
+      deatilPage = "";
     }
-    toggle = !toggle;
   };
 </script>
 
@@ -60,8 +75,8 @@
               <button
                 class="btn1"
                 on:click|preventDefault={() => {
-                  windowExpend();
-                }}>내역 {!toggle ? ">" : "<"}</button
+                  viewChange("payment", "dbdetail");
+                }}>내역 조회</button
               >
             </div>
           </div>
@@ -150,11 +165,19 @@
                     data.phonenumber = "";
                     data.name = "";
                     writeMode = !writeMode;
+                    viewChange("dbdetail", "payment");
                   }}>새로등록</button
                 >
               </div>
             {:else}
-              <div class="col text-center"><button class="btn">등록하기</button></div>
+              <div class="col text-center">
+                <button
+                  class="btn"
+                  on:click={() => {
+                    window.close();
+                  }}>등록하기</button
+                >
+              </div>
               <!-- <div class="col"><button class="btn">삭제</button></div> -->
             {/if}
           </div>
@@ -162,7 +185,13 @@
       </form>
     </div>
     {#if toggle}
-      <div class="col"><DbDetailexpend customer_id={data.customer_id} bind:id={num} {num} bind:writeMode /></div>
+      <div class="col">
+        {#if deatilPage === "dbdetail"}
+          <DbDetailexpend customer_id={data.customer_id} bind:id={num} {num} bind:writeMode />
+        {:else if deatilPage === "payment"}
+          <Paymentnew id={num} detail_id={data.id} />
+        {/if}
+      </div>
     {/if}
   </div>
 {/await}
@@ -195,5 +224,11 @@
   textarea:disabled {
     color: black;
     background-color: rgba(0, 0, 0, 0);
+  }
+  input:focus {
+    outline: 1px solid rgba(98, 105, 113, 0.5);
+  }
+  textarea:focus {
+    outline: 1px solid rgba(98, 105, 113, 0.5);
   }
 </style>

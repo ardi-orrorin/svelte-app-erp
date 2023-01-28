@@ -68,7 +68,7 @@
       </select>
     </div>
     <div class="btn1 me-4">
-      <button class="btn1 btn btn-outline-secondary" type="button" on:click={() => winPopup("#/db/create")}
+      <button class="btn1 btn btn-outline-secondary" type="button" on:click={() => winPopup("#/Notice/create")}
         >Create</button
       >
     </div>

@@ -7,6 +7,7 @@
   const url = serverhost + "/api/notice/list?";
   const params = { size: 10, page: 0 };
   $: data = axios({ method: "get", url: url, params: params }).then((res) => res.data);
+  export let noticeToggle;
 </script>
 
 <div class="m-2">
@@ -17,7 +18,7 @@
       </div>
     </div>
   {:then data}
-    <h1 class="text-center mt-4 mb-3">Notice</h1>
+    <h1 class="text-center mt-4 mb-3" on:click={() => (noticeToggle = false)}>Notice</h1>
     <table class="table table-sm">
       <thead>
         <tr class="title ">

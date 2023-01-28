@@ -12,6 +12,7 @@
   import Dbdetail from "./routes/db/Dbdetail.svelte";
   import Notice from "./routes/notice/Notice.svelte";
   import Noticelist from "./routes/notice/Noticelist.svelte";
+  import Noticenew from "./routes/notice/Noticenew.svelte";
 
   const routes = {
     "/": Main,
@@ -23,7 +24,7 @@
     "/db/:": Db,
     "/db/id/:": Dbdetail,
     "/noticelist": Noticelist,
-    "/notice/create": Notice,
+    "/notice/create": Noticenew,
     "/notice/id/:": Notice,
   };
 </script>

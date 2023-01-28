@@ -17,7 +17,7 @@
     startdate: new Date($params.startdate.setHours(0, 0, 0, 0)),
     enddate: new Date($params.enddate.setHours(23, 59, 59, 99)),
     keyword: $params.keyword,
-    select_keyword: $params.select_keyworld,
+    userid: 13,
   };
 
   $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
@@ -34,17 +34,7 @@
   const seltable = (e) => {
     selectitem = e;
   };
-  const allCheck = (e) => {
-    for (let arr = 0; arr < e.length; arr++) {
-      checkList = [...checkList, e[arr].id];
-    }
-    checkIndex = !checkIndex;
-  };
 
-  const allNoneCheck = () => {
-    checkList = [];
-    checkIndex = !checkIndex;
-  };
   const prepage = () => {
     param.page > 0 ? (param.page = param.page - 1) : param.page;
   };
@@ -78,12 +68,6 @@
       <tr class="bg-secondary text-white text-center">
         <th
           scope="col"
-          class="chktable"
-          on:click={() => (!checkList.length ? allCheck(data.customer_list) : allNoneCheck())}
-          >CHK({checkList.length})</th
-        >
-        <th
-          scope="col"
           class="col-1"
           on:click={() => (ascRegExp.test($params.order) ? ($params.order = "id-desc") : ($params.order = "id-asc"))}
           >INDEX {$params.order === "id-desc" ? "▼" : "▲"}</th
@@ -108,14 +92,6 @@
             ? 'bg-secondary text-white'
             : ''}"
         >
-          <th class="text-center" scope="row"
-            ><input
-              type="checkbox"
-              class="chk"
-              checked={checkList.includes(customer_list.id) ? true : false}
-              on:change={(e) => filterList(e, customer_list.id)}
-            /></th
-          >
           <!-- {data.total - param.page * param.size - i} -->
           <td class="text-center "
             >{(param.order === "id-desc") | (param.order === "create_date-desc")

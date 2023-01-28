@@ -7,7 +7,9 @@ import os
 with open(f'{os.getcwd()}/mysql_info.json')as f:
     DBINFO = json.load(f)
 
-DB_URL = f"mysql+pymysql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}?charset=utf8"
+#DB_URL = f"mysql+pymysql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}?charset=utf8"
+DB_URL = f"postgresql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}"
+
 
 engine = create_engine(
     DB_URL

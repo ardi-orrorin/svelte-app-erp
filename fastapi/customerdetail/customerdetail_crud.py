@@ -35,8 +35,8 @@ def customer_customerdetail(db: Session, customer_id: int, order: str = 'create_
         keyword = keyword.split(" ")
         for keyword in keyword:
             search = f'%%{keyword}%%'
-            customerdetails = customerdetails.filter(CustomerDetail.phonenumber.ilike(
-                search) | CustomerDetail.body.ilike(search) | CustomerDetail.create_date.ilike(search))
+            customerdetails = customerdetails.filter(CustomerDetail.phonenumber.like(
+                search) | CustomerDetail.body.like(search))
 
     total = customerdetails.count()
 

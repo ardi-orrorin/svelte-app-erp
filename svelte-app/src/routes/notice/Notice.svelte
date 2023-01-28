@@ -38,7 +38,7 @@
       <textarea class="w-100 create-date" value={data.body} rows="10" disabled />
     </div>
 
-    <div class="text-center mt-3 mb-3">
+    <div class="text-center mt-5">
       <button on:click={() => onClose()}> Readed</button>
     </div>
   </div>
@@ -63,13 +63,15 @@
   input:disabled {
     color: black;
     background-color: white;
+    border: 0px;
+    border: 1px solid rgba(98, 105, 113, 0.5);
   }
   textarea:disabled {
     color: black;
     background-color: white;
-  }
-  textarea {
+    border: 0px;
     padding: 0.6em;
+    border: 1px solid rgba(98, 105, 113, 0.5);
   }
   button {
     width: 200px;
@@ -81,8 +83,5 @@
   button:hover {
     background-color: rgba(98, 105, 113, 1);
     color: white;
-  }
-  .custom-tooltip {
-    --bs-tooltip-bg: var(--bs-primary);
   }
 </style>
