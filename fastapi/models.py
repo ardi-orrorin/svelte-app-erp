@@ -61,3 +61,23 @@ class Notice(Base):
         "user.id", ondelete="CASCADE"), nullable=True)
     user = relationship("User", backref=backref(
         "notice_users", cascade='all,delete'))
+
+
+class Payment(Base):
+    __tablename__ = 'payment'
+    id = Column(Integer, primary_key=True, index=True)
+    corp_name = Column(String(100), nullable=False)
+    bank_name = Column(String(100), nullable=False)
+    bank_account = Column(String(100), nullable=False)
+    bank_number = Column(String(100), nullable=False)
+    money = Column(Integer, nullable=False)
+    memo = Column(Text, nullable=True)
+    create_date = Column(DateTime, nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey(
+        "user.id", ondelete="CASCADE"), nullable=True)
+    user = relationship("User", backref=backref(
+        "payment_users", cascade='all,delete'))
+    customerdetail_id = Column(Integer, ForeignKey(
+        "customerdetail.id", ondelete="CASCADE"), nullable=True)
+    customerdetail = relationship("CustomerDetail", backref=backref(
+        "payment_customerdetails", cascade='all,delete'))

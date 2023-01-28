@@ -13,6 +13,7 @@
   import Notice from "./routes/notice/Notice.svelte";
   import Noticelist from "./routes/notice/Noticelist.svelte";
   import Noticenew from "./routes/notice/Noticenew.svelte";
+  import Paymentlist from "./routes/payment/Paymentlist.svelte";
 
   const routes = {
     "/": Main,
@@ -26,6 +27,7 @@
     "/noticelist": Noticelist,
     "/notice/create": Noticenew,
     "/notice/id/:": Notice,
+    "/payment": Paymentlist,
   };
 </script>
 

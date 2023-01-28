@@ -8,3 +8,4 @@ fastapi/customerdetail/__pycache__/
 fastapi/user/__pycache__/
 fastapi/noticefile/__pycache__/
 fastapi/mysql_info copy.json
+fastapi/payment/__pycache__/

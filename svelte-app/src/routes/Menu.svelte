@@ -8,8 +8,8 @@
       link: "#/table",
     },
     {
-      name: "PAGE2",
-      link: "#/2",
+      name: "PAYMENT",
+      link: "#/payment",
     },
     {
       name: "NOTICE",

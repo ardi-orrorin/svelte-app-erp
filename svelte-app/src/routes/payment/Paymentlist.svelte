@@ -10,7 +10,7 @@
   const locale = localeFromDateFnsLocale(ko);
 
   $: selecttable = "";
-  $: startdate = new Date(new Date().setMonth(new Date().getMonth() - 36));
+  $: startdate = new Date();
   $: enddate = new Date();
   $: size = 20;
   $: keyword = "";
@@ -23,7 +23,7 @@
     keyword: keyword,
   };
 
-  const url = serverhost + `/api/notice/list?`;
+  const url = serverhost + `/api/payment/list?`;
 
   $: data = axios({ method: "get", url: url, params: params }).then((res) => res.data);
 
@@ -81,16 +81,20 @@
     </div>
   </div>
 {:then data}
-  <table class="table text-center align-middle mt-3">
+  <table class="table align-middle mt-3">
     <thead>
-      <tr class="bg-secondary text-white text-center">
+      <tr class="bg-secondary text-white">
         <th
           scope="col"
-          class="col-1"
+          class="index"
           on:click={() => (ascRegExp.test(params.order) ? (params.order = "id-desc") : (params.order = "id-asc"))}
-          >INDEX {params.order === "id-desc" ? "▼" : "▲"}</th
+          >No. {params.order === "id-desc" ? "▼" : "▲"}</th
         >
-        <th scope="col" class="col">TITLE</th>
+        <th scope="col" class="wirter">Company</th>
+        <th scope="col" class="writer">Bank_name</th>
+        <th scope="col" class="writer">Bank_account</th>
+        <th scope="col" class="writer">Bank_number</th>
+        <th scope="col" class="money">Money</th>
         <th scope="col" class="writer">Writer</th>
         <th
           scope="col"
@@ -99,39 +103,38 @@
             ascRegExp.test(params.order) ? (params.order = "create_date-desc") : (params.order = "create_date-asc")}
           >Date {params.order === "create_date-desc" ? "▼" : "▲"}</th
         >
-        <th scope="col" class="date">Modify</th>
+        <th scope="col" class="col">Modify</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      {#each data.notice_list as notice_list, i}
-        <tr class={selecttable === notice_list.id || notice_list.title === keyword ? "bg-secondary text-white " : ""}>
-          <td class="text-center "
+      {#each data.payment_list as payment_list, i}
+        <tr class={selecttable === payment_list.id ? "bg-secondary text-white " : ""}>
+          <td class=""
             >{params.order === "id-desc" || params.order === "create_date-desc"
               ? data.total - params.page * params.size - i
               : params.page * params.size + i + 1}</td
           >
           <td
             on:click={() => {
-              winPopup("#/notice/id/" + notice_list.id);
-              seltable(notice_list.id);
-            }}
-            ><p class="contacts">
-              {notice_list.title} &nbsp;&nbsp;&nbsp;{#if notice_list.important}<span class="options">important</span
-                >{/if}
-              {#if notice_list.pin}<span class="options">pin</span>{/if}
-            </p></td
+              winPopup("#/payment/id/" + payment_list.id);
+              seltable(payment_list.id);
+            }}>{payment_list.corp_name}</td
           >
+          <td on:dblclick={() => (keyword = payment_list.bank_name)}>{payment_list.bank_name}</td>
+          <td>{payment_list.bank_account}</td>
+          <td on:dblclick={() => (keyword = payment_list.bank_number)}>{payment_list.bank_number}</td>
+          <td>{payment_list.money.toLocaleString("ko-kr")}</td>
           <td
-            on:click={() => {
-              keyword = keyword + notice_list.user.name;
-            }}>{notice_list.user.name}</td
+            on:dblclick={() => {
+              keyword = payment_list.name;
+            }}>{payment_list.name}</td
           >
           <td
             class="text-center "
-            on:click|preventDefault={() => {
-              startdate = new Date(notice_list.create_date);
-              enddate = new Date(notice_list.create_date);
-            }}>{moment(notice_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td
+            on:dblclick|preventDefault={() => {
+              startdate = new Date(payment_list.create_date);
+              enddate = new Date(payment_list.create_date);
+            }}>{moment(payment_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td
           >
           <td class="text-center"><button>button</button></td>
         </tr>
@@ -199,21 +202,17 @@
     color: white;
     border-color: white;
   }
-
-  .contacts {
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-break: break-all;
-    width: 700px;
-    margin: 0;
-    padding: 0;
+  .index {
+    width: 70px;
+    min-width: 70px;
   }
-
   .writer {
     width: 200px;
     min-width: 200px;
+  }
+  .money {
+    width: 100px;
+    min-width: 100px;
   }
   .date {
     min-width: 150px !important;
@@ -236,16 +235,5 @@
 
   .btn1 {
     width: 120px;
-  }
-  .options {
-    border: 1px solid rgba(98, 105, 113, 1);
-    border-radius: 5px;
-    font-size: 10px;
-    padding-top: 0.2%;
-    padding-bottom: 0.2%;
-    padding-left: 3%;
-    padding-right: 3%;
-    margin-right: 10px;
-    margin-left: 0px;
   }
 </style>
