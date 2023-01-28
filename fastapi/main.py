@@ -9,7 +9,7 @@ from noticefile import notice__router
 app = FastAPI()
 
 origins = [
-    'http://localhost:8080', 'http://localhost:3000', 'http://localhost', 'http://127.0.0.1'
+    'http://localhost:8080', 'http://localhost:3000', 'http://localhost', 'http://127.0.0.1', 'http://192.168.0.4', 'https://192.168.0.4'
 
 ]
 

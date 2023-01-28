@@ -179,13 +179,7 @@
     background-color: rgba(98, 105, 113, 0.2);
     color: white;
   }
-  .chk {
-    width: 18px;
-    height: 18px;
-  }
-  .chktable {
-    width: 25px;
-  }
+
   .contacts {
     text-align: left;
     overflow: hidden;
@@ -196,10 +190,7 @@
     margin: 0;
     padding: 0;
   }
-  .seltr {
-    background-color: rgba(98, 105, 113, 0.5);
-    color: brown !important;
-  }
+
   .phonenumber {
     width: 200px;
     min-width: 200px;

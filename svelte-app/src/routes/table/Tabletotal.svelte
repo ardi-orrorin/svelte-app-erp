@@ -220,10 +220,7 @@
     margin: 0;
     padding: 0;
   }
-  .seltr {
-    background-color: rgba(98, 105, 113, 0.5);
-    color: brown !important;
-  }
+
   .phonenumber {
     width: 200px;
     min-width: 200px;

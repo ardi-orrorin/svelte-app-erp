@@ -36,10 +36,4 @@
   .list-group-item {
     color: black;
   }
-  .active {
-    color: white;
-    background-color: rgba(0, 0, 0, 0.1) !important;
-    border: 1px rgba(0, 0, 0, 0.4) !important;
-    transition: 0.2s;
-  }
 </style>

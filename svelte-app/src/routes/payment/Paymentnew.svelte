@@ -6,9 +6,6 @@
     bankANumber = bankANumber.replaceAll("-", "");
   });
 
-  export let id;
-  export let detail_id;
-
   $: money = "";
   $: bankANumber = "";
   $: bankAName = "";

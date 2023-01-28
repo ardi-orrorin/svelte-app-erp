@@ -1,10 +1,8 @@
 <script>
-  import { isLogin } from "../../Store.js";
-  import { fade } from "svelte/transition";
   export let isCreatemode;
 </script>
 
-<div class="loginbox" transition:fade>
+<div class="loginbox">
   <div class="box">
     <div class="text-center pt-5 pb-5"><h1>Create User</h1></div>
     <div>
@@ -52,9 +50,5 @@
   }
   .box {
     width: 500px;
-  }
-  .logintext {
-    color: black;
-    text-decoration: none;
   }
 </style>
