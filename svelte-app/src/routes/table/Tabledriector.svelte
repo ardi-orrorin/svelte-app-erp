@@ -1,5 +1,5 @@
 <script>
-  import { winPopup, params, selecttable, serverhost, ascRegExp } from "../../Store";
+  import { winPopup, storeParams, selecttable, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
   import { onDestroy } from "svelte";
@@ -11,12 +11,12 @@
 
   $: selectitem = $selecttable;
   $: param = {
-    page: $params.page,
-    size: $params.size,
-    order: $params.order,
-    startdate: new Date($params.startdate.setHours(0, 0, 0, 0) + 32400000),
-    enddate: new Date($params.enddate.setHours(23, 59, 59, 99) + 32400000),
-    keyword: $params.keyword,
+    page: $storeParams.page,
+    size: $storeParams.size,
+    order: $storeParams.order,
+    startdate: new Date($storeParams.startdate.setHours(0, 0, 0, 0) + 32400000),
+    enddate: new Date($storeParams.enddate.setHours(23, 59, 59, 99) + 32400000),
+    keyword: $storeParams.keyword,
     userid: 15,
   };
 

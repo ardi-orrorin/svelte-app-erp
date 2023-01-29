@@ -1,23 +1,24 @@
 <script>
-  import { winPopup, params, serverhost, ascRegExp } from "../../Store";
+  import { winPopup, storeParams, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
   import { onDestroy } from "svelte";
-
   moment.locale("ko");
+
+  export let params;
 
   const headers = { accept: "application/json" };
   const url = serverhost + `/api/customer/list?`;
 
   $: selectitem = "";
   $: param = {
-    page: $params.page,
-    size: $params.size,
-    order: $params.order,
-    startdate: new Date($params.startdate.setHours(0, 0, 0, 0) + 32400000),
-    enddate: new Date($params.enddate.setHours(23, 59, 59, 99) + 32400000),
-    keyword: $params.keyword,
-    select_keyword: $params.select_keyworld,
+    page: $storeParams.page,
+    size: $storeParams.size,
+    order: $storeParams.order,
+    startdate: new Date($storeParams.startdate.setHours(0, 0, 0, 0) + 32400000),
+    enddate: new Date($storeParams.enddate.setHours(23, 59, 59, 99) + 32400000),
+    keyword: $storeParams.keyword,
+    userid: params?.userid ? params.userid : 0,
   };
 
   $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
@@ -55,7 +56,7 @@
     return param.page;
   };
   onDestroy(() => {
-    $params = {
+    $storeParams = {
       page: 0,
       size: 20,
       keyword: "",
@@ -85,8 +86,9 @@
         <th
           scope="col"
           class="col-1"
-          on:click={() => (ascRegExp.test($params.order) ? ($params.order = "id-desc") : ($params.order = "id-asc"))}
-          >INDEX {$params.order === "id-desc" ? "▼" : "▲"}</th
+          on:click={() =>
+            ascRegExp.test($storeParams.order) ? ($storeParams.order = "id-desc") : ($storeParams.order = "id-asc")}
+          >INDEX {$storeParams.order === "id-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="col-5">Contacts</th>
         <th scope="col" class="phonenumber">PhoneNumber</th>
@@ -95,8 +97,10 @@
           scope="col"
           class="col-2"
           on:click={() =>
-            ascRegExp.test($params.order) ? ($params.order = "create_date-desc") : ($params.order = "create_date-asc")}
-          >Date {$params.order === "create_date-desc" ? "▼" : "▲"}</th
+            ascRegExp.test($storeParams.order)
+              ? ($storeParams.order = "create_date-desc")
+              : ($storeParams.order = "create_date-asc")}
+          >Date {$storeParams.order === "create_date-desc" ? "▼" : "▲"}</th
         >
         <th scope="col" class="date">Modify</th>
       </tr>
@@ -129,21 +133,20 @@
             }}><p class="contacts">{customer_list.body}</p></td
           >
           <td
-            on:click={() => {
-              winPopup("#/db/id/" + customer_list.id);
-              seltable(customer_list.customer_id);
-            }}>{customer_list.phonenumber}</td
+            on:dblclick|preventDefault={() =>
+              ($storeParams.keyword = $storeParams.keyword + " " + customer_list.phonenumber)}
+            >{customer_list.phonenumber}</td
           >
           <td
             class="text-center"
-            on:click|preventDefault={() => ($params.keyword = $params.keyword + " " + customer_list.name)}
+            on:dblclick|preventDefault={() => ($storeParams.keyword = $storeParams.keyword + " " + customer_list.name)}
             >{customer_list.name}</td
           >
           <td
             class="text-center"
-            on:click|preventDefault={() => {
-              $params.startdate = new Date(customer_list.create_date);
-              $params.enddate = new Date(customer_list.create_date);
+            on:dblclick|preventDefault={() => {
+              $storeParams.startdate = new Date(customer_list.create_date);
+              $storeParams.enddate = new Date(customer_list.create_date);
             }}>{moment(customer_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td
           >
           <td class="text-center"><button>button</button></td>

@@ -7,7 +7,8 @@ export const popUp = writable(false);
 export const selecttable = writable();
 export const ascRegExp = new RegExp(/asc/);
 export const descRegExp = new RegExp(/desc/);
-export const params = writable({
+export const userID = writable(15);
+export const storeParams = writable({
   page: 0,
   size: 20,
   order: "create_date-desc",

@@ -7,9 +7,10 @@
 
   onMount(() => ($popUp = !$popUp));
 
+  export let params;
+
   $: deatilPage = "";
-  $: [num, id, path] = window.location.href.split("/").reverse().slice(0, 3);
-  $: url = "http://localhost:8000/api/customerdetail/detail/" + num;
+  $: url = "http://localhost:8000/api/customerdetail/detail/" + params.id;
   $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
 
   let toggle = false;
@@ -187,7 +188,7 @@
     {#if toggle}
       <div class="col">
         {#if deatilPage === "dbdetail"}
-          <DbDetailexpend customer_id={data.customer_id} bind:id={num} {num} bind:writeMode />
+          <DbDetailexpend customer_id={data.customer_id} bind:id={params.id} num={params.id} bind:writeMode />
         {:else if deatilPage === "payment"}
           <Paymentnew id={num} detail_id={data.id} />
         {/if}

@@ -16,8 +16,8 @@ router = APIRouter(prefix='/api/customer')
 def customer_list(db: Session = Depends(get_db), page: int = 0, size: int = 10,
                   keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
                   startdate: datetime = datetime.now(
-                      timezone('Asia/Seoul'))-timedelta(weeks=10),
-                  enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
+        timezone('Asia/Seoul'))-timedelta(weeks=10),
+        enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
     total, _customer_list = customer_crud.get_customer_list(
         db, skip=page*size, limit=size, keyword=keyword, order=order, startdate=startdate, enddate=enddate, userid=userid)
 

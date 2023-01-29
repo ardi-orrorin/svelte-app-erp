@@ -7,9 +7,9 @@
 
   const routes = {
     "/table": Tabletotal,
-    "/table/total": Tabletotal,
-    "/table/total/:": Tabletotal,
-    "/table/director": Tabledriector,
+    "/table/delete": Tabletotal,
+    "/table/:userid": Tabletotal,
+    "/table/directer/:userid": Tabletotal,
   };
 </script>
 

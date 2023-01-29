@@ -5,7 +5,7 @@
     { name: "HOME", link: "#/" },
     {
       name: "TABLE",
-      link: "#/table",
+      link: "#/table/0",
     },
     {
       name: "PAYMENT",

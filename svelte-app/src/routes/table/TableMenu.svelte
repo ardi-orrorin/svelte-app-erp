@@ -1,8 +1,8 @@
 <script>
-  import { pathName } from "../../Store";
+  import { pathName, userID } from "../../Store";
   const menuItems = [
-    { name: "TOTAL", link: "#/table/total" },
-    { name: "DIRECTOR", link: "#/table/director" },
+    { name: "TOTAL", link: "#/table" },
+    { name: "DIRECTOR", link: "#/table/" + $userID },
     { name: "DELETE", link: "#/table/delete" },
     { name: "4", link: "#/table/4" },
     { name: "5", link: "#/table/5" },
