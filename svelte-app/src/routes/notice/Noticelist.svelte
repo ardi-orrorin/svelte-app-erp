@@ -1,5 +1,5 @@
 <script>
-  import { winPopup, serverhost, ascRegExp } from "../../Store";
+  import { winPopup, serverhost, ascRegExp, storeParams } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
   import { DateInput, localeFromDateFnsLocale } from "date-picker-svelte";
@@ -12,15 +12,15 @@
   $: selecttable = "";
   $: startdate = new Date(new Date().setMonth(new Date().getMonth() - 36));
   $: enddate = new Date();
-  $: size = 20;
-  $: keyword = "";
+
   $: params = {
     page: 0,
-    size: size,
+    size: $storeParams.size,
+
     order: "create_date-desc",
     startdate: new Date(startdate.setHours(0, 0, 0, 0)),
     enddate: new Date(enddate.setHours(23, 59, 59, 99)),
-    keyword: keyword,
+    keyword: $storeParams.keyword,
   };
 
   const url = serverhost + `/api/notice/list?`;
@@ -44,27 +44,31 @@
 <div class="tablesticky">
   <div class="row mb-3">
     <div class="cal me-3">
-      <DateInput bind:value={startdate} {locale} format="yyyy-MM-dd" />
+      <DateInput id="startdate" bind:value={startdate} {locale} format="yyyy-MM-dd" />
     </div>
     <div class="cal">
-      <DateInput bind:value={enddate} {locale} format="yyyy-MM-dd" />
+      <DateInput id="enddate" bind:value={enddate} {locale} format="yyyy-MM-dd" />
     </div>
     <div class="col d-flex justify-content-center">
       <div class="col-10">
-        <input type="text" id="tablesearch" class="search" bind:value={keyword} placeholder="Search" />
+        <input type="text" id="search" class="search" bind:value={$storeParams.keyword} placeholder="Search" />
       </div>
     </div>
     <div class="sel me-3">
-      <select class="form-select" aria-label="Default select example" bind:value={size}>
+      <select class="form-select" aria-label="Default select example" bind:value={$storeParams.size}>
         {#each maxPage as page}
           <option value={page}>{page}</option>
         {/each}
       </select>
     </div>
     <div class="btn1 me-4">
-      <button class="btn1 btn btn-outline-secondary" type="button" on:click={() => winPopup("#/Notice/create")}
-        >Create</button
-      >
+      <input
+        id="create"
+        class="btn1 btn btn-outline-secondary"
+        type="button"
+        value="Create"
+        on:click={() => winPopup("#/notice/create")}
+      />
     </div>
   </div>
 </div>
@@ -98,7 +102,11 @@
     </thead>
     <tbody class="table-group-divider">
       {#each data.notice_list as notice_list, i}
-        <tr class={selecttable === notice_list.id || notice_list.title === keyword ? "bg-secondary text-white " : ""}>
+        <tr
+          class={selecttable === notice_list.id || notice_list.title === $storeParams.keyword
+            ? "bg-secondary text-white "
+            : ""}
+        >
           <td class="text-center "
             >{params.order === "id-desc" || params.order === "create_date-desc"
               ? data.total - params.page * params.size - i
@@ -117,7 +125,7 @@
           >
           <td
             on:click={() => {
-              keyword = keyword + notice_list.user.name;
+              $storeParams.keyword = $storeParams.keyword + notice_list.user.name;
             }}>{notice_list.user.name}</td
           >
           <td
@@ -138,8 +146,9 @@
       <ul class="pagination">
         <li class="page-item">
           <a
+            id="prev"
             class="page-link text-black text-decoration-none"
-            on:click|preventDefault={() => {
+            on:click={() => {
               prepage();
               scrollTo(0, 0);
             }}>Prev</a
@@ -162,6 +171,7 @@
         {/each}
         <li class="page-item">
           <a
+            id="next"
             class="page-link text-black text-decoration-none"
             on:click={() => {
               nextpage(data.total);
@@ -187,6 +197,7 @@
     height: 3em;
     vertical-align: middle;
     padding: 0;
+    font-size: 13px;
   }
   tr:hover {
     background-color: rgba(98, 105, 113, 0.2);
@@ -244,9 +255,11 @@
     margin-left: 0px;
   }
   .search {
-    width: 100%;
     text-align: center;
-    transition: 0.2s;
+    width: 100%;
+    outline: none !important;
+    border-color: rgba(98, 105, 113, 1);
+    box-shadow: 0 0 10px rgba(98, 105, 113, 0.6);
   }
   .search:focus {
     outline: none !important;

@@ -131,14 +131,17 @@
             }}><p class="contacts">{customer_list.body}</p></td
           >
           <td
-            on:dblclick|preventDefault={() =>
-              ($storeParams.keyword = $storeParams.keyword + " " + customer_list.phonenumber)}
-            >{customer_list.phonenumber}</td
+            on:dblclick|preventDefault={() => {
+              $storeParams.keyword = $storeParams.keyword + " " + customer_list.phonenumber;
+              document.getElementById("tablesearch").focus();
+            }}>{customer_list.phonenumber}</td
           >
           <td
             class="text-center"
-            on:dblclick|preventDefault={() => ($storeParams.keyword = $storeParams.keyword + " " + customer_list.name)}
-            >{customer_list.name}</td
+            on:dblclick|preventDefault={() => {
+              $storeParams.keyword = $storeParams.keyword + " " + customer_list.name;
+              document.getElementById("tablesearch").focus();
+            }}>{customer_list.name}</td
           >
           <td
             class="text-center"
@@ -158,6 +161,7 @@
       <ul class="pagination">
         <li class="page-item">
           <a
+            id="prev"
             class="page-link text-black text-decoration-none"
             on:click|preventDefault={() => {
               prepage();
@@ -182,6 +186,7 @@
         {/each}
         <li class="page-item">
           <a
+            id="next"
             class="page-link text-black text-decoration-none"
             on:click={() => {
               nextpage(data.total);
@@ -199,6 +204,7 @@
   tr {
     height: 3em;
     vertical-align: middle;
+    font-size: 13px;
   }
   tr:hover {
     background-color: rgba(98, 105, 113, 0.2);

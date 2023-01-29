@@ -7,10 +7,10 @@
 
 <div class="row m-3 d-flex justify-content-center">
   {#if noticeToggle}
-    <div class="col shadow m-2 component" transition:fade><Noticemini bind:noticeToggle /></div>
+    <div class="col shadow m-2 component"><Noticemini bind:noticeToggle /></div>
   {/if}
   {#if noticeToggle}
-    <div class="col shadow m-2 component" transition:fade><Noticemini bind:noticeToggle /></div>
+    <div class="col shadow m-2 component"><Noticemini bind:noticeToggle /></div>
   {/if}
 </div>
 

@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onMount } from "svelte";
   import { popUp } from "../../Store";
 
   onMount(() => ($popUp = !$popUp));
@@ -26,7 +26,7 @@
       <textarea class="w-100" rows="10" placeholder="body" />
     </div>
     <div class="text-center">
-      <button>Summit</button>
+      <input id="summit" class="button" type="button" value="Summit" on:click={() => window.close()} />
     </div>
   </form>
 </div>
@@ -52,7 +52,7 @@
     background-color: rgba(98, 105, 113, 1);
     color: white;
   }
-  button {
+  .button {
     width: 200px;
     border: 1px solid rgba(98, 105, 113, 1);
     background-color: white;

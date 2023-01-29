@@ -9,27 +9,38 @@
 <div>
   <div class="row st">
     <div class="cal me-3">
-      <DateInput bind:value={$storeParams.startdate} {locale} format="yyyy-MM-dd" />
+      <DateInput id="startdate" bind:value={$storeParams.startdate} {locale} format="yyyy-MM-dd" />
     </div>
     <div class="cal">
-      <DateInput bind:value={$storeParams.enddate} {locale} format="yyyy-MM-dd" />
+      <DateInput id="enddate" bind:value={$storeParams.enddate} {locale} format="yyyy-MM-dd" />
     </div>
     <div class="col d-flex justify-content-center">
       <div class="col-10">
-        <input type="text" id="tablesearch" class="search" bind:value={$storeParams.keyword} placeholder="Search" />
+        <input
+          type="text"
+          id="search"
+          class="search"
+          bind:value={$storeParams.keyword}
+          placeholder="Search"
+          on:dblclick={() => ($storeParams.keyword = "")}
+        />
       </div>
     </div>
     <div class="sel me-3">
       <select class="form-select" aria-label="Default select example" bind:value={$storeParams.size}>
-        {#each maxPage as page}
-          <option value={page}>{page}</option>
+        {#each maxPage as page, i}
+          <option id={"selectid" + i} value={page}>{page}</option>
         {/each}
       </select>
     </div>
     <div class="btn1 me-4">
-      <button class="btn1 btn btn-outline-secondary" type="button" on:click={() => winPopup("#/db/create")}
-        >Create</button
-      >
+      <input
+        id="create"
+        type="button"
+        class="btn1 btn btn-outline-secondary"
+        on:click={() => winPopup("#/db/create")}
+        value="Create"
+      />
     </div>
   </div>
 </div>
@@ -54,8 +65,10 @@
   }
   .search {
     width: 100%;
+    outline: none !important;
+    border-color: rgba(98, 105, 113, 1);
+    box-shadow: 0 0 10px rgba(98, 105, 113, 0.6);
     text-align: center;
-    transition: 0.2s;
   }
   .search:focus {
     outline: none !important;

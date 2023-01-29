@@ -2,22 +2,26 @@
   import { pathName } from "../Store";
 
   const menuItems = [
-    { name: "HOME", link: "#/" },
+    { name: "HOME", link: "#/", hotkey: "h" },
     {
       name: "TABLE",
       link: "#/table/0",
+      hotkey: "t",
     },
     {
       name: "PAYMENT",
       link: "#/payment",
+      hotkey: "p",
     },
     {
       name: "NOTICE",
       link: "#/noticelist",
+      hotkey: "n",
     },
     {
       name: "DB",
       link: "#/db",
+      hotkey: "d",
     },
   ];
 </script>
@@ -25,14 +29,16 @@
 <div>
   <ul class="nav nav-tabs justify-content-start">
     {#each menuItems as menuItem}
-      <li class="nav-item">
-        <a
-          class="nav-link {menuItem.link === $pathName ? 'active' : ''}"
-          aria-current="page"
-          href={menuItem.link}
-          on:click={() => {
-            $pathName = menuItem.link;
-          }}><h4>{menuItem.name}</h4></a
+      <li
+        id={menuItem.name}
+        class="nav-item"
+        on:click={() => {
+          $pathName = menuItem.link;
+          window.location.href = menuItem.link;
+        }}
+      >
+        <a class="nav-link {menuItem.link === $pathName ? 'active' : ''}" aria-current="page"
+          ><h4>{menuItem.name}</h4></a
         >
       </li>
     {/each}
