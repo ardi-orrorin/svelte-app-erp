@@ -2,7 +2,8 @@
   import { winPopup, storeParams, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
-  import { onDestroy } from "svelte";
+  import { onDestroy, onMount } from "svelte";
+  import Loading from "../Loading.svelte";
   moment.locale("ko");
 
   export let params;
@@ -22,6 +23,7 @@
   };
 
   $: data = axios({ method: "get", url: url, headers: headers, params: param }).then((res) => res.data);
+
   let checkList = [];
 
   const filterList = (e, index) => {
@@ -68,11 +70,7 @@
 </script>
 
 {#await data}
-  <div class="spiner">
-    <div class="spinner-border text-secondary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
+  <Loading />
 {:then data}
   <table class="table text-center align-middle">
     <thead>

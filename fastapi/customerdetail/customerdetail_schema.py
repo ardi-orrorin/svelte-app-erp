@@ -22,13 +22,13 @@ class CustomerDetailCreate(BaseModel):
 
 class CustomerDetail(BaseModel):
     id: int
-    customer_id: int
     name: str
     phonenumber: str
     body: str
     address: str
     addressdetail: str
     create_date: datetime.datetime
+    customer_id: int
     user: User | None
 
     class Config:
@@ -36,7 +36,6 @@ class CustomerDetail(BaseModel):
 
 
 class CustomerDetailList(BaseModel):
-    total: int
     customer_list: list[CustomerDetail] = []
 
 

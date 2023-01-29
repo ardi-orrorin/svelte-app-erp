@@ -1,4 +1,5 @@
 <script>
+  import Loading from "../Loading.svelte";
   import { dbdetailExpendParams, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
@@ -7,14 +8,12 @@
   export let num;
   export let writeMode;
 
-  const headers = { accept: "application/json" };
-
   $: url = serverhost + "/api/customerdetail/customer/customerdetail/" + customer_id;
-  $: data = axios({ method: "get", url: url, params: $dbdetailExpendParams, headers: headers }).then((res) => res.data);
+  $: data = axios({ method: "get", url: url, params: $dbdetailExpendParams }).then((res) => res.data);
 </script>
 
 {#await data}
-  <div class="window" />
+  <Loading />
 {:then data}
   <div class="window">
     <table class="table talbe-sm align-middle text-center">

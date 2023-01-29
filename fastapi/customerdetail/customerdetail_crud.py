@@ -31,20 +31,20 @@ def get_customerdetail(db: Session, customerdetail_id: int):
 def customer_customerdetail(db: Session, customer_id: int, order: str = 'create_date-desc', keyword: str = ''):
     customerdetails = db.query(CustomerDetail).filter(
         CustomerDetail.customer_id == customer_id)
+
     if (keyword):
         keyword = keyword.split(" ")
         for keyword in keyword:
             search = f'%%{keyword}%%'
-            customerdetails = customerdetails.filter(CustomerDetail.phonenumber.like(
-                search) | CustomerDetail.body.like(search))
+            customerdetails = customerdetails.filter(CustomerDetail.phonenumber.ilike(
+                search) | CustomerDetail.body.ilike(search))
 
-    total = customerdetails.count()
+    order_list = {'create_date-asc': CustomerDetail.create_date,
+                  'create_date-desc': CustomerDetail.create_date.desc()}
+    customerdetails = customerdetails.order_by(
+        order_list[order]).all()
 
-    order_list = {'id-asc': CustomerDetail.id, 'id-desc': CustomerDetail.id.desc(), 'create_date-asc':
-                  CustomerDetail.create_date, 'create_date-desc': CustomerDetail.create_date.desc()}
-    customerdetails = customerdetails.order_by(order_list[order]).all()
-
-    return total, customerdetails
+    return customerdetails
 
 
 def update_customerdetail(db: Session, db_customerdetail: CustomerDetail,

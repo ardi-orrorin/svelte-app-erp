@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { popUp } from "../../Store";
+  import { popUp, serverhost } from "../../Store";
   import DbDetailexpend from "./DbDetailexpend.svelte";
   import axios from "axios";
   import Paymentnew from "../payment/Paymentnew.svelte";
@@ -10,13 +10,11 @@
   export let params;
 
   $: deatilPage = "";
-  $: url = "http://localhost:8000/api/customerdetail/detail/" + params.id;
-  $: data = axios({ method: "get", url: url, headers: headers }).then((res) => res.data);
+  $: url = serverhost + "/api/customerdetail/detail/" + params.id;
+  $: data = axios({ method: "get", url: url }).then((res) => res.data);
 
   let toggle = false;
   let writeMode = false;
-
-  const headers = { accept: "application/json" };
 
   const selectItems = [
     { value: 1, text: "one" },
@@ -190,7 +188,7 @@
         {#if deatilPage === "dbdetail"}
           <DbDetailexpend customer_id={data.customer_id} bind:id={params.id} num={params.id} bind:writeMode />
         {:else if deatilPage === "payment"}
-          <Paymentnew id={num} detail_id={data.id} />
+          <Paymentnew id={params.id} detail_id={data.id} />
         {/if}
       </div>
     {/if}

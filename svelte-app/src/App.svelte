@@ -14,6 +14,7 @@
   import Noticelist from "./routes/notice/Noticelist.svelte";
   import Noticenew from "./routes/notice/Noticenew.svelte";
   import Paymentlist from "./routes/payment/Paymentlist.svelte";
+  import Payment from "./routes/payment/Payment.svelte";
 
   const routes = {
     "/": Main,
@@ -27,6 +28,7 @@
     "/notice/create": Noticenew,
     "/notice/id/:id": Notice,
     "/payment": Paymentlist,
+    "/payment/id/:id": Payment,
   };
 </script>
 

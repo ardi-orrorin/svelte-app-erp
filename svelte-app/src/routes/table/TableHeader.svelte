@@ -16,13 +16,7 @@
     </div>
     <div class="col d-flex justify-content-center">
       <div class="col-10">
-        <input
-          type="text"
-          id="tablesearch"
-          class="form-control text-center"
-          bind:value={$storeParams.keyword}
-          placeholder="Search"
-        />
+        <input type="text" id="tablesearch" class="search" bind:value={$storeParams.keyword} placeholder="Search" />
       </div>
     </div>
     <div class="sel me-3">
@@ -56,5 +50,23 @@
   }
   .btn1 {
     width: 120px;
+    border-radius: 0px;
+  }
+  .search {
+    width: 100%;
+    text-align: center;
+    transition: 0.2s;
+  }
+  .search:focus {
+    outline: none !important;
+    border-color: rgba(98, 105, 113, 1);
+    box-shadow: 0 0 10px rgba(98, 105, 113, 0.6);
+
+    list-style: none;
+    color: white;
+    background-color: rgba(98, 105, 113, 0.5);
+  }
+  .search:focus::placeholder {
+    color: white;
   }
 </style>
