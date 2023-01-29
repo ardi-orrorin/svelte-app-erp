@@ -3,11 +3,10 @@
   import { onMount } from "svelte";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
-
   onMount(() => ($popUp = !$popUp));
+  export let params;
 
-  const [num, id, path] = window.location.href.split("/").reverse().slice(0, 3);
-  const url = serverhost + "/api/notice/list/detail/" + num;
+  const url = serverhost + "/api/notice/list/detail/" + params.id;
 
   $: data = axios({ method: "get", url: url }).then((res) => res.data);
 

@@ -25,7 +25,7 @@
     "/db/id/:id": Dbdetail,
     "/noticelist": Noticelist,
     "/notice/create": Noticenew,
-    "/notice/id/:": Notice,
+    "/notice/id/:id": Notice,
     "/payment": Paymentlist,
   };
 </script>
