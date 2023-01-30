@@ -10,7 +10,7 @@ class Customer(Base):
     id = Column(Integer, primary_key=True, index=True)
     create_date = Column(DateTime, nullable=False, index=True)
     user_id = Column(Integer, ForeignKey(
-        "user.id", ondelete='CASCADE'), nullable=True)
+        "user.id", ondelete='CASCADE'), nullable=True, index=True)
     user = relationship("User", backref=backref(
         "question_user", cascade='all,delete'))
 
@@ -27,11 +27,11 @@ class CustomerDetail(Base):
     create_date = Column(DateTime, nullable=False, index=True)
 
     customer_id = Column(Integer, ForeignKey(
-        "customer.id", ondelete='CASCADE'))
+        "customer.id", ondelete='CASCADE'), index=True)
     customer = relationship(
         "Customer", backref=backref("customerdetail_customers", cascade='all,delete'))
     user_id = Column(Integer, ForeignKey(
-        "user.id", ondelete="CASCADE"), nullable=True)
+        "user.id", ondelete="CASCADE"), nullable=True, index=True)
     user = relationship("User", backref=backref(
         "customerdetail_users", cascade='all,delete'))
 
@@ -58,7 +58,7 @@ class Notice(Base):
     pin = Column(Integer, nullable=False)
     important = Column(Integer, nullable=False)
     user_id = Column(Integer, ForeignKey(
-        "user.id", ondelete="CASCADE"), nullable=True)
+        "user.id", ondelete="CASCADE"), nullable=True, index=True)
     user = relationship("User", backref=backref(
         "notice_users", cascade='all,delete'))
 
@@ -74,10 +74,10 @@ class Payment(Base):
     memo = Column(Text, nullable=True)
     create_date = Column(DateTime, nullable=False, index=True)
     user_id = Column(Integer, ForeignKey(
-        "user.id", ondelete="CASCADE"), nullable=True)
+        "user.id", ondelete="CASCADE"), nullable=True, index=True)
     user = relationship("User", backref=backref(
         "payment_users", cascade='all,delete'))
     customerdetail_id = Column(Integer, ForeignKey(
-        "customerdetail.id", ondelete="CASCADE"), nullable=True)
+        "customerdetail.id", ondelete="CASCADE"), nullable=True, index=True)
     customerdetail = relationship("CustomerDetail", backref=backref(
         "payment_customerdetails", cascade='all,delete'))

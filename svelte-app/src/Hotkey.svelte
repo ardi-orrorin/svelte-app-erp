@@ -21,6 +21,12 @@
           document.getElementById("search").focus();
 
           break;
+
+        case "Escape":
+          $storeParams.keyword = "";
+          document.getElementById("search").blur();
+          break;
+
         case "h":
           document.getElementById("HOME").click();
           break;
@@ -48,7 +54,6 @@
         case "1":
           if (pathhash === "#/notice/create") {
             document.getElementById("important").click();
-
             break;
           }
           $storeParams.size = 10;

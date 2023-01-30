@@ -10,8 +10,8 @@ class Payment(BaseModel):
     corp_name: str
     bank_name: str
     bank_account: str
-    bank_number: int
-    money: int
+    bank_number: str
+    money: str
     memo: str
     create_date: datetime.datetime
     user: User
@@ -25,7 +25,7 @@ class PaymentCreate(BaseModel):
     corp_name: str
     bank_name: str
     bank_account: str
-    bank_number: int
+    bank_number: str
     money: int
     memo: str
     customerdetail_id: int
@@ -41,7 +41,7 @@ class PaymentTemp(BaseModel):
     corp_name: str
     bank_name: str
     bank_account: str
-    bank_number: int
+    bank_number: str
     money: int
     name: str
     create_date: datetime.datetime
