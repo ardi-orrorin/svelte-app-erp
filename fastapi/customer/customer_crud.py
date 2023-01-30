@@ -11,7 +11,10 @@ from pytz import timezone
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
                       startdate: datetime = datetime.now(), enddate: datetime = datetime.now()):
 
-    customer_list = db.query(func.max(CD.id).label('id')).group_by(CD.customer_id).filter(
+    maxcustomer = db.query(func.max(CD.id).label('id')).filter(
+        CD.create_date >= startdate, CD.create_date <= enddate).group_by(CD.customer_id).subquery()
+
+    customer = db.query(CD).filter(
         CD.create_date >= startdate, CD.create_date <= enddate).subquery()
 
     if userid > 0:
@@ -20,22 +23,24 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
     else:
         userquery = db.query(User.id, User.name).subquery()
 
-    customer_list = db.query(CD.id, CD.customer_id, CD.body, CD.phonenumber, CD.create_date, userquery.c.name).filter(
-        customer_list.c.id == CD.id).join(userquery, userquery.c.id == CD.user_id)
+    customer_list = db.query(customer.c.id, customer.c.customer_id, customer.c.phonenumber,
+                             customer.c.body, customer.c.create_date, userquery.c.name).join(
+        maxcustomer, customer.c.id == maxcustomer.c.id).join(userquery, userquery.c.id == customer.c.user_id)
 
     if keyword:
         keyword = keyword.split(" ")
         for keyword in keyword:
             search = f'%%{keyword}%%'
             customer_list = customer_list.filter(
-                userquery.c.name.ilike(search) | CD.phonenumber.ilike(search))
+                userquery.c.name.ilike(search) | customer.c.phonenumber.ilike(search))
 
-    order_dict = {'id-asc': CD.id, 'id-desc': CD.id.desc(),
-                  'create_date-asc': CD.create_date, 'create_date-desc': CD.create_date.desc()}
+    order_dict = {'id-asc': customer.c.id, 'id-desc': customer.c.id.desc(),
+                  'create_date-asc': customer.c.create_date, 'create_date-desc': customer.c.create_date.desc()}
 
     result = customer_list.order_by(
         order_dict[order]).offset(skip).limit(limit).all()
     total = customer_list.count()
+
     return total, result
 
 

@@ -51,9 +51,9 @@
     <div class="inputwidth">
       <div class="inputwidth">
         {#if !writeMode}
-          <h1 class="text-center">Table</h1>
+          <h1 class="text-center">TABLE</h1>
         {:else}
-          <h1 class="text-center">New Table</h1>
+          <h1 class="text-center">NEW TABLE</h1>
         {/if}
       </div>
       <form>
@@ -199,6 +199,7 @@
   h1 {
     font-size: 2.5em;
     margin-bottom: 0.5em;
+    letter-spacing: 0.3em;
   }
   .inputwidth {
     width: 27em;

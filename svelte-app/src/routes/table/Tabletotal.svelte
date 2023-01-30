@@ -2,7 +2,7 @@
   import { winPopup, storeParams, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, afterUpdate } from "svelte";
   import Loading from "../Loading.svelte";
   moment.locale("ko");
 
@@ -12,6 +12,7 @@
   const url = serverhost + `/api/customer/list?`;
 
   $: selectitem = "";
+
   $: param = {
     page: $storeParams.page,
     size: $storeParams.size,

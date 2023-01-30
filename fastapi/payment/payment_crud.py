@@ -8,13 +8,12 @@ from datetime import datetime
 from pytz import timezone
 
 
-def get_payment_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
+def get_payment_list(db: Session, skip: int = 0, authority: int = 0, limit: int = 10, keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
                      startdate: datetime = datetime.now(timezone('Asia/Seoul')), enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
 
     payment_list = db.query(Payment.id, Payment.corp_name, Payment.bank_name, Payment.bank_account, Payment.bank_number, Payment.money, Payment.create_date, User.name).filter(Payment.create_date >= startdate.astimezone(
         timezone('Asia/Seoul')), Payment.create_date <= enddate.astimezone(timezone('Asia/Seoul'))).outerjoin(User, User.id == Payment.user_id)
-
-    if userid > 0:
+    if authority > 0:
         payment_list = payment_list.filter(Payment.user_id == userid)
 
     if keyword:

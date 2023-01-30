@@ -23,6 +23,8 @@
     startdate: new Date(startdate.setHours(0, 0, 0, 0) + 32400000),
     enddate: new Date(enddate.setHours(23, 59, 59, 99) + 32400000),
     keyword: $storeParams.keyword,
+    userid: $storeParams?.userid ? $storeParams.userid : 15,
+    authority: $storeParams?.authority ? $storeParams.authority : 0,
   };
 
   const url = serverhost + `/api/payment/list?`;

@@ -14,12 +14,12 @@ router = APIRouter(prefix='/api/payment')
 
 @router.get('/list', response_model=payment_schema.PaymentList)
 def payment_list(db: Session = Depends(get_db), page: int = 0, size: int = 10,
-                 keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
+                 keyword: str = '', authority: int = 0, userid: int = 0, order: str = 'create_date-desc',
                  startdate: datetime = datetime.now(
         timezone('Asia/Seoul'))-timedelta(weeks=10),
         enddate: datetime = datetime.now(timezone('Asia/Seoul'))):
     total, _payment_list = payment_crud.get_payment_list(
-        db, skip=page*size, limit=size, keyword=keyword, order=order, startdate=startdate, enddate=enddate, userid=userid)
+        db, skip=page*size, limit=size, keyword=keyword, authority=authority, order=order, startdate=startdate, enddate=enddate, userid=userid)
 
     return {'total': total, 'payment_list': _payment_list}
 
