@@ -101,7 +101,6 @@
               : ($storeParams.order = "create_date-asc")}
           >Date {$storeParams.order === "create_date-desc" ? "▼" : "▲"}</th
         >
-        <th scope="col" class="date">Modify</th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -151,7 +150,6 @@
               $storeParams.enddate = new Date(customer_list.create_date);
             }}>{moment(customer_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td
           >
-          <td class="text-center"><button>button</button></td>
         </tr>
       {/each}
     </tbody>
