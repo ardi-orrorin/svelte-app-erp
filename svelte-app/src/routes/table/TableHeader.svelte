@@ -2,28 +2,45 @@
   import { DateInput, localeFromDateFnsLocale } from "date-picker-svelte";
   import { ko } from "date-fns/locale";
   import { winPopup, storeParams } from "../../Store";
-  import { afterUpdate, beforeUpdate } from "svelte";
+  import { afterUpdate, beforeUpdate, onMount, onDestroy } from "svelte";
+  import moment from "moment/min/moment-with-locales";
+  import { getDate } from "date-fns";
+  moment.locale("ko");
 
   const maxPage = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
   $: locale = localeFromDateFnsLocale(ko);
 
-  /* 3개월 차이 업데이트 한 틱 지연됨 시작 */
-  const threemonth = () => {
+  /* 년 바뀜 오류 수정중 시작 */
+  /* const maxThreeMonth = () => {
     if (
-      ($storeParams.enddate.getFullYear() - $storeParams.startdate.getFullYear()) * 12 +
+      ($storeParams.enddate.getFullYear() - $storeParams.startdate.getFullYear()) * 11 +
         $storeParams.enddate.getMonth() -
-        $storeParams.startdate.getMonth() >
+        $storeParams.startdate.getMonth() <
       2
-    )
-      $storeParams.enddate = new Date($storeParams.enddate.setMonth($storeParams.enddate.getMonth() - 1));
+    ) {
+      $storeParams.enddate.setMonth(
+        $storeParams.startdate.getMonth() + $storeParams.enddate.getMonth() - $storeParams.startdate.getMonth()
+      );
+    } else {
+      $storeParams.enddate.setMonth($storeParams.startdate.getMonth() + 2);
+      $storeParams.enddate.setFullYear($storeParams.startdate.getFullYear());
+    }
+    $storeParams.enddate.setDate($storeParams.startdate.getDate());
+    console.log($storeParams.enddate);
+    document.getElementById("enddate").value = moment($storeParams.enddate).format("YYYY-MM-DD");
   };
-  beforeUpdate(() => {
-    threemonth();
-  });
+ 
   afterUpdate(() => {
-    threemonth();
+    maxThreeMonth();
+  }); */
+
+  /* 년 바뀜 오류 수정중 끝 */
+
+  onDestroy(() => {
+    $storeParams.enddate = new Date();
+    $storeParams.startdate = new Date();
+    $storeParams.keyword = "";
   });
-  /* 3개월 차이 업데이트 한 틱 지연됨 끝 */
 </script>
 
 <div>

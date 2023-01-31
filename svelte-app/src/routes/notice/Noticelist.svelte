@@ -11,7 +11,7 @@
   const locale = localeFromDateFnsLocale(ko);
 
   $: selecttable = "";
-  $: startdate = new Date(new Date().setMonth(new Date().getMonth() - 36));
+  $: startdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
   $: enddate = new Date();
 
   $: params = {

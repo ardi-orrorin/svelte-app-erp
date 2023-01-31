@@ -24,7 +24,7 @@ def payment_list(db: Session = Depends(get_db), page: int = 0, size: int = 10,
     return {'total': total, 'payment_list': _payment_list}
 
 
-@router.get("/list/detail/{payment_id}", response_model=payment_schema.Payment)
+@router.get("/list/detail/{payment_id}", response_model=payment_schema.PaymentDetail)
 def payment_detail(payment_id: int, db: Session = Depends(get_db)):
     payment = payment_crud.get_payment(db, payment_id=payment_id)
     return payment

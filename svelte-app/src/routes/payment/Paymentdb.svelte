@@ -17,14 +17,14 @@
     </div>
     <form>
       <div class="inputwidth mt-4">
-        <p class="text-end">Director : {data.customerdetail.user.name}</p>
+        <p class="text-end">Director : {data.user_name}</p>
         <p>
           <input
             type="text"
             class="form-control form-control-sm"
             placeholder="name"
             disabled
-            value={data.customerdetail.name}
+            value={data.customerdetail_name}
           />
         </p>
       </div>
@@ -35,7 +35,7 @@
             class="form-control form-control-sm"
             placeholder="phone-number"
             disabled
-            value={data.customerdetail.phonenumber}
+            value={data.customerdetail_phonenumber}
           />
         </p>
       </div>
@@ -46,7 +46,7 @@
             class="form-control form-control-sm"
             placeholder="phone-number"
             disabled
-            value={data.customerdetail.create_date}
+            value={data.create_date}
           />
         </p>
       </div>
@@ -61,13 +61,7 @@
       </div>
       <div class="inputwidth">
         <p>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            placeholder="address"
-            disabled
-            value={data.customerdetail.address}
-          />
+          <input type="text" class="form-control form-control-sm" placeholder="address" disabled value={data.address} />
         </p>
       </div>
       <div class="inputwidth">
@@ -77,7 +71,7 @@
             class="form-control form-control-sm"
             placeholder="address-detail"
             disabled
-            value={data.customerdetail.addressdetail}
+            value={data.addressdetail}
           />
         </p>
       </div>
@@ -89,7 +83,7 @@
             class="form-control form-control-sm"
             placeholder="contents"
             disabled
-            value={data.customerdetail.body}
+            value={data.body}
           />
         </p>
       </div>

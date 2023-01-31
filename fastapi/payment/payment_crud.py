@@ -1,5 +1,5 @@
 from datetime import datetime
-from models import Payment, User
+from models import Payment, User, CustomerDetail as CD
 from payment.payment_schema import PaymentCreate, PaymentUpdate
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -34,7 +34,14 @@ def get_payment_list(db: Session, skip: int = 0, authority: int = 0, limit: int 
 
 
 def get_payment(db: Session, payment_id: int):
-    payment = db.query(Payment).get(payment_id)
+    payment = db.query(Payment.id, Payment.corp_name, Payment.bank_name,
+                       Payment.bank_account, Payment.bank_number, Payment.money, Payment.memo,
+                       CD.id.label('customerdetail_id'), CD.name.label(
+                           'customerdetail_name'), User.name.label('user_name'),
+                       CD.phonenumber, CD.body, CD.address, CD.addressdetail,
+                       CD.create_date).filter(Payment.id == payment_id).join(
+        CD, Payment.customerdetail_id == CD.id).join(User, User.id == Payment.user_id).first()
+
     return payment
 
 

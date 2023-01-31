@@ -10,7 +10,7 @@
 
 <form>
   <div class="mt-4 mb-3">
-    <p class="text-end">Director : {data.user.name}</p>
+    <p class="text-end">Director : {data.user_name}</p>
     <select class="w-100" disabled={!paymentSave ? false : true} required>
       {#each bankList as bank}
         <option value={bank} selected={data.bank_name === bank ? true : false}>{bank}</option>

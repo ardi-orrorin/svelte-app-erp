@@ -21,6 +21,27 @@ class Payment(BaseModel):
         orm_mode = True
 
 
+class PaymentDetail(BaseModel):
+    id: int
+    corp_name: str
+    bank_name: str
+    bank_account: str
+    bank_number: str
+    money: str
+    memo: str
+    customerdetail_id: int
+    customerdetail_name: str
+    phonenumber: str
+    body: str
+    address: str
+    addressdetail: str
+    user_name: str
+    create_date: datetime.datetime
+
+    class Config:
+        orm_mode: True
+
+
 class PaymentCreate(BaseModel):
     corp_name: str
     bank_name: str
