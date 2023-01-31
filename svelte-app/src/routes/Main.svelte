@@ -1,6 +1,7 @@
 <script>
-  import { fade } from "svelte/transition";
   import Noticemini from "./notice/Noticemini.svelte";
+  import StatisticsDays from "./statistics/StatisticsDays.svelte";
+  import StatisticsCircle from "./statistics/StatisticsCircle.svelte";
 
   $: noticeToggle = true;
 </script>
@@ -10,7 +11,10 @@
     <div class="col shadow m-2 component"><Noticemini bind:noticeToggle /></div>
   {/if}
   {#if noticeToggle}
-    <div class="col shadow m-2 component"><Noticemini bind:noticeToggle /></div>
+    <div class="col shadow m-2 component"><StatisticsDays /></div>
+  {/if}
+  {#if noticeToggle}
+    <div class="col shadow m-2 component"><StatisticsCircle /></div>
   {/if}
 </div>
 
@@ -21,8 +25,8 @@
 
   .component {
     border: 2px rgba(0, 0, 0, 1);
-    width: 500px;
-    min-width: 500px;
-    max-width: 500px;
+    width: 600px;
+    min-width: 600px;
+    max-width: 600px;
   }
 </style>
