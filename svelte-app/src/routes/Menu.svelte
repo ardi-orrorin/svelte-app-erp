@@ -23,6 +23,11 @@
       link: "#/db",
       hotkey: "d",
     },
+    {
+      name: "STATISTICS",
+      link: "#/statistics",
+      hotkey: "s",
+    },
   ];
 </script>
 

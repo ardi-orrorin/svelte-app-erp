@@ -64,7 +64,14 @@
     </h5>
 
     <div class="">
-      <Chart {data} on:data-select={onDataSelect} isNavigable={true} barOptions={{ spaceRatio: 0.3 }} type="bar" />
+      <Chart
+        {data}
+        on:data-select={onDataSelect}
+        isNavigable={true}
+        barOptions={{ spaceRatio: 0.3 }}
+        type="bar"
+        colors={["green"]}
+      />
     </div>
     <div class="text-center">
       <button
