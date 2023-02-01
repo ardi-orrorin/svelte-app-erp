@@ -11,9 +11,12 @@
   };
 
   let chartRef;
+  let maxSlices = 7;
 </script>
 
-<h3 class="text-center m-5">Svelte Frappe charts navigation demo</h3>
-<div class="mt-5">
-  <Chart {data} type="pie" bind:this={chartRef} />
+<div class="m-3">
+  <h4 class="text-center">Svelte Frappe charts navigation demo</h4>
+  <div class="">
+    <Chart {data} type="pie" bind:this={chartRef} {maxSlices} />
+  </div>
 </div>

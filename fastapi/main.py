@@ -5,6 +5,7 @@ from customerdetail import customerdetail_router
 from user import user_router
 from noticefile import notice__router
 from payment import payment_router
+from statistics_anal import statistics_router
 
 
 app = FastAPI()
@@ -23,3 +24,4 @@ app.include_router(customerdetail_router.router)
 app.include_router(user_router.router)
 app.include_router(notice__router.router)
 app.include_router(payment_router.router)
+app.include_router(statistics_router.router)
