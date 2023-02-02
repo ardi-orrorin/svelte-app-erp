@@ -18,6 +18,13 @@ def get_notice_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = 
 
     if (keyword):
         keyword = keyword.split(' ')
+        if 'important' in keyword:
+            notice_list = notice_list.filter(
+                Notice.important == 1)
+        if 'pin' in keyword:
+            notice_list = notice_list.filter(
+                Notice.pin == 1)
+
         for keyword in keyword:
             search = f'%%{keyword}%%'
             notice_list = notice_list.filter(

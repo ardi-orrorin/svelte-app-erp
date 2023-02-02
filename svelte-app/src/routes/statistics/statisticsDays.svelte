@@ -4,6 +4,7 @@
   import { serverhost } from "../../Store";
   import axios from "axios";
   import Loading from "../Loading.svelte";
+  import el from "date-fns/locale/el";
   moment.locale("ko");
   let url;
   let params;
@@ -25,8 +26,11 @@
   };
   let selected;
   const datainput = (i) => {
+    if (i === undefined) {
+      data.labels = [...data.labels, 0];
+      data.datasets[0].values = [...data.datasets[0].values, 0];
+    }
     data.labels = [...data.labels, i.user_id];
-
     data.datasets[0].values = [...data.datasets[0].values, i.usercount];
   };
 
@@ -54,8 +58,8 @@
 {#await inputdata}
   <Loading />
 {:then inputdata}
-  <span t={totalaverage(inputdata.stat)} />
   {#each inputdata.stat as items}
+    <span t={totalaverage(inputdata.stat)} />
     <span data={datainput(items)} total={totalcount(items)} />
   {/each}
   <div class="m-3">
