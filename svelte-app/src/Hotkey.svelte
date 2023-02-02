@@ -1,14 +1,13 @@
 <script>
   import { storeParams } from "./Store";
-
-  let pathhash = window.location.hash;
-
+  let pathhash;
   window.onkeyup = (e) => {
+    pathhash = window.location.hash;
     if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
       switch (e.key) {
         case "Escape":
           $storeParams.keyword = "";
-          document.getElementById("search").blur();
+          document.getElementById(document.activeElement.id).blur();
           break;
       }
     } else {
@@ -17,16 +16,12 @@
           if (pathhash === "#/notice/create") {
             document.getElementById("summit").click();
           }
-
           document.getElementById("search").focus();
-
           break;
-
         case "Escape":
           $storeParams.keyword = "";
           document.getElementById("search").blur();
           break;
-
         case "h":
           document.getElementById("HOME").click();
           break;
@@ -56,14 +51,20 @@
             document.getElementById("important").click();
             break;
           }
-          $storeParams.size = 10;
+          if (pathhash === "#/noticelist") {
+            if ($storeParams.keyword.indexOf("important") < 0) $storeParams.keyword += "important ";
+            break;
+          }
           break;
+
         case "2":
           if (pathhash === "#/notice/create") {
             document.getElementById("pin").click();
             break;
+          } else if (pathhash === "#/noticelist") {
+            if ($storeParams.keyword.indexOf("pin") < 0) $storeParams.keyword += "pin ";
+            break;
           }
-          $storeParams.size = 20;
 
           break;
         case "3":
