@@ -9,7 +9,11 @@
   moment.locale("ko");
   const maxPage = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
   const locale = localeFromDateFnsLocale(ko);
-
+  const options = [
+    { label: "important", option: 1 },
+    { label: "", option: 2 },
+    { label: "important", option: 1 },
+  ];
   $: selecttable = "";
   $: startdate = new Date(new Date().setMonth(new Date().getMonth() - 1));
   $: enddate = new Date();
