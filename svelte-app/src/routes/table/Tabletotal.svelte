@@ -68,6 +68,22 @@
       order: "create_date-desc",
     };
   });
+
+  window.addEventListener("scroll", function () {
+    const SCROLLED_HEIGHT = window.scrollY;
+    const WINDOW_HEIGHT = document.body.offsetHeight;
+    const DOC_TOTAL_HEIGHT = document.body.scrollHeight;
+
+    console.log(window.scrollY);
+    console.log(document.body.scrollHeight);
+    console.log(document.body.offsetHeight);
+    if (
+      SCROLLED_HEIGHT + WINDOW_HEIGHT === DOC_TOTAL_HEIGHT ||
+      SCROLLED_HEIGHT + WINDOW_HEIGHT >= DOC_TOTAL_HEIGHT - 50
+    ) {
+      $storeParams.size += 20;
+    }
+  });
 </script>
 
 {#await data}
