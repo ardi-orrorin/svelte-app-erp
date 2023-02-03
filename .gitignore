@@ -10,3 +10,4 @@ fastapi/noticefile/__pycache__/
 fastapi/mysql_info copy.json
 fastapi/payment/__pycache__/
 fastapi/statistics_anal/__pycache__/
+fastapi/rediscache/__pycache__/

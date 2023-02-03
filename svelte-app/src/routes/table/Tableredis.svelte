@@ -1,11 +1,12 @@
 <script>
   import axios from "axios";
+  import moment from "moment/min/moment-with-locales";
   import Loading from "../Loading.svelte";
-  import { serverhost } from "../../Store";
+  moment.locale("ko");
 
   const url = serverhost + "/api/sqlcache/cache_customerdetail";
-  const params = { skip: 0, page: 2000 };
-  $: data = axios({ method: "get", url: url, params: params }).then((res) => res.data);
+
+  $: data = axios({ method: "get", url: url }).then((res) => res.data);
 </script>
 
 {#await data}
@@ -23,16 +24,16 @@
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      {#each data.result as customer_list, i}
+      <!-- {#each data as customer_list}
         <tr>
           <th class="text-center" scope="row"><input type="checkbox" class="chk" /></th>
-          <td class="text-center ">{params.page - i}</td>
+          <td class="text-center " />
           <td><p class="contacts">{customer_list.body}</p></td>
           <td>{customer_list.phonenumber}</td>
           <td class="text-center">{customer_list.name}</td>
-          <td class="text-center">{customer_list.create_date}</td>
+          <td class="text-center">{moment(customer_list.create_date).format("YYYY-MM-DD HH:mm:ss")}</td>
         </tr>
-      {/each}
+      {/each} -->
     </tbody>
   </table>
   <!-- pagination start -->

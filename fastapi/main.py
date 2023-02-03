@@ -6,6 +6,7 @@ from user import user_router
 from noticefile import notice__router
 from payment import payment_router
 from statistics_anal import statistics_router
+from rediscache import redis_router
 
 
 app = FastAPI()
@@ -25,3 +26,4 @@ app.include_router(user_router.router)
 app.include_router(notice__router.router)
 app.include_router(payment_router.router)
 app.include_router(statistics_router.router)
+app.include_router(redis_router.router)

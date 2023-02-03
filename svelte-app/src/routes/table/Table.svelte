@@ -3,11 +3,11 @@
   import TableMenu from "./TableMenu.svelte";
   import Router from "svelte-spa-router";
   import TableHeader from "./TableHeader.svelte";
-  import Tabledriector from "./Tabledriector.svelte";
 
   const routes = {
     "/table": Tabletotal,
     "/table/delete": Tabletotal,
+
     "/table/:userid": Tabletotal,
     "/table/directer/:userid": Tabletotal,
   };
