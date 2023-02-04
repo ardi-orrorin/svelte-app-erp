@@ -116,6 +116,7 @@
     color: white;
     background-color: rgba(98, 105, 113, 0.5);
   }
+
   .search:focus::placeholder {
     color: white;
   }

@@ -79,8 +79,18 @@
   <div>
     <textarea class="w-100" rows="10" placeholder="Memo" disabled={!paymentSave ? false : true} bind:value={memo} />
   </div>
+
   <div class="mt-2 text-center">
-    <button on:click={() => confirmdata()}>{!paymentSave ? "Save" : "Modify"} </button>
+    <input
+      id="paymentbtn"
+      type="button"
+      class="new"
+      value={!paymentSave ? "저장" : "수정"}
+      on:click|preventDefault={() => {
+        confirmdata();
+        document.getElementById("dbdetailbody").focus();
+      }}
+    />
   </div>
 </form>
 
@@ -103,14 +113,16 @@
     outline: 1px solid rgba(98, 105, 113, 0.5);
   }
 
-  button {
+  .new {
     width: 200px;
     border: 1px solid rgba(98, 105, 113, 1);
     background-color: white;
     color: rgba(98, 105, 113, 1);
     border-radius: 2px;
+    font-size: 1em;
   }
-  button:hover {
+  .new:hover,
+  .new:focus {
     background-color: rgba(98, 105, 113, 1);
     color: white;
   }

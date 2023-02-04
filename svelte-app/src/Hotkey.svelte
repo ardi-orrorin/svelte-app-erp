@@ -1,13 +1,18 @@
 <script>
-  import { storeParams } from "./Store";
+  import { storeParams, dbdetailExpendParams } from "./Store";
   let pathhash;
   window.onkeyup = (e) => {
     pathhash = window.location.hash;
     if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") {
       switch (e.key) {
         case "Escape":
-          $storeParams.keyword = "";
-          document.getElementById(document.activeElement.id).blur();
+          if (pathhash.includes("#/db/id/")) {
+            document.getElementById(document.activeElement.id).blur();
+            $dbdetailExpendParams.keyword = "";
+          } else {
+            $storeParams.keyword = "";
+            document.getElementById(document.activeElement.id).blur();
+          }
           break;
       }
     } else {
@@ -15,6 +20,11 @@
         case "Enter":
           if (pathhash === "#/notice/create") {
             document.getElementById("summit").click();
+            break;
+          }
+          if (pathhash.includes("#/db/id/")) {
+            document.getElementById("search").focus();
+            break;
           }
           document.getElementById("search").focus();
           break;
@@ -29,7 +39,12 @@
           document.getElementById("TABLE").click();
           break;
         case "n":
-          document.getElementById("NOTICE").click();
+          if (pathhash.includes("#/db/id/")) {
+            document.getElementById("dbdetailnew").click();
+            break;
+          } else {
+            document.getElementById("NOTICE").click();
+          }
           break;
         case "p":
           document.getElementById("PAYMENT").click();
@@ -38,7 +53,7 @@
           document.getElementById("DB").click();
           break;
         case "s":
-          document.getElementById("startdate").focus();
+          document.getElementById("STATISTICS").click();
           break;
         case "e":
           document.getElementById("enddate").focus();
@@ -46,13 +61,21 @@
         case "c":
           document.getElementById("create").click();
           break;
+
         case "1":
           if (pathhash === "#/notice/create") {
             document.getElementById("important").click();
             break;
           }
           if (pathhash === "#/noticelist") {
-            if ($storeParams.keyword.indexOf("important") < 0) $storeParams.keyword += "important ";
+            if ($storeParams.keyword.indexOf("important") < 0) {
+              $storeParams.keyword += "important ";
+              break;
+            }
+          }
+          if (pathhash.includes("#/db/id/")) {
+            document.getElementById("dbdetail").click();
+            document.getElementById(document.activeElement.id).blur();
             break;
           }
           break;
@@ -65,7 +88,6 @@
             if ($storeParams.keyword.indexOf("pin") < 0) $storeParams.keyword += "pin ";
             break;
           }
-
           break;
         case "3":
           break;

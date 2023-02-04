@@ -2,32 +2,12 @@
   import { pathName } from "../Store";
 
   const menuItems = [
-    { name: "HOME", link: "#/", hotkey: "h" },
-    {
-      name: "TABLE",
-      link: "#/table/0",
-      hotkey: "t",
-    },
-    {
-      name: "PAYMENT",
-      link: "#/payment",
-      hotkey: "p",
-    },
-    {
-      name: "NOTICE",
-      link: "#/noticelist",
-      hotkey: "n",
-    },
-    {
-      name: "DB",
-      link: "#/db",
-      hotkey: "d",
-    },
-    {
-      name: "STATISTICS",
-      link: "#/statistics",
-      hotkey: "s",
-    },
+    { id: "HOME", name: "HOME(H)", link: "#/", hotkey: "h" },
+    { id: "TABLE", name: "TABLE(T)", link: "#/table/0", hotkey: "t" },
+    { id: "PAYMENT", name: "PAYMENT(P)", link: "#/payment", hotkey: "p" },
+    { id: "NOTICE", name: "NOTICE(N)", link: "#/noticelist", hotkey: "n" },
+    { id: "DB", name: "DB(D)", link: "#/db", hotkey: "d" },
+    { id: "STATISTICS", name: "STATISTICS(S)", link: "#/statistics", hotkey: "s" },
   ];
 </script>
 
@@ -35,7 +15,7 @@
   <ul class="nav nav-tabs justify-content-start">
     {#each menuItems as menuItem}
       <li
-        id={menuItem.name}
+        id={menuItem.id}
         class="nav-item"
         on:click={() => {
           $pathName = menuItem.link;

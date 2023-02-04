@@ -44,6 +44,9 @@
       deatilPage = "";
     }
   };
+  const bodyFocus = () => {
+    document.getElementById("dbdetailbody").focus();
+  };
 </script>
 
 {#await data then data}
@@ -72,10 +75,12 @@
             </div>
             <div class="col-3 p-0">
               <button
+                id="dbdetail"
                 class="btn1"
                 on:click|preventDefault={() => {
                   viewChange("payment", "dbdetail");
-                }}>내역 조회</button
+                  writeMode = !writeMode;
+                }}>내역 조회(1)</button
               >
             </div>
           </div>
@@ -142,6 +147,7 @@
             <textarea
               rows="6"
               type="text"
+              id="dbdetailbody"
               class="form-control form-control-sm"
               placeholder="contents"
               disabled={writeMode ? false : true}
@@ -154,24 +160,29 @@
           <div class="row">
             {#if !writeMode}
               <div class="col text-center">
-                <button
-                  class="btn"
-                  on:click|preventDefault={() => {
+                <input
+                  id="dbdetailnew"
+                  type="button"
+                  class="new"
+                  value="새로등록(n)"
+                  on:click|preventDefault={async () => {
+                    writeMode = !writeMode;
                     data.body = "";
                     data.addressdetail = "";
                     data.address = "";
                     data.create_date = "";
                     data.phonenumber = "";
                     data.name = "";
-                    writeMode = !writeMode;
-                    viewChange("dbdetail", "payment");
-                  }}>새로등록</button
-                >
+
+                    await viewChange("dbdetail", "payment");
+                    bodyFocus();
+                  }}
+                />
               </div>
             {:else}
               <div class="col text-center">
                 <button
-                  class="btn"
+                  class="new"
                   on:click={() => {
                     window.close();
                   }}>등록하기</button
@@ -230,5 +241,18 @@
   }
   textarea:focus {
     outline: 1px solid rgba(98, 105, 113, 0.5);
+  }
+
+  .new {
+    width: 200px;
+    border: 1px solid rgba(98, 105, 113, 1);
+    background-color: white;
+    color: rgba(98, 105, 113, 1);
+    border-radius: 2px;
+  }
+  .new:hover,
+  .new:focus {
+    background-color: rgba(98, 105, 113, 1);
+    color: white;
   }
 </style>

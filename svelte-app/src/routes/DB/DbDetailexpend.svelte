@@ -16,7 +16,7 @@
   <Loading />
 {:then data}
   <div class="window">
-    <table class="table talbe-sm align-middle text-center">
+    <table class="table talbe-sm align-middle text-center table-striped ">
       <thead class="tablesticky">
         <tr>
           <!-- <th
@@ -58,7 +58,12 @@
   </div>
 {/await}
 <div class="m-3 d-flex justify-content-center">
-  <input class="form-control form-control-sm search" bind:value={$dbdetailExpendParams.keyword} placeholder="Search" />
+  <input
+    class="form-control form-control-sm search"
+    id="search"
+    bind:value={$dbdetailExpendParams.keyword}
+    placeholder="Search"
+  />
 </div>
 
 <style>
@@ -68,6 +73,9 @@
   th {
     font-size: 12px;
     text-align: center;
+  }
+  tr:focus {
+    border: 3px solid red;
   }
   .contacts {
     overflow: hidden;
