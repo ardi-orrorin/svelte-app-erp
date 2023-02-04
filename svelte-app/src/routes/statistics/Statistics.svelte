@@ -1,42 +1,42 @@
 <script>
   import axios from "axios";
-  import Loading from "../Loading.svelte";
-  import { serverhost } from "../../Store";
+  import Loading from "../Loading.svelte"; /* 포스팅과 상관없는 컴포넌트 */
+  import { serverhost } from "../../Store"; /* restapi 서버 호스트 주소 강의내용과 관련없음 */
   import { onMount } from "svelte";
 
   let url;
   let params;
-  let data = [];
+  let data = []; /* 설제 데이터 저장 변수 */
   let skip = 0;
   let page = 20;
-  let result;
+  let result; /* api 호출 값 임시 저장변수 */
 
-  /* 반응형 페이지 넘이기 */
-  onMount(async () => {
-    url = serverhost + "/api/sqlcache/cache_customerdetail";
-    params = { skip: 0, page: 20 };
-    result = await axios({ method: "get", url: url, params: params }).then((res) => res.data);
-    data = result.result;
-  });
-
-  const More = async (skip, page) => {
+  const GetData = async (skip, page) => {
     url = serverhost + "/api/sqlcache/cache_customerdetail";
     params = { skip: skip, page: page };
     result = await axios({ method: "get", url: url, params: params }).then((res) => res.data);
-    data = await data.concat(result.result);
-    lodingToggle = false;
+    data ? (data = data.concat(result.result)) : (data = result.result);
   };
 
-  window.addEventListener("scroll", async () => {
-    const SCROLLED_HEIGHT = window.scrollY;
-    const WINDOW_HEIGHT = document.body.offsetHeight;
+  onMount(() => {
+    GetData(skip, page);
+  });
+
+  /* window.addEventListener("scroll", () => {
+    const SCROLLED_HEIGHT = window.scrollY; 
+    const WINDOW_HEIGHT = document.body.offsetHeight; 
     const DOC_TOTAL_HEIGHT = document.body.scrollHeight;
 
     if (SCROLLED_HEIGHT + WINDOW_HEIGHT === DOC_TOTAL_HEIGHT) {
       skip += page;
-      await More(skip, page);
+      GetData(skip, page);
     }
-  });
+  }); */
+
+  const MoreData = () => {
+    skip += page;
+    GetData(skip, page);
+  };
 </script>
 
 {#await data}
@@ -66,8 +66,9 @@
       {/each}
     </tbody>
   </table>
+
   <!-- pagination start -->
-  <div>
+  <!-- <div>
     <nav class="d-flex justify-content-center" aria-label="Page navigation ">
       <ul class="pagination">
         <li class="page-item">
@@ -78,8 +79,12 @@
         </li>
       </ul>
     </nav>
-  </div>
+  </div> -->
+
   <!-- pagination end -->
+  <div class="text-center p-5">
+    <button on:click={() => MoreData()}>더보기</button>
+  </div>
 {/await}
 
 <style>

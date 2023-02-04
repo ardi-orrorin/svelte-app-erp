@@ -60,9 +60,9 @@
         {/if}
       </div>
       <form>
-        <div class="inputwidth">
+        <div class="inputwidth p-0">
           <div class="row">
-            <div class="col pe-1">
+            <div class="col">
               <p>
                 <input
                   type="text"
@@ -73,16 +73,17 @@
                 />
               </p>
             </div>
-            <div class="col-3 p-0">
-              <button
-                id="dbdetail"
-                class="btn1"
-                on:click|preventDefault={() => {
-                  viewChange("payment", "dbdetail");
-                  writeMode = !writeMode;
-                }}>내역 조회(1)</button
-              >
-            </div>
+            {#if !writeMode}
+              <div class="col-3 p-0">
+                <button
+                  id="dbdetail"
+                  class="btn1"
+                  on:click|preventDefault={() => {
+                    viewChange("payment", "dbdetail");
+                  }}>내역 조회(1)</button
+                >
+              </div>
+            {/if}
           </div>
         </div>
         <div class="inputwidth">
