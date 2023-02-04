@@ -4,7 +4,7 @@
     { name: "TOTAL", link: "#/table" },
     { name: "DIRECTOR", link: "#/table/" + $userID },
     { name: "DELETE", link: "#/table/delete" },
-    { name: "REDIS", link: "#/table/1" },
+    { name: "TEST", link: "#/table/test" },
     { name: "5", link: "#/table/5" },
     { name: "6", link: "#/table/6" },
   ];

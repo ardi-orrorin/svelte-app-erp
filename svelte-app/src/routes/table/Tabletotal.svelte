@@ -2,7 +2,7 @@
   import { winPopup, storeParams, serverhost, ascRegExp } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
-  import { onDestroy, afterUpdate } from "svelte";
+  import { onDestroy } from "svelte";
   import Loading from "../Loading.svelte";
   moment.locale("ko");
 
@@ -68,28 +68,12 @@
       order: "create_date-desc",
     };
   });
-
-  window.addEventListener("scroll", function () {
-    const SCROLLED_HEIGHT = window.scrollY;
-    const WINDOW_HEIGHT = document.body.offsetHeight;
-    const DOC_TOTAL_HEIGHT = document.body.scrollHeight;
-
-    console.log(window.scrollY);
-    console.log(document.body.scrollHeight);
-    console.log(document.body.offsetHeight);
-    if (
-      SCROLLED_HEIGHT + WINDOW_HEIGHT === DOC_TOTAL_HEIGHT ||
-      SCROLLED_HEIGHT + WINDOW_HEIGHT >= DOC_TOTAL_HEIGHT - 50
-    ) {
-      $storeParams.size += 20;
-    }
-  });
 </script>
 
 {#await data}
   <Loading />
 {:then data}
-  <table class="table text-center align-middle">
+  <table class="table text-center align-middle table-striped">
     <thead>
       <tr class="bg-secondary text-white text-center">
         <th

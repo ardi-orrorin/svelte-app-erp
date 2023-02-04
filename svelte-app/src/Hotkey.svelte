@@ -68,12 +68,8 @@
 
           break;
         case "3":
-          $storeParams.size = 50;
-
           break;
         case "4":
-          $storeParams.size = 100;
-
           break;
         case "ArrowLeft":
           document.getElementById("prev").click();
