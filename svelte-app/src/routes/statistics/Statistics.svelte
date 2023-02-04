@@ -3,13 +3,14 @@
   import Loading from "../Loading.svelte";
   import { serverhost } from "../../Store";
   import { onMount } from "svelte";
-  import { select_option } from "svelte/internal";
+
   let url;
   let params;
   let data = [];
   let skip = 0;
   let page = 20;
   let result;
+
   /* 반응형 페이지 넘이기 */
   onMount(async () => {
     url = serverhost + "/api/sqlcache/cache_customerdetail";
@@ -23,6 +24,7 @@
     params = { skip: skip, page: page };
     result = await axios({ method: "get", url: url, params: params }).then((res) => res.data);
     data = await data.concat(result.result);
+    lodingToggle = false;
   };
 
   window.addEventListener("scroll", async () => {
@@ -32,8 +34,7 @@
 
     if (SCROLLED_HEIGHT + WINDOW_HEIGHT === DOC_TOTAL_HEIGHT) {
       skip += page;
-
-      More(skip, page);
+      await More(skip, page);
     }
   });
 </script>

@@ -50,7 +50,7 @@
     {/if}
     <main><Router {routes} /></main>
     {#if !$popUp}
-      <footer><Footer /></footer>
+      <!-- <footer><Footer /></footer> -->
     {/if}
   </div>
 {/if}
