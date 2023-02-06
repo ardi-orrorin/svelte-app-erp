@@ -1,5 +1,8 @@
 import { writable } from "svelte/store";
-export const serverhost = "http://localhost:8000";
+import axios from "axios";
+
+export const serverhost = writable("");
+console.log(serverhost);
 export const isLogin = writable(true);
 export const Account = writable("account");
 export const pathName = writable("/");
@@ -30,6 +33,7 @@ export const winPopup = (path) => {
     "_blank",
     "width = 450,height = 630, top=400 location=no, menubar=no, toolbar=no,resizeable=no,status=no, left=" + screenWidth
   );
+
   winpopup.focus();
 };
 export const winPopup900 = (path) => {
