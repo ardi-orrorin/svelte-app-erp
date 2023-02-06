@@ -11,3 +11,4 @@ fastapi/mysql_info copy.json
 fastapi/payment/__pycache__/
 fastapi/statistics_anal/__pycache__/
 fastapi/rediscache/__pycache__/
+fastapi/1.txt

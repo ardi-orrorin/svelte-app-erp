@@ -67,6 +67,9 @@ class PaymentTemp(BaseModel):
     name: str
     create_date: datetime.datetime
 
+    class Config:
+        orm_mode = True
+
 
 class PaymentList(BaseModel):
     total: int = 0

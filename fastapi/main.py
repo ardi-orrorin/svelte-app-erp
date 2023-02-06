@@ -13,7 +13,7 @@ import main_router
 app = FastAPI()
 
 origins = [
-    'http://localhost:8080', 'http://localhost:3000', 'http://localhost', 'http://127.0.0.1', 'http://192.168.0.4', 'https://192.168.0.4', 'http://localhost:5432'
+    'http://localhost:8080', 'http://localhost:3000', 'http://localhost', 'http://127.0.0.1', 'http://192.168.0.4', 'https://192.168.0.4', 'http://localhost:5432', 'http://192.168.0.49:8080'
 
 ]
 

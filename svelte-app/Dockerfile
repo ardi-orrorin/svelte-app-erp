@@ -1,3 +1,3 @@
 FROM nginx:latest
 
-COPY ./publicls /usr/share/nginx/h
+COPY ./public /usr/share/nginx/html

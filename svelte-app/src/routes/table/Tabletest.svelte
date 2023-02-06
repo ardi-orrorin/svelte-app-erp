@@ -59,8 +59,6 @@
 {#await result}
   <Loading />
 {:then result}
-  {console.log(result)}
-
   <table class="table table-striped">
     <thead>
       <tr>
