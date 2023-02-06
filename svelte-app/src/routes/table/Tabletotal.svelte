@@ -9,8 +9,8 @@
   export let params;
 
   const headers = { accept: "application/json" };
-  const url = serverhost + `/api/customer/list?`;
-
+  const url = serverhost + "/api/customer/list?";
+  console.log(url);
   $: selectitem = "";
 
   $: param = {

@@ -8,7 +8,7 @@
   import Db from "./routes/db/Db.svelte";
   import Router from "svelte-spa-router";
   import "bootstrap/dist/css/bootstrap.min.css";
-  import { isLogin, popUp, serverhost } from "./Store.js";
+  import { isLogin, popUp, serverhost, host } from "./Store.js";
   import Dbdetail from "./routes/db/Dbdetail.svelte";
   import Notice from "./routes/notice/Notice.svelte";
   import Noticelist from "./routes/notice/Noticelist.svelte";
@@ -17,6 +17,17 @@
   import Payment from "./routes/payment/Payment.svelte";
   import Statistics from "./routes/statistics/Statistics.svelte";
   import Hotkey from "./Hotkey.svelte";
+  import { afterUpdate } from "svelte";
+  import axios from "axios";
+
+  /* afterUpdate(() => {
+    try {
+      axios.get(host + "/api/check");
+      serverhost = "http://192.168.0.49:8000";
+    } catch {
+      serverhost = "http://192.168.0.49:8001";
+    }
+  }); */
 
   const routes = {
     "/": Main,
