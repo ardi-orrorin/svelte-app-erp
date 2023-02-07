@@ -1,14 +1,14 @@
 FROM node:latest as svelte-build
 
-ENV HOSTPATH='http://192.168.0.49'
+#ENV HOSTPATH='http://192.168.0.49'
 
 WORKDIR /app
 
 COPY ./svelte-app  .
 
-run npm install
+RUN npm install
 
-run npm run build
+RUN npm run build
 
 FROM nginx:latest as svelte-app
 
