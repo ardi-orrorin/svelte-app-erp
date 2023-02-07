@@ -12,7 +12,7 @@ services:
         target : /app/fastapi/sql_info.json
 
   fastapi-8001:
-    image: fastapi:v1
+    image: fastapi:v2
     ports:
       - "8001:8000"
     networks:
@@ -31,7 +31,6 @@ services:
         - fastapi-8000
         - fastapi-8001
       
-
 networks:
   app-net:
     external:

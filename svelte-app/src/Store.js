@@ -1,6 +1,5 @@
 import { writable } from "svelte/store";
-import axios from "axios";
-/* 192.168.0.49 */
+
 export const host = "http://localhost";
 export const serverhost = writable(host + ":8000");
 

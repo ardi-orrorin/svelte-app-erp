@@ -1,0 +1,19 @@
+FROM  postgres:latest
+
+WORKDIR /app/
+
+RUN apt update 
+RUN apt install -y gcc
+RUN apt install -y make
+RUN apt-get install -y libpq-dev
+RUN apt-get install -y postgresql-server-dev-all
+RUN apt install -y libicu-dev
+RUN apt-get install -y postgresql-common
+
+COPY ./pg_bigm-1.2-20200228.tar.gz .
+RUN tar xvfz pg_bigm-1.2-20200228.tar.gz
+
+WORKDIR /app/pg_bigm-1.2-20200228
+
+RUN make USE_PGXS=1 PG_CONFIG=/usr/bin/pg_config
+RUN make USE_PGXS=1 PG_CONFIG=/usr/bin/pg_config install

@@ -1,0 +1,21 @@
+
+services:
+  pogresql-v1:
+    image: postgresql:v1
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - TZ=Asia/Seoul
+    networks:
+      - app-net
+    volumes:
+      - postgresDB:/var/lib/postgresql/data
+    
+networks:
+  app-net:
+    external:
+      name: nat
+
+volumes:
+  postgresDB:
