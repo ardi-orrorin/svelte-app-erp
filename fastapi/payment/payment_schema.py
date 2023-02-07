@@ -39,7 +39,7 @@ class PaymentDetail(BaseModel):
     create_date: datetime.datetime
 
     class Config:
-        orm_mode: True
+        orm_mode = True
 
 
 class PaymentCreate(BaseModel):
