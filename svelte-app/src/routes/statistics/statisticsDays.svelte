@@ -10,7 +10,7 @@
   let params;
   let inputdata;
 
-  $: url = serverhost + "/api/statistics/barone";
+  $: url = $serverhost + "/api/statistics/barone";
   $: params = { day: new Date() };
   $: inputdata = axios({ method: "get", url: url, params: params }).then((res) => res.data);
 

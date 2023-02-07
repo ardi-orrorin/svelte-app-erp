@@ -10,7 +10,7 @@
   onMount(() => ($popUp = !$popUp));
 
   export let params;
-  let url = serverhost + "/api/payment/list/detail/" + params.id;
+  let url = $serverhost + "/api/payment/list/detail/" + params.id;
   $: data = axios({ method: "get", url: url }).then((res) => res.data);
 </script>
 

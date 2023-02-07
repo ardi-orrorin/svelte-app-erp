@@ -4,7 +4,7 @@
   import { serverhost } from "../../Store";
   import moment from "moment/min/moment-with-locales";
 
-  const url = serverhost + "/api/notice/list?";
+  const url = $serverhost + "/api/notice/list?";
   const params = { size: 10, page: 0 };
   $: data = axios({ method: "get", url: url, params: params }).then((res) => res.data);
   export let noticeToggle;

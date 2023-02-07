@@ -27,7 +27,7 @@
     authority: $storeParams?.authority ? $storeParams.authority : 0,
   };
 
-  const url = serverhost + `/api/payment/list?`;
+  const url = $serverhost + `/api/payment/list?`;
 
   $: data = axios({ method: "get", url: url, params: params }).then((res) => res.data);
 

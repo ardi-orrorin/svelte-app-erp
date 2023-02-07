@@ -1,5 +1,4 @@
 <script>
-  import Footer from "./routes/Footer.svelte";
   import Header from "./routes/Header.svelte";
   import Menu from "./routes/Menu.svelte";
   import Account from "./routes/account/Account.svelte";
@@ -17,17 +16,16 @@
   import Payment from "./routes/payment/Payment.svelte";
   import Statistics from "./routes/statistics/Statistics.svelte";
   import Hotkey from "./Hotkey.svelte";
-  import { afterUpdate } from "svelte";
   import axios from "axios";
 
-  /* afterUpdate(() => {
-    try {
-      axios.get(host + "/api/check");
-      serverhost = "http://192.168.0.49:8000";
-    } catch {
-      serverhost = "http://192.168.0.49:8001";
-    }
-  }); */
+  axios
+    .get(host + ":8000" + "/api/check")
+    .then((res) => {
+      $serverhost = host + ":8000";
+    })
+    .catch((err) => {
+      $serverhost = host + ":8001";
+    });
 
   const routes = {
     "/": Main,

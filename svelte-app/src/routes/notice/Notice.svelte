@@ -8,7 +8,7 @@
 
   onMount(async () => {
     $popUp = !$popUp;
-    const url = serverhost + "/api/notice/list/detail/" + params.id;
+    const url = $serverhost + "/api/notice/list/detail/" + params.id;
 
     data = await axios({ method: "get", url: url }).then((res) => res.data);
   });

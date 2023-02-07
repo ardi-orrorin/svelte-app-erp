@@ -8,7 +8,7 @@
   export let num;
   export let writeMode;
 
-  $: url = serverhost + "/api/customerdetail/customer/customerdetail/" + customer_id;
+  $: url = $serverhost + "/api/customerdetail/customer/customerdetail/" + customer_id;
   $: data = axios({ method: "get", url: url, params: $dbdetailExpendParams }).then((res) => res.data);
 </script>
 

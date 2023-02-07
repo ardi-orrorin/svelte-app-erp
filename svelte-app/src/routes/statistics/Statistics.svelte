@@ -12,7 +12,7 @@
   let result; /* api 호출 값 임시 저장변수 */
 
   const GetData = async (skip, page) => {
-    url = serverhost + "/api/sqlcache/cache_customerdetail";
+    url = $serverhost + "/api/sqlcache/cache_customerdetail";
     params = { skip: skip, page: page };
     result = await axios({ method: "get", url: url, params: params }).then((res) => res.data);
     data ? (data = data.concat(result.result)) : (data = result.result);

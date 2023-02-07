@@ -28,7 +28,7 @@
 
   const getData = async () => {
     headers = { accept: "application/json" };
-    url = serverhost + `/api/customer/list?`;
+    url = $serverhost + `/api/customer/list?`;
     params = {
       page: paramsPage,
       size: paramsSize,

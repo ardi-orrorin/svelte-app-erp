@@ -1,16 +1,8 @@
 import { writable } from "svelte/store";
 import axios from "axios";
-
-export const host = "http://192.168.0.49:8000";
-export let serverhost;
-axios
-  .get(host + "/api/check")
-  .then((res) => {
-    if (res.status === 200) {
-      serverhost = "http://192.168.0.49:8000";
-    }
-  })
-  .catch((serverhost = "http://192.168.0.49:8001"));
+/* 192.168.0.49 */
+export const host = "http://localhost";
+export const serverhost = writable(host + ":8000");
 
 export const isLogin = writable(true);
 export const Account = writable("account");

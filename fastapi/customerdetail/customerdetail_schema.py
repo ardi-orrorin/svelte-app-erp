@@ -29,7 +29,7 @@ class CustomerDetail(BaseModel):
     addressdetail: str
     create_date: datetime.datetime
     customer_id: int
-    user: User | None
+    """ user: User | None """
 
     class Config:
         orm_mode = True

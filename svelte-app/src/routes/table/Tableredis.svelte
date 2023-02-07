@@ -4,7 +4,7 @@
   import Loading from "../Loading.svelte";
   moment.locale("ko");
 
-  const url = serverhost + "/api/sqlcache/cache_customerdetail";
+  const url = $serverhost + "/api/sqlcache/cache_customerdetail";
 
   $: data = axios({ method: "get", url: url }).then((res) => res.data);
 </script>
