@@ -12,3 +12,4 @@ fastapi/payment/__pycache__/
 fastapi/statistics_anal/__pycache__/
 fastapi/rediscache/__pycache__/
 fastapi/1.txt
+sql_info.json

@@ -5,9 +5,10 @@ import json
 import os
 import redis
 
-with open(f'{os.getcwd()}/mysql_info.json')as f:
+with open(f'{os.getcwd()}/sql_info.json')as f:
     DBINFO = json.load(f)
 
+DBINFO = DBINFO['pogresql']
 #DB_URL = f"mysql+pymysql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}?charset=utf8"
 DB_URL = f"postgresql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}"
 rd_pool = redis.ConnectionPool(host='192.168.0.49', port=6379, db=0)
@@ -27,4 +28,5 @@ def get_db():
     try:
         yield db
     finally:
+
         db.close()
