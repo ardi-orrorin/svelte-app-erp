@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   fastapi-8000:
-    image: fastapi:v3
+    image: fastapi:v5
     ports:
       - "8000:8000"
     networks:
@@ -10,11 +10,27 @@ services:
     secrets:
       - source : pogresql-connetion
         target : /app/fastapi/sql_info.json
+    #healthcheck:
+      #test: ["cmd", "curl","http://localhost:8000/api/check"]
+      #interval: 1m
+      #timeout: 10s
+      #retries: 3
+      #start_period: 30s
     deploy:
       replicas : 3
+      update_config:
+        parallelism: 1
+        monitor: 60s
+        order: start-first
+        failure_action: rollback
+      rollback_config:
+        parallelism : 1
+        monitor : 0s
+        failure_action : continue
+        order : start-first
       
   svelte:
-      image: svelte:v4
+      image: svelte:v3
       ports:
         - "8080:80"
       networks:
@@ -23,7 +39,7 @@ services:
         - fastapi-8000
        # - fastapi-8001
       deploy:
-        replicas : 3
+        replicas : 2
       
 networks:
   app-net:

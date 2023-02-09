@@ -6,8 +6,8 @@
     { id: "TABLE", name: "TABLE(T)", link: "#/table/0", hotkey: "t" },
     { id: "PAYMENT", name: "PAYMENT(P)", link: "#/payment", hotkey: "p" },
     { id: "NOTICE", name: "NOTICE(N)", link: "#/noticelist", hotkey: "n" },
-    /* { id: "DB", name: "DB(D)", link: "#/db", hotkey: "d" },
-    { id: "STATISTICS", name: "STATISTICS(S)", link: "#/statistics", hotkey: "s" }, */
+    { id: "DB", name: "DB(D)", link: "#/db", hotkey: "d" },
+    { id: "STATISTICS", name: "STATISTICS(S)", link: "#/statistics", hotkey: "s" },
   ];
 </script>
 
