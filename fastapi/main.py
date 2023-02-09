@@ -8,7 +8,6 @@ from payment import payment_router
 from statistics_anal import statistics_router
 from rediscache import redis_router
 import check_router
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from database import DWORIGIN
 
 
@@ -16,7 +15,8 @@ app = FastAPI()
 
 origins = DWORIGIN
 
-app.add_middleware(CORSMiddleware, HTTPSRedirectMiddleware, allow_origins=origins,
+
+app.add_middleware(CORSMiddleware, allow_origins=origins,
                    allow_credentials=False, allow_methods=['*'], allow_headers=['*'])
 
 

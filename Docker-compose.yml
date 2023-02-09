@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   fastapi-8000:
-    image: fastapi:v1
+    image: fastapi:v3
     ports:
       - "8000:8000"
     networks:
@@ -10,17 +10,9 @@ services:
     secrets:
       - source : pogresql-connetion
         target : /app/fastapi/sql_info.json
-
-  fastapi-8001:
-    image: fastapi:v2
-    ports:
-      - "8001:8000"
-    networks:
-      - app-net
-    secrets:
-      - source : pogresql-connetion
-        target : /app/fastapi/sql_info.json
-
+    deploy:
+      replicas : 2
+      
   svelte:
       image: svelte:v1
       ports:
@@ -29,12 +21,12 @@ services:
         - app-net
       depends_on:
         - fastapi-8000
-        - fastapi-8001
+       # - fastapi-8001
       
 networks:
   app-net:
-    external:
-      name: nat
+    #external:
+      #name: nat
 secrets:
   pogresql-connetion:
     file: ./sql_info.json
