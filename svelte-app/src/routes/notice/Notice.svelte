@@ -16,7 +16,7 @@
     $popUp = !$popUp;
   });
 
-  $: url = $serverhost + "/api/notice/list/detail/" + params.id;
+  $: url = serverhost + "/api/notice/list/detail/" + params.id;
   $: data = axios({ method: "get", url: url }).then((res) => res.data);
 
   export let params;

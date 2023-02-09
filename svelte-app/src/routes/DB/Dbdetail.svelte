@@ -10,8 +10,8 @@
   export let params;
 
   $: deatilPage = "";
-  $: url = $serverhost + "/api/customerdetail/detail/" + params.id;
-  console.log(serverhost);
+  $: url = serverhost + "/api/customerdetail/detail/" + params.id;
+
   $: data = axios({ method: "get", url: url }).then((res) => res.data);
 
   let toggle = false;

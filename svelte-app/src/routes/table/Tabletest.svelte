@@ -1,5 +1,5 @@
 <script>
-  import { serverhost, userID, storeParams } from "../../Store";
+  import { serverhost, storeParams } from "../../Store";
   import axios from "axios";
   import moment from "moment/min/moment-with-locales";
   import Loading from "../Loading.svelte";
@@ -28,7 +28,7 @@
 
   const getData = async () => {
     headers = { accept: "application/json" };
-    url = $serverhost + `/api/customer/list?`;
+    url = serverhost + `/api/customer/list?`;
     params = {
       page: paramsPage,
       size: paramsSize,

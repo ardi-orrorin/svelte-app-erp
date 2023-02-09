@@ -10,7 +10,7 @@
 
   export let params;
 
-  $: url = $serverhost + "/api/payment/list/detail/" + params.id;
+  $: url = serverhost + "/api/payment/list/detail/" + params.id;
   $: data = axios({ method: "get", url: url }).then((res) => res.data);
 </script>
 

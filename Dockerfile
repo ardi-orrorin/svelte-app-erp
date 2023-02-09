@@ -1,7 +1,13 @@
-FROM fastapi:v1
+FROM node:latest as svelte-build
 
-WORKDIR /app/fastapi/
+WORKDIR /app
 
-COPY ./fastapi/ /app/fastapi/
-COPY ./piplist.txt /app/fastapi/
+COPY ./svelte-app  .
 
+RUN npm install
+
+RUN npm run build
+
+FROM svelte:v1 as svelte-app
+
+COPY --from=svelte-build ./app/public /usr/share/nginx/html

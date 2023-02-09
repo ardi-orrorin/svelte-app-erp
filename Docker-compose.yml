@@ -11,10 +11,10 @@ services:
       - source : pogresql-connetion
         target : /app/fastapi/sql_info.json
     deploy:
-      replicas : 2
+      replicas : 3
       
   svelte:
-      image: svelte:v1
+      image: svelte:v4
       ports:
         - "8080:80"
       networks:
@@ -22,6 +22,8 @@ services:
       depends_on:
         - fastapi-8000
        # - fastapi-8001
+      deploy:
+        replicas : 3
       
 networks:
   app-net:

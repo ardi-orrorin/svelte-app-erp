@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
-export const host = "http://localhost";
-export const serverhost = writable(host + ":8000");
+const host = "http://localhost";
+export const serverhost = host + ":8000";
 
 export const isLogin = writable(true);
 export const Account = writable("account");

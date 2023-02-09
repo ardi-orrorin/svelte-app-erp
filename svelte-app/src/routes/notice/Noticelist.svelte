@@ -28,7 +28,7 @@
     keyword: $storeParams.keyword,
   };
 
-  const url = $serverhost + `/api/notice/list?`;
+  const url = serverhost + `/api/notice/list?`;
 
   $: data = axios({ method: "get", url: url, params: params }).then((res) => res.data);
 

@@ -16,7 +16,7 @@ def check():
     pass
 
 
-""" @router.get('/sql', response_model=test)
+@router.get('/sql', response_model=test)
 def sql():
-    env = os.environ['SQL']
-    return {'result': env} """
+    env = 'test'
+    return {'result': env}
