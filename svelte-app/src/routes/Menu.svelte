@@ -8,6 +8,7 @@
     { id: "NOTICE", name: "NOTICE(N)", link: "#/noticelist", hotkey: "n" },
     { id: "DB", name: "DB(D)", link: "#/db", hotkey: "d" },
     { id: "STATISTICS", name: "STATISTICS(S)", link: "#/statistics", hotkey: "s" },
+    { id: "Autocomplete", name: "Autocomplete(C)", link: "#/autocomplete", hotkey: "c" },
   ];
 </script>
 

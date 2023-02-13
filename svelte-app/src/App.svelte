@@ -17,6 +17,7 @@
   import Statistics from "./routes/statistics/Statistics.svelte";
   import Hotkey from "./Hotkey.svelte";
   import axios from "axios";
+  import Autocomplete from "./routes/cache/AutoComplete.svelte";
 
   /*   axios
     .get(host + ":8000" + "/api/check")
@@ -41,6 +42,7 @@
     "/payment": Paymentlist,
     "/payment/id/:id": Payment,
     "/statistics": Statistics,
+    "/autocomplete": Autocomplete,
   };
 </script>
 

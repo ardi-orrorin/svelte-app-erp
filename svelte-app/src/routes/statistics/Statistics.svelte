@@ -8,7 +8,7 @@
   let params;
   let data = []; /* 설제 데이터 저장 변수 */
   let skip = 0;
-  let page = 20;
+  let page = 4000;
   let result; /* api 호출 값 임시 저장변수 */
 
   const GetData = async (skip, page) => {

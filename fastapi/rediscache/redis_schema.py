@@ -13,3 +13,7 @@ class CustomerDetail(BaseModel):
 
 class CustomerDetailList(BaseModel):
     result: list[CustomerDetail]
+
+
+class NameList(BaseModel):
+    result: list = []
