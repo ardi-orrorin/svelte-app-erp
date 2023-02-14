@@ -1,7 +1,9 @@
 <script>
   import { onMount } from "svelte";
   import store from "./store";
-  import { fade } from "svelte/transition";
+
+  import Toastal from "./Toastal.svelte";
+  import Toast from "bootstrap/js/src/toast";
 
   let message = "";
   let messages = [];
@@ -18,20 +20,27 @@
       message = "";
     }
   };
-  const delM = (message) => {
-    messages = messages.filter((e) => e !== message);
+
+  const toast = (index) => {
+    const toastLiveExample = document.getElementById("liveToast" + index);
+    const toast = new Toast(toastLiveExample);
+    toast.show();
   };
 </script>
 
 <p>{messages.length - 1}</p>
 <input type="text" bind:value={message} />
 <button id="summit" on:click|preventDefault={sendM}>send</button>
-
-{#each messages as message}
-  {#if message}
-    <li transition:fade on:click={() => delM(message)}>&nbsp;&nbsp; {message}</li>
-  {/if}
-{/each}
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+  <div class="toast-container top-0 end-0 p-3">
+    {#each messages as message, index}
+      {#if message}
+        <div on:load={toast(index)} />
+        <Toastal {message} bind:messages {index} />
+      {/if}
+    {/each}
+  </div>
+</div>
 
 <style>
   li {
