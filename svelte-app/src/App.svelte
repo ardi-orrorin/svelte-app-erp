@@ -18,6 +18,7 @@
   import Hotkey from "./Hotkey.svelte";
   import axios from "axios";
   import Autocomplete from "./routes/cache/AutoComplete.svelte";
+  import Websocket from "./routes/websocket/Websocket.svelte";
 
   /*   axios
     .get(host + ":8000" + "/api/check")
@@ -43,6 +44,7 @@
     "/payment/id/:id": Payment,
     "/statistics": Statistics,
     "/autocomplete": Autocomplete,
+    "/websocket": Websocket,
   };
 </script>
 

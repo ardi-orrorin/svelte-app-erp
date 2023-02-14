@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from starlette import status
-import os
+
 from pydantic import BaseModel
 
 

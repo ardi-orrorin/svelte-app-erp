@@ -31,6 +31,7 @@
     "svelte-frappe-charts": "^1.10.0",
     "svelte-navigator": "^3.2.2",
     "svelte-spa-router": "^3.3.0",
+    "svelte-websocket-store": "^1.1.33",
     "yarn": "^1.22.19"
   }
 }
