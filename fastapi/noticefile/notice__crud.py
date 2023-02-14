@@ -6,6 +6,7 @@ from sqlalchemy import func
 from user import user_schema
 from datetime import datetime
 from pytz import timezone
+import re
 
 asiatimezone = timezone('Asia/Seoul')
 
@@ -17,15 +18,20 @@ def get_notice_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = 
         asiatimezone), Notice.create_date <= enddate.astimezone(asiatimezone))
 
     if (keyword):
-        keyword = keyword.split(' ')
-        if 'important' in keyword:
+        important = re.compile(r'.*important.*')
+        pin = re.compile(r'.*pin.*')
+
+        if important.match(keyword):
             notice_list = notice_list.filter(
                 Notice.important == 1)
-        if 'pin' in keyword:
+        if pin.match(keyword):
             notice_list = notice_list.filter(
                 Notice.pin == 1)
-
+        keyword = keyword.split(' ')
+        print(keyword)
         for keyword in keyword:
+            if important.match(keyword) or pin.match(keyword):
+                continue
             search = f'%%{keyword}%%'
             notice_list = notice_list.filter(
                 Notice.body.like(search) | Notice.title.like(search))

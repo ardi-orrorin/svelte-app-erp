@@ -27,10 +27,10 @@ def cache_customerdetail(skip: int = 0, page: int = 10):
 
 @router.get('/cache_name', response_model=redis_schema.NameList)
 def cache_name(name: str = ''):
-    result = rdDB.get('name').decode('utf-8').split(",")
     """ filter_result = [i for i in result if "test" in result] """
     filter_result = []
     if (len(name) >= 2):
+        result = rdDB.get('name').decode('utf-8').split(",")
         search = re.compile(rf'.*{name.lower()}.*')
         filter_result += list(
             filter(lambda item: search.search(item.lower()), result))
