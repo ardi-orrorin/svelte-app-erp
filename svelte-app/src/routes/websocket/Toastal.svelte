@@ -27,7 +27,7 @@
 >
   <div class="toast-header" transition:fade>
     <strong class="me-auto">Notify</strong>
-    <small>{min}분 {sec}초</small>
+    <small>{min} Miunuts {sec} Seonds</small>
     <!-- <button
       type="button"
       class="btn-close"
