@@ -8,8 +8,8 @@ from noticefile import notice__router
 from payment import payment_router
 from statistics_anal import statistics_router
 from rediscache import redis_router
+from notification import notification_router
 import check_router
-import websocket_router
 from database import DWORIGIN
 
 
@@ -30,4 +30,4 @@ app.include_router(payment_router.router)
 app.include_router(statistics_router.router)
 app.include_router(redis_router.router)
 app.include_router(check_router.router)
-app.include_router(websocket_router.router)
+app.include_router(notification_router.router)

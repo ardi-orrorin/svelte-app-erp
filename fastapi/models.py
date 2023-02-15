@@ -78,6 +78,27 @@ class Payment(Base):
         "payment_customerdetails", cascade='all,delete'))
 
 
+class NoticeConfirm(Base):
+    __tablename__ = 'noticeconfirm'
+    __table_args__ = {
+        'postgresql_partition_by': 'RANGE (confirm_date)'
+    }
+    id = Column(Integer, primary_key=True, index=True)
+    notice_id = Column(Integer, index=True, nullable=False)
+    user_id = Column(Integer, index=True, nullable=False)
+    confirm_date = Column(DateTime, index=True, nullable=False)
+
+
+class Notification(Base):
+    __tablename__ = 'notification'
+    id = Column(Integer, primary_key=True, index=True)
+    channel = Column(String(255), nullable=False)
+    message = Column(String(255), nullable=False)
+    user_id = Column(Integer, index=True, nullable=False)
+    authority = Column(Integer, index=True, nullable=False)
+    create_date = Column(DateTime, index=True, nullable=False)
+
+
 """ class CustomerDetail(Base):
     __tablename__ = 'customerdetail'
     __table_args__ = {

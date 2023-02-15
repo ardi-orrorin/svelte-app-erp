@@ -3,9 +3,10 @@
   import store from "./store";
   import Toastal from "./Toastal.svelte";
   import Toast from "bootstrap/js/src/toast";
+  import { fade } from "svelte/transition";
 
-  let message = "";
-  let messages = [];
+  $: message = "";
+  $: messages = [];
 
   onMount(() => {
     store.subscribe((currentMessage) => {
@@ -15,7 +16,7 @@
 
   const sendM = () => {
     if (message.length > 0) {
-      store.sendMessage(message, "test", "all");
+      store.sendMessage(message, "ch01");
       message = "";
     }
   };
@@ -32,11 +33,11 @@
 <button id="summit" on:click|preventDefault={sendM}>send</button>
 
 <div aria-live="polite" aria-atomic="true" class="position-relative">
-  <div class="toast-container top-0 end-0 p-3">
+  <div class="toast-container top-0 end-0 p-3" transition:fade>
     {#each messages as message, index}
       {#if message}
         <div on:load={toast(index)} />
-        <Toastal {message} bind:messages {index} />
+        <Toastal {message} {index} />
       {/if}
     {/each}
   </div>

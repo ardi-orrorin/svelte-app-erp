@@ -13,3 +13,4 @@ fastapi/statistics_anal/__pycache__/
 fastapi/rediscache/__pycache__/
 fastapi/1.txt
 sql_info.json
+fastapi/notification/__pycache__/
