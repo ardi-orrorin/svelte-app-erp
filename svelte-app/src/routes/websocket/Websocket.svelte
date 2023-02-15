@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import store from "./store";
-
   import Toastal from "./Toastal.svelte";
   import Toast from "bootstrap/js/src/toast";
 
@@ -16,7 +15,7 @@
 
   const sendM = () => {
     if (message.length > 0) {
-      store.sendMessage(message);
+      store.sendMessage(message, "test", "all");
       message = "";
     }
   };
@@ -31,6 +30,7 @@
 <p>{messages.length - 1}</p>
 <input type="text" bind:value={message} />
 <button id="summit" on:click|preventDefault={sendM}>send</button>
+
 <div aria-live="polite" aria-atomic="true" class="position-relative">
   <div class="toast-container top-0 end-0 p-3">
     {#each messages as message, index}

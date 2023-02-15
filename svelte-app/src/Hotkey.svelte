@@ -55,6 +55,9 @@
         case "s":
           document.getElementById("STATISTICS").click();
           break;
+        case "w":
+          document.getElementById("WEBSOCKET").click();
+          break;
         case "e":
           document.getElementById("enddate").focus();
           break;

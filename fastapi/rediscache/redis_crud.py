@@ -20,7 +20,7 @@ if __name__ == "__main__":
     rdDB = redis.Redis(connection_pool=rd_pool)
 
     result = json.loads(
-        rdDB.get('customerdetail').decode('utf-8'))
+        rdDB.get('customerdetail'))
 
     result1 = len(rdDB.get('customerdetail'))
 

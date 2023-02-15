@@ -3,6 +3,7 @@
   export let message;
   export let index;
   export let messages;
+  $: body = JSON.parse(message);
   let min = 0;
   let sec = 0;
   setInterval(() => {
@@ -15,6 +16,8 @@
   const sublist = () => {
     messages = messages.filter((e) => e !== message);
   };
+
+  console.log(JSON.parse(message));
 </script>
 
 <div
@@ -26,8 +29,8 @@
   on:click={async () => await sublist()}
 >
   <div class="toast-header" transition:fade>
-    <strong class="me-auto">Notify</strong>
-    <small>{min} Miunuts {sec} Seonds</small>
+    <strong class="me-auto">Notify To.{body.senduser}</strong>
+    <small>{min} Miunuts {min > 0 ? "" : sec + " Seconds"} a go</small>
     <!-- <button
       type="button"
       class="btn-close"
@@ -36,7 +39,7 @@
       on:click|preventDefault={() => sublist()}
     /> -->
   </div>
-  <div class="toast-body">{message}</div>
+  <div class="toast-body">{body.message}</div>
 </div>
 
 <style>

@@ -9,7 +9,7 @@
     { id: "DB", name: "DB(D)", link: "#/db", hotkey: "d" },
     { id: "STATISTICS", name: "STATISTICS(S)", link: "#/statistics", hotkey: "s" },
     { id: "Autocomplete", name: "Autocomplete(C)", link: "#/autocomplete", hotkey: "c" },
-    { id: "Websocket", name: "Websocket(C)", link: "#/websocket", hotkey: "w" },
+    { id: "WEBSOCKET", name: "Websocket(w)", link: "#/websocket", hotkey: "w" },
   ];
 </script>
 

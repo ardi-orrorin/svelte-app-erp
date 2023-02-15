@@ -16,7 +16,7 @@ def cache_customerdetail(skip: int = 0, page: int = 10):
     start = datetime.now()
     print(start)
     result = json.loads(
-        rdDB.get('customerdetail').decode('utf-8'))
+        rdDB.get('customerdetail'))
 
     end = datetime.now()
     print(end)
@@ -30,7 +30,7 @@ def cache_name(name: str = ''):
     """ filter_result = [i for i in result if "test" in result] """
     filter_result = []
     if (len(name) >= 2):
-        result = rdDB.get('name').decode('utf-8').split(",")
+        result = rdDB.get('name').split(",")
         search = re.compile(rf'.*{name.lower()}.*')
         filter_result += list(
             filter(lambda item: search.search(item.lower()), result))

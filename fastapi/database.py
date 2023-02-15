@@ -12,7 +12,8 @@ DBINFO = INFO['pogresql']
 DWORIGIN = INFO['origin']
 #DB_URL = f"mysql+pymysql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}?charset=utf8"
 DB_URL = f"postgresql://{DBINFO['user']}:{DBINFO['password']}@{DBINFO['host']}:{DBINFO['port']}/{DBINFO['db']}"
-rd_pool = redis.ConnectionPool(host='192.168.0.49', port=6379, db=0)
+rd_pool = redis.ConnectionPool(
+    host='192.168.0.49', port=6379, db=0, decode_responses=True)
 rdDB = redis.Redis(connection_pool=rd_pool)
 
 engine = create_engine(
