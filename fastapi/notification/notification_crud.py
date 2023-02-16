@@ -11,6 +11,7 @@ from sqlalchemy import func
 
 async def receive_message(websocket: WebSocket, username: str, channel: str):
     async with notification_router.broadcast.subscribe(channel=channel) as subscriber:
+
         async for event in subscriber:
             message_event = Notification.parse_raw(event.message)
             if message_event.username == username:

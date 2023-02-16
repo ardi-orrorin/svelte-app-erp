@@ -5,12 +5,12 @@
   import Toast from "bootstrap/js/src/toast";
   import { fade } from "svelte/transition";
 
-  $: message = "";
-  $: messages = [];
-
+  let message = "";
+  let messages = [];
+  let count = 0;
   onMount(() => {
     store.subscribe((currentMessage) => {
-      messages = [...messages, currentMessage];
+      currentMessage.count ? (count = currentMessage.count) : (messages = [...messages, currentMessage]);
     });
   });
 
@@ -28,6 +28,7 @@
   };
 </script>
 
+<h1>{count}</h1>
 <p>{messages.length - 1}</p>
 <input type="text" bind:value={message} />
 <button id="summit" on:click|preventDefault={sendM}>send</button>

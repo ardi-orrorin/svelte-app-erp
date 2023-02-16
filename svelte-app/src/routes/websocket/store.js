@@ -1,18 +1,27 @@
 import { writable } from "svelte/store";
 
 const messageStore = writable("");
+/* const userStore = writable(""); */
 const username = "chenkathleen";
 const channel = "ch01";
-const hostserver = "ws://localhost:8000/api/ws";
-let socket = new WebSocket(hostserver + "?username=" + username + "&channel=" + channel);
+const hostserver = "ws://localhost:8000/api";
+let socket = new WebSocket(hostserver + "/ws?username=" + username + "&channel=" + channel);
+/* let usercount = new WebSocket(hostserver + "/usercount"); */
 
 socket.addEventListener("open", (e) => {
   console.log("open");
 });
 
 socket.addEventListener("message", (e) => {
-  messageStore.set(e.data);
+  messageStore.set(JSON.parse(e.data));
 });
+
+/* usercount.addEventListener("open", (e) => {
+  console.log("usercount open");
+});
+usercount.addEventListener("message", (e) => {
+  userStore.set(e.data);
+}); */
 
 const sendMessage = (m, channel) => {
   let send = JSON.stringify({ message: m, channel: channel, create_date: new Date() });
@@ -22,6 +31,7 @@ const sendMessage = (m, channel) => {
 
 export default {
   subscribe: messageStore.subscribe,
+  /* usersubscribe: userStore.subscribe, */
   sendMessage: sendMessage,
   username: username,
 };

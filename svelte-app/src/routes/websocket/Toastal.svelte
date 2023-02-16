@@ -4,7 +4,7 @@
   export let message;
   export let index;
 
-  $: toast = JSON.parse(message);
+  $: toast = message;
   $: min = 0;
   $: sec = 0;
   setInterval(() => {
