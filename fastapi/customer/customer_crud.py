@@ -10,8 +10,10 @@ from pytz import timezone
 
 def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '', userid: int = 0, order: str = 'create_date-desc',
                       startdate: datetime = datetime.now(), enddate: datetime = datetime.now()):
+
     start = datetime.now()
-    print(start)
+    print("start: ", start)
+
     maxcustomer = db.query(func.max(CD.id).label('id')).filter(
         CD.create_date >= startdate, CD.create_date <= enddate).group_by(CD.customer_id).subquery()
 
@@ -41,9 +43,11 @@ def get_customer_list(db: Session, skip: int = 0, limit: int = 10, keyword: str 
     result = customer_list.order_by(
         order_dict[order]).offset(skip).limit(limit).all()
     total = customer_list.count()
+
     end = datetime.now()
-    print(end)
-    print(end-start)
+    print("end : ", end)
+    print("time: ", end-start)
+
     return total, result
 
 
