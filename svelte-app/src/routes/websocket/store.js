@@ -1,11 +1,11 @@
-import { writable } from "svelte/store";
+import { writable, get } from "svelte/store";
 
 const messageStore = writable("");
 /* const userStore = writable(""); */
-const username = "chenkathleen";
+const username = writable(Math.floor(Math.random() * 10));
 const channel = "ch01";
 const hostserver = "ws://localhost:8000/api";
-let socket = new WebSocket(hostserver + "/ws?username=" + username + "&channel=" + channel);
+let socket = new WebSocket(hostserver + "/ws?username=" + get(username) + "&channel=" + channel);
 /* let usercount = new WebSocket(hostserver + "/usercount"); */
 
 socket.addEventListener("open", (e) => {
@@ -25,7 +25,6 @@ usercount.addEventListener("message", (e) => {
 
 const sendMessage = (m, channel) => {
   let send = JSON.stringify({ message: m, channel: channel, create_date: new Date() });
-
   socket.send(send);
 };
 
@@ -33,5 +32,5 @@ export default {
   subscribe: messageStore.subscribe,
   /* usersubscribe: userStore.subscribe, */
   sendMessage: sendMessage,
-  username: username,
+  username: get(username),
 };
