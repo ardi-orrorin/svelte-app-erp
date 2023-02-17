@@ -8,9 +8,19 @@
   let message = "";
   let messages = [];
   let count = 0;
+  let users = [];
+  $: closeuser = "";
   onMount(() => {
     store.subscribe((currentMessage) => {
-      currentMessage.count ? (count = currentMessage.count) : (messages = [...messages, currentMessage]);
+      console.log(currentMessage);
+      if (currentMessage.count) {
+        count = currentMessage.count;
+        users = currentMessage.users;
+        closeuser = currentMessage.disuser;
+      }
+      if (currentMessage.message) {
+        messages = [...messages, currentMessage];
+      }
     });
   });
 
@@ -28,8 +38,10 @@
   };
 </script>
 
-<h1>{count}</h1>
-<p>{messages.length - 1}</p>
+<h1>현재 계정 아이디 : {store.username}</h1>
+<h1>총 연결수 : {count}, 접속 계정 수 : {users.length}</h1>
+<h2>접속 아이디 : {users}</h2>
+<p>{messages.length}</p>
 <input type="text" bind:value={message} />
 <button id="summit" on:click|preventDefault={sendM}>send</button>
 
@@ -43,6 +55,8 @@
     {/each}
   </div>
 </div>
+<p />
+<h1>마지막 종료한 사용자 : {closeuser}</h1>
 
 <style>
   li {
