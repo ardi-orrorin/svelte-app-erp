@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 router = APIRouter(prefix='/api')
 
-broadcast = Broadcast("redis://localhost:6379")
+broadcast = Broadcast("redis://192.168.0.49:6379")
 
 
 @router.on_event("startup")
@@ -65,3 +65,6 @@ async def usercount(websocket: WebSocket):
         manager.disconnect(websocket)
         print("Client disconnected2")
  """
+
+
+# 67108864

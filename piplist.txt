@@ -10,3 +10,5 @@ python-jose[cryptography]
 psycopg2
 pytz
 fastapi
+broadcaster
+asyncio_redis

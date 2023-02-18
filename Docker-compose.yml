@@ -1,8 +1,36 @@
 version: '3.7'
 
 services:
+  postgres:
+    image: postgres:v1
+    ports:
+      - "5432:5432"
+    networks:
+      - app-net
+    deploy:
+      replicas : 2
+    environment:
+      - POSTGRES_PASSWORD=1q2w3e4r
+      - TZ=Asia/Seoul
+      - PGDATA = /var/lib/postgresql/data
+    volumes:
+      - f945b2fb863622affc36f25e0d794d2029d13acda40fec3587ff4b810a540a63:/var/lib/postgresql/data
+
+  redis:
+    image : redis:7.0.8
+    ports:
+      - 6379:6379
+    networks:
+      - app-net
+    environment:
+      - GOSU_VERSION=1.14
+    deploy:
+      replicas : 1
+    volumes:
+      - 46ec0539ac913d3737fd9f9fa41e50147a001d57df40cf34b590587b2c2c4180:/data
+  
   fastapi-8000:
-    image: fastapi:v5
+    image: fastapi:v1
     ports:
       - "8000:8000"
     networks:
@@ -17,7 +45,7 @@ services:
       #retries: 3
       #start_period: 30s
     deploy:
-      replicas : 3
+      replicas : 4
       update_config:
         parallelism: 1
         monitor: 60s
@@ -44,33 +72,6 @@ services:
       deploy:
         replicas : 2
 
-  postgres:
-    image: postgres:v1
-    ports:
-      - "5432:5432"
-    networks:
-      - app-net
-    deploy:
-      replicas : 2
-    environment:
-      - POSTGRES_PASSWORD=1q2w3e4r
-      - TZ=Asia/Seoul
-      - PGDATA = /var/lib/postgresql/data
-    volumes:
-      - f945b2fb863622affc36f25e0d794d2029d13acda40fec3587ff4b810a540a63:/var/lib/postgresql/data
-
-  redis:
-    image : redis:7.0.8
-    ports:
-      - 6379:6379
-    networks:
-      - app-net
-    environment:
-      - GOSU_VERSION=1.14
-    deploy:
-      replicas : 2
-    volumes:
-      - 46ec0539ac913d3737fd9f9fa41e50147a001d57df40cf34b590587b2c2c4180:/data
       
 networks:
   app-net:

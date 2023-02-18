@@ -9,6 +9,7 @@ from datetime import datetime
 from sqlalchemy import func
 import asyncio
 from typing import Dict
+from database import rdDB
 
 
 async def receive_message(websocket: WebSocket, username: str, channel: str):
@@ -45,21 +46,24 @@ def notifiCation(db: Session, data: Notification, username: str):
 class ConnectionManager:
     def __init__(self):
         self.active_connections: dict[WebSocket:str] = {}
+        self.redis = rdDB
         self.disactive_user: str = ""
 
     async def connect(self, websocket: WebSocket, username: str):
         await websocket.accept()
         self.active_connections.setdefault(websocket, username)
+        self.redis.lpush("ch005list", str({str(websocket): username}))
 
     def disconnect(self, websocket: WebSocket, username: str):
         self.active_connections.pop(websocket)
         self.disactive_user = username
+        self.redis.lrem("ch005list", 0, str({str(websocket): username}))
 
     def usercount(self) -> int:
-        return len(self.active_connections)
+        return self.redis.llen("ch005list")
 
     def userlist(self) -> Dict:
-        return self.active_connections
+        return self.redis.lrange("ch005list", 0, -1)
 
     def disconnetuser(self) -> str:
         return self.disactive_user
@@ -70,7 +74,10 @@ manager = ConnectionManager()
 
 async def userInfo(websocket: WebSocket):
     count = manager.usercount()
-    users = list(set(manager.userlist().values()))
+    temp_dict = {}
+    for i in manager.userlist():
+        temp_dict.update(eval(i))
+    users = list(set(temp_dict.values()))
     disuser = manager.disconnetuser()
     info = json.dumps({"count": count, "users": users, "disuser": disuser})
     await websocket.send_text(info)
