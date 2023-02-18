@@ -5,3 +5,4 @@ WORKDIR /app/fastapi/
 COPY ./fastapi/ /app/fastapi/
 COPY ./piplist.txt /app/fastapi/
 
+RUN pip install -r piplist.txt

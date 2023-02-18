@@ -3,6 +3,9 @@ import { writable } from "svelte/store";
 const host = "http://localhost";
 export const serverhost = host + ":8000";
 
+/* const host = "https://tysct.kr";
+export const serverhost = host + ":12001"; */
+
 export const isLogin = writable(true);
 export const Account = writable("account");
 export const pathName = writable("/");

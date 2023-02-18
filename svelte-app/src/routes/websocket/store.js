@@ -5,6 +5,7 @@ const messageStore = writable("");
 const username = writable(Math.floor(Math.random() * 10));
 const channel = "ch01";
 const hostserver = "ws://localhost:8000/api";
+/* const hostserver = "wss://tysct.kr:12001/api"; */
 let socket = new WebSocket(hostserver + "/ws?username=" + get(username) + "&channel=" + channel);
 /* let usercount = new WebSocket(hostserver + "/usercount"); */
 
