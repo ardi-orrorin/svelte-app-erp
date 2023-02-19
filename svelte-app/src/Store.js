@@ -1,7 +1,10 @@
 import { writable } from "svelte/store";
 
-const host = "http://localhost";
-export const serverhost = host + ":8000";
+export const host = "localhost";
+export const protocol = "http";
+export const port = "8000";
+export const wsprotocal = "ws";
+export const serverhost = protocol + "://" + host + ":" + port;
 
 /* const host = "https://tysct.kr";
 export const serverhost = host + ":12001"; */
