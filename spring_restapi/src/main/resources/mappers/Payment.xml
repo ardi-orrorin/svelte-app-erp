@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springboot.spring_restapi.payment.PaymentDAO">
+   <select id="getPaymentList" resultType="PaymentVO">
+      SELECT      p.id, p.corp_name,p.bank_name ,p.bank_account ,p.bank_number ,p.money ,p.memo,p.create_date ,p.customerdetail_id,u.name as name
+      FROM        payment as p
+      JOIN        "user" as u ON u.id = p.user_id       
+      WHERE       p.create_date between '${startdate}' and '${enddate}' and
+                  p.user_id = ${userid} and u.authority = ${authority}
+                  p.bank_account like '%${keyword}%' or u.name like '%${keyword}%' or
+                  p.bank_name like '%${keyword}%' or p.bank_number like '%${keyword}%'
+      ORDER by    p.create_date ${order} 
+      LIMIT       ${size}
+      OFFSET      ${page}
+   </select>
+   <select id="getPaymentListCount" resultType="int">
+      SELECT      count(p.id)
+      FROM        payment as p
+      JOIN        "user" as u ON u.id = p.user_id   
+      WHERE       p.create_date between '${startdate}' and '${enddate}' and
+                  p.bank_account like '%${keyword}%' or u.name like '%${keyword}%' or
+                  p.bank_name like '%${keyword}%' or p.bank_number like '%${keyword}%'
+   </select>
+
+   <select id="getPayment" resultType="PaymentVO">
+      SELECT      *
+      FROM        notice
+      WHERE       id=#{id}
+   </select>
+
+
+</mapper>

@@ -19,11 +19,12 @@
   $: params = {
     page: 0,
     size: $storeParams.size,
-    order: "create_date-desc",
+    order: "desc",
+    /* order: "create_date-desc", */
     startdate: new Date(startdate.setHours(0, 0, 0, 0) + 32400000),
     enddate: new Date(enddate.setHours(23, 59, 59, 99) + 32400000),
     keyword: $storeParams.keyword,
-    userid: $storeParams?.userid ? $storeParams.userid : 15,
+    userid: $storeParams?.userid ? $storeParams.userid : 10,
     authority: $storeParams?.authority ? $storeParams.authority : 0,
   };
 
