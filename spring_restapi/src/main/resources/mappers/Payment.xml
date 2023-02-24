@@ -5,13 +5,16 @@
 
 <mapper namespace="com.springboot.spring_restapi.payment.PaymentDAO">
    <select id="getPaymentList" resultType="PaymentVO">
-      SELECT      p.id, p.corp_name,p.bank_name ,p.bank_account ,p.bank_number ,p.money ,p.memo,p.create_date ,p.customerdetail_id,u.name as name
+      SELECT      p.id, p.corp_name,p.bank_name ,p.bank_account ,
+                  p.bank_number ,p.money ,p.memo, p.create_date ,
+                  p.customerdetail_id, u.name as name
       FROM        payment as p
-      JOIN        "user" as u ON u.id = p.user_id       
+      INNER JOIN  "user" as u ON u.id = p.user_id       
       WHERE       p.create_date between '${startdate}' and '${enddate}' and
-                  p.user_id = ${userid} and u.authority = ${authority}
+                  p.user_id = ${userid} and u.authority = ${authority} and
                   p.bank_account like '%${keyword}%' or u.name like '%${keyword}%' or
-                  p.bank_name like '%${keyword}%' or p.bank_number like '%${keyword}%'
+                  p.bank_name like '%${keyword}%' or p.bank_number like '%${keyword}%' or
+                  p.corp_name like '%${keyword}%'
       ORDER by    p.create_date ${order} 
       LIMIT       ${size}
       OFFSET      ${page}

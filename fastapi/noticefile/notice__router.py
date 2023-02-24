@@ -21,7 +21,7 @@ def notice_list(db: Session = Depends(get_db), page: int = 0, size: int = 10,
     total, _notice_list = notice__crud.get_notice_list(
         db, skip=page*size, limit=size, keyword=keyword, order=order, startdate=startdate, enddate=enddate)
 
-    return {'total': total, 'notice_list': _notice_list}
+    return {'total': total, 'list': _notice_list}
 
 
 @router.get("/list/detail/{notice_id}", response_model=notice__schema.Notice)

@@ -123,7 +123,7 @@
       </tr>
     </thead>
     <tbody class="table-group-divider">
-      {#each data.payment_list as payment_list, i}
+      {#each data.list as payment_list, i}
         <tr class={selecttable === payment_list.id ? "bg-secondary text-white " : ""}>
           <td class=""
             >{params.order === "id-desc" || params.order === "create_date-desc"
