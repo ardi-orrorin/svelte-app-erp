@@ -5,16 +5,25 @@
 
 <mapper namespace="com.springboot.spring_restapi.notice.NoticeDAO">
    <select id="getNoticeList" resultType="NoticeVO">
-      SELECT      *
+      select      notice.id , notice.title, notice.body, notice.create_date,notice.pin,notice.important, users.name as user_name
+      FROM        notice
+      INNER JOIN  "user" as users on notice.user_id = users.id       
+      WHERE       notice.create_date between '${startdate}' and '${enddate}' and notice.body like '%${keyword}%' or users.name like '%${keyword}%'
+      ORDER by    notice.create_date ${order} 
+      LIMIT       ${size}
+      OFFSET      ${page}
+   </select>
+   <select id="getNoticeListCount" resultType="int">
+      SELECT      count(*)
       FROM        notice 
       WHERE       create_date between '${startdate}' and '${enddate}' or body like '%${keyword}%'
-      ORDER by    create_date ${order} 
-      LIMIT       ${limit}
-      OFFSET      ${skip}
    </select>
+
    <select id="getNotice" resultType="NoticeVO">
       SELECT      *
       FROM        notice
       WHERE       id=#{id}
    </select>
+
+
 </mapper>

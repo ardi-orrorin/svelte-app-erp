@@ -22,7 +22,7 @@
     page: 0,
     size: $storeParams.size,
 
-    order: "create_date-desc",
+    order: "desc",
     startdate: new Date(startdate.setHours(0, 0, 0, 0)),
     enddate: new Date(enddate.setHours(23, 59, 59, 99)),
     keyword: $storeParams.keyword,
@@ -109,8 +109,9 @@
         <th scope="col" class="date">Modify</th>
       </tr>
     </thead>
+
     <tbody class="table-group-divider">
-      {#each data.notice_list as notice_list, i}
+      {#each data.list as notice_list, i}
         <tr
           class={selecttable === notice_list.id || notice_list.title === $storeParams.keyword
             ? "bg-secondary text-white "
@@ -134,8 +135,8 @@
           >
           <td
             on:click={() => {
-              $storeParams.keyword = $storeParams.keyword + notice_list.user.name;
-            }}>{notice_list.user.name}</td
+              $storeParams.keyword = $storeParams.keyword + notice_list.user_name;
+            }}>{notice_list.user_name}</td
           >
           <td
             class="text-center "

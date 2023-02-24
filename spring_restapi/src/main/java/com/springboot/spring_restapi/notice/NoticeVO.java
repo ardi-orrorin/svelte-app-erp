@@ -19,7 +19,9 @@ public class NoticeVO {
 
     private Integer pin;
 
-    private Integer user_id;
+    private Integer important;
+
+    private String user_name;
 
     private LocalDateTime create_date;
 

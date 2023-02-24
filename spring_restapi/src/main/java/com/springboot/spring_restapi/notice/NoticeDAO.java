@@ -9,7 +9,12 @@ import org.apache.ibatis.annotations.Param;
 public interface NoticeDAO {
 
     List<NoticeVO> getNoticeList(
-            @Param("skip") Integer skip, @Param("limit") Integer limit,
+            @Param("page") Integer page, @Param("size") Integer size,
+            @Param("order") String order, @Param("keyword") String keyword,
+            @Param("startdate") String startdate, @Param("enddate") String enddate);
+
+    Integer getNoticeListCount(
+            @Param("page") Integer page, @Param("size") Integer size,
             @Param("order") String order, @Param("keyword") String keyword,
             @Param("startdate") String startdate, @Param("enddate") String enddate);
 
