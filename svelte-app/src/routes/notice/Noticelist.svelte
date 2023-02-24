@@ -22,7 +22,7 @@
     page: 0,
     size: $storeParams.size,
 
-    order: "desc",
+    order: "desc" /* 이전값 create_date-desc fastapi 호출값 다름 */,
     startdate: new Date(startdate.setHours(0, 0, 0, 0)),
     enddate: new Date(enddate.setHours(23, 59, 59, 99)),
     keyword: $storeParams.keyword,
