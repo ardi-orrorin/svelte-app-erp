@@ -14,3 +14,5 @@ fastapi/rediscache/__pycache__/
 fastapi/1.txt
 sql_info.json
 fastapi/notification/__pycache__/
+spring_restapi/gradle/wrapper/gradle-wrapper.properties
+spring_restapi/src/main/resources/application.properties
